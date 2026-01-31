@@ -9,9 +9,9 @@ h1, h2 {
 #layout-sections {
     display: grid;
     grid-template-areas:
-        "title timelines"
-        "score annotations"
-        "score video-player";
+        "title  timelines   timelines"
+        "score  score   annotations"
+        "score  score   video-player";
     gap: 10px;
 }
 
@@ -24,7 +24,7 @@ h1, h2 {
     grid-area: title;
 }
 
-#timelines {
+#timelines-section {
     grid-area: timelines;
 }
 
