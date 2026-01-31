@@ -1,0 +1,41 @@
+body {
+    background: darkblue;
+}
+
+h1, h2 {
+    color: white;
+}
+
+#layout-sections {
+    display: grid;
+    grid-template-areas:
+        "title timelines"
+        "score annotations"
+        "score video-player";
+    gap: 10px;
+}
+
+.section {
+    border-radius: 20px;
+    background-color: black;
+}
+
+#title-section {
+    grid-area: title;
+}
+
+#timelines {
+    grid-area: timelines;
+}
+
+#score-viewer-section {
+    grid-area: score;
+}
+
+#annotations-section {
+    grid-area: annotations;
+}
+
+#video-player {
+    grid-area: video-player;
+}
