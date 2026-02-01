@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<sheet last-persistent-id="0">
+  <picture width="1966" height="2790">
+    <images>
+      <entry>
+        <key>GRAY</key>
+        <value path="GRAY.png"/>
+      </entry>
+      <entry>
+        <key>BINARY</key>
+        <value path="BINARY.png"/>
+      </entry>
+    </images>
+  </picture>
+  <scale>
+    <line min="2" main="3" max="4"/>
+    <interline min="9" main="10" max="11"/>
+    <beam main-thickness="4" extra="true"/>
+  </scale>
+  <glyph-index/>
+</sheet>

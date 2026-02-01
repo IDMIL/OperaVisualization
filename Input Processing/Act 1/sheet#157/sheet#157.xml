@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<sheet last-persistent-id="840">
+  <picture width="1966" height="2790">
+    <images>
+      <entry>
+        <key>GRAY</key>
+        <value path="GRAY.png"/>
+      </entry>
+      <entry>
+        <key>BINARY</key>
+        <value path="BINARY.png"/>
+      </entry>
+      <entry>
+        <key>HEAD_SPOTS</key>
+        <value path="HEAD_SPOTS.png"/>
+      </entry>
+    </images>
+  </picture>
+  <scale>
+    <line min="1" main="2" max="4"/>
+    <interline min="8" main="9" max="10"/>
+    <beam main-thickness="6"/>
+    <stem main-thickness="3" max-thickness="5"/>
+    <black-head mean-width="9.6" sigma-width="0.5" mean-height="10.4" sigma-height="1.7"/>
+    <music-font name="Bravura" point-size="32"/>
+    <head-seeds/>
+  </scale>
+  <skew slope="-0.00279"/>
+  <glyph-index/>
+</sheet>
