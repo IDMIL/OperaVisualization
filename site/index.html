@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <title>Wozzeck Visual Score</title>
   <link rel="stylesheet" href="styles/styles.css">
+  <script src="data/bar_to_page.js" type="text/javascript"></script>
+
+  <script src="scripts/TimeManager.js" type="text/javascript"></script>
+  <script src="scripts/ScoreManager.js" type="text/javascript"></script>
+  <script src="scripts/TransportManager.js" type="text/javascript"></script>
+  <script src="scripts/main.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="layout-sections">
@@ -15,10 +21,27 @@
     <h2>Timelines</h2>
   </div>
   <div class="section" id="score-viewer-section">
-    <h2>Score Viewer</h2>
+    <img class="score-page-image" id="score-viewer-image" src="data/pages/sheet5.png" alt="Page 5"/>
   </div>
   <div class="section" id="annotations-section">
     <h2>Annotations</h2>
+  </div>
+  <div class="section" id="transport-section">
+    <h2>Transport</h2>
+    <div id="position-text">
+      <p class="level-name">Act</p>
+      <p id="transport-act-number">1</p>
+      <p class="level-name">Scene</p>
+      <p id="transport-scene-number">1</p>
+      <p class="level-name">Bar</p>
+      <p id="transport-bar-number">1</p>
+      <p class="level-name">Beat</p>
+      <p id="transport-beat-number">1</p>
+    </div>
+    <div class="transport buttons">
+      <button id="prev-bar-button">Prev</button>
+      <button id="next-bar-button">Next</button>
+    </div>
   </div>
   <div class="section" id="video-player-section">
     <h2>Video Player</h2>

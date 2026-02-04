@@ -11,6 +11,7 @@ h1, h2 {
     grid-template-areas:
         "title  timelines   timelines"
         "score  score   annotations"
+        "score  score   transport"
         "score  score   video-player";
     gap: 10px;
 }
@@ -38,4 +39,17 @@ h1, h2 {
 
 #video-player {
     grid-area: video-player;
+}
+
+#transport-section {
+    grid-area: transport;
+}
+
+.score-page-image {
+    max-width: 500px;
+}
+
+#position-text p {
+    color: white;
+    display: inline;
 }
