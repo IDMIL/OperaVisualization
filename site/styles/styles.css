@@ -1,12 +1,24 @@
-body {
-    background: darkblue;
+html, body {
+    margin: 0;
+    padding: 0;
 }
 
 h1, h2 {
     color: white;
 }
 
+#content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background-color: darkblue;
+}
+
 #layout-sections {
+    height: calc(100vh - 100px);
     display: grid;
     grid-template-areas:
         "title  timelines   timelines"
@@ -14,11 +26,14 @@ h1, h2 {
         "score  score   transport"
         "score  score   video-player";
     gap: 10px;
+    grid-template-columns: 300px auto 600px;
+    grid-template-rows: auto auto 100px auto;
 }
 
 .section {
     border-radius: 20px;
     background-color: black;
+    padding: 10px;
 }
 
 #title-section {
@@ -27,6 +42,7 @@ h1, h2 {
 
 #timelines-section {
     grid-area: timelines;
+    width: 100%;
 }
 
 #score-viewer-section {
@@ -64,5 +80,18 @@ h1, h2 {
     border: 1px solid black;
     display: inline-block;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.timeline-button:hover {
+    background-color: lightgray;
+}
+
+.annotation {
+    background:lightgrey;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
     cursor: pointer;
 }
