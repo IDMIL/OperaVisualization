@@ -7,6 +7,7 @@ class AnnotationManager extends TimeManagerListener {
     let annotationsSection = document.getElementById('annotations-section');
 
     let scrollerDiv = document.createElement('div');
+    scrollerDiv.id = 'annotations-scroller';
     scrollerDiv.classList.add('scroller-area');
     annotationsSection.appendChild(scrollerDiv);
 
@@ -35,5 +36,17 @@ class AnnotationManager extends TimeManagerListener {
 
   getStringForTimestamp(timestamp) {
     return 'Act ' + timestamp.act + ', scene ' + timestamp.scene + ', bar ' + timestamp.bar;
+  }
+
+  timeUpdated(scoreTime) {
+    let annotationDivs = document.getElementById('annotations-scroller').children;
+    for (let i = 0; i < annotationDivs.length; i++) {
+      if ((annotations[i].time.act === scoreTime.act) && (annotations[i].time.bar === scoreTime.bar)) {
+        annotationDivs[i].classList.add("current-annotation");
+        annotationDivs[i].scrollIntoView();
+      } else {
+        annotationDivs[i].classList.remove("current-annotation");
+      }
+    }
   }
 }
