@@ -35,9 +35,11 @@ class TimelineManager extends TimeManagerListener {
         sceneDiv.classList.add("timeline-scene");
         sceneDiv.style.width = ((sceneBarRange[1] - sceneBarRange[0]) * 100 / totalLength) + "%";
         sceneDiv.innerText = sceneNumber;
+        const a = actNumber;
+        const sceneBar = sceneBarRange[0];
         sceneDiv.onclick = () => {
           console.log("timeline button clicked, act " + actNumber + " scene " + sceneNumber);
-          this.timeManager.goToTime(actNumber, sceneNumber, 1, 1);
+          this.timeManager.goToTime(a, sceneBar, 1, 1);
         }
         scenesTimeline.appendChild(sceneDiv);
         sceneNumber++;
