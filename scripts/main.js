@@ -11,4 +11,6 @@ window.onload = function() {
   timeManager.listeners.push(transportManager);
   timeManager.listeners.push(timelineManager);
   timeManager.listeners.push(annotationManager);
+
+  timeManager.notifyListeners();
 }
