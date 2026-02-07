@@ -6,6 +6,10 @@ class AnnotationManager extends TimeManagerListener {
 
     let annotationsSection = document.getElementById('annotations-section');
 
+    let scrollerDiv = document.createElement('div');
+    scrollerDiv.classList.add('scroller-area');
+    annotationsSection.appendChild(scrollerDiv);
+
     for (const annotation of annotations) {
       console.log(annotation);
       let annotationDiv = document.createElement("div");
@@ -25,7 +29,7 @@ class AnnotationManager extends TimeManagerListener {
         timeManager.goToTime(annotation.time.act, annotation.time.bar, annotation.time.beat);
       }
 
-      annotationsSection.appendChild(annotationDiv);
+      scrollerDiv.appendChild(annotationDiv);
     }
   }
 
