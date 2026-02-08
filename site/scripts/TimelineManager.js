@@ -14,6 +14,7 @@ class TimelineManager extends TimeManagerListener {
     let actsTimeline = document.getElementById("acts-timeline");
     for (let i = 0; i < actLengths.length; i++) {
       let actDiv = document.createElement("div");
+      actDiv.id = "timeline-act-" + (i + 1);
       actDiv.classList.add("timeline-button");
       actDiv.classList.add("timeline-act");
       actDiv.innerText = (i + 1).toString();
@@ -31,6 +32,7 @@ class TimelineManager extends TimeManagerListener {
       let sceneNumber = 1;
       for (const sceneBarRange of actBarRange) {
         let sceneDiv = document.createElement("div");
+        sceneDiv.id = "timeline-act-" + actNumber + "-scene-" + sceneNumber;
         sceneDiv.classList.add("timeline-button");
         sceneDiv.classList.add("timeline-scene");
         sceneDiv.style.width = ((sceneBarRange[1] - sceneBarRange[0]) * 100 / totalLength) + "%";
@@ -59,19 +61,16 @@ class TimelineManager extends TimeManagerListener {
     sceneStructureDiv.appendChild(cursorDiv);
     let cursorLabel = document.createElement("div");
     cursorLabel.id = "timeline-cursor-label";
-    cursorLabel.innerText = "Cursor";
     cursorDiv.appendChild(cursorLabel);
 
     sceneStructureDiv.addEventListener("mouseenter", (event) => {
       let timelineCursor = document.getElementById("timeline-cursor");
       timelineCursor.style.display = "block";
-
     });
 
     sceneStructureDiv.addEventListener("mouseleave", (event) => {
       let timelineCursor = document.getElementById("timeline-cursor");
       timelineCursor.style.display = "none";
-
     });
 
 
@@ -93,6 +92,29 @@ class TimelineManager extends TimeManagerListener {
         this.#getBarAtProportionOfCurrentScene(clickProportion),
         1);
     });
+  }
+
+  timeUpdated(scoreTime) {
+    const act = this.timeManager.getCurrentAct();
+    const scene = this.timeManager.getCurrentScene();
+
+    const actsElement = document.getElementById("acts-timeline");
+    for (const child of actsElement.children) {
+      if (child.id === "timeline-act-" + act) {
+        child.classList.add("current-act");
+      } else {
+        child.classList.remove("current-act");
+      }
+    }
+
+    const scenesElement = document.getElementById("scenes-timeline");
+    for (const child of scenesElement.children) {
+      if (child.id === "timeline-act-" + act + "-scene-" + scene) {
+        child.classList.add("current-scene");
+      } else {
+        child.classList.remove("current-scene");
+      }
+    }
   }
 
   #getBarAtProportionOfCurrentScene(proportion) {

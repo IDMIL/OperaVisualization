@@ -108,7 +108,7 @@ h1, h2 {
 }
 
 .timeline-button:hover {
-    background-color: lightgray;
+    background-color: yellow;
 }
 
 .annotation {
@@ -140,4 +140,12 @@ h1, h2 {
 #timeline-cursor-label {
     width: 100px;
     padding-left: 5px;
+}
+
+.current-act {
+    background: lightgrey;
+}
+
+.current-scene {
+    background: lightgrey;
 }
