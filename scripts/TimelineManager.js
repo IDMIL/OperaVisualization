@@ -46,5 +46,57 @@ class TimelineManager extends TimeManagerListener {
       }
       actNumber++;
     }
+
+    let sceneStructureTimeline = document.getElementById("scene-structure-timeline");
+    let sceneStructureDiv = document.createElement("div");
+    sceneStructureDiv.classList.add("timeline-button");
+    sceneStructureDiv.id = "scene-structure-button";
+    sceneStructureDiv.style.width = "100%";
+    sceneStructureTimeline.appendChild(sceneStructureDiv);
+
+    let cursorDiv = document.createElement("div");
+    cursorDiv.id = "timeline-cursor";
+    sceneStructureDiv.appendChild(cursorDiv);
+    let cursorLabel = document.createElement("div");
+    cursorLabel.id = "timeline-cursor-label";
+    cursorLabel.innerText = "Cursor";
+    cursorDiv.appendChild(cursorLabel);
+
+    sceneStructureDiv.addEventListener("mouseenter", (event) => {
+      let timelineCursor = document.getElementById("timeline-cursor");
+      timelineCursor.style.display = "block";
+
+    });
+
+    sceneStructureDiv.addEventListener("mouseleave", (event) => {
+      let timelineCursor = document.getElementById("timeline-cursor");
+      timelineCursor.style.display = "none";
+
+    });
+
+
+    sceneStructureDiv.addEventListener("mousemove", (event) => {
+      let timelineCursor = document.getElementById("timeline-cursor");
+      const rect = event.target.getBoundingClientRect();
+      timelineCursor.style.left = event.clientX - rect.x + "px";
+
+      const proportion = (event.clientX - rect.x) / (rect.width);
+      cursorLabel.innerText = "bar " + this.#getBarAtProportionOfCurrentScene(proportion);
+    });
+
+      sceneStructureDiv.addEventListener("click", (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const clickProportion = (event.clientX - rect.x) / (rect.width);
+
+      this.timeManager.goToTime(
+        this.timeManager.getCurrentAct(),
+        this.#getBarAtProportionOfCurrentScene(clickProportion),
+        1);
+    });
+  }
+
+  #getBarAtProportionOfCurrentScene(proportion) {
+    const sceneRange = scene_bar_ranges[this.timeManager.getCurrentAct()-1][this.timeManager.getCurrentScene()-1];
+    return Math.floor(sceneRange[0] + proportion * (sceneRange[1] - sceneRange[0]));
   }
 }
