@@ -10,6 +10,7 @@ class TimeManager {
   }
 
   goToTime(act, bar, beat) {
+    console.log(`goToTime(${act}, ${bar}, ${beat})`);
     this.scoreTime.act = act;
     this.scoreTime.bar = bar;
     this.scoreTime.beat = beat;
@@ -26,6 +27,23 @@ class TimeManager {
     console.log("notifying listeners of scoreTime", this.scoreTime);
     for (const listener of this.listeners) {
       listener.timeUpdated(this.scoreTime);
+    }
+  }
+
+  getCurrentAct() {
+    return this.scoreTime.act;
+  }
+
+  getCurrentBarWithinAct() {
+    return this.scoreTime.bar;
+  }
+
+  getCurrentScene() {
+    const sceneRanges = scene_bar_ranges[this.getCurrentAct() - 1];
+    for (let i = 0; i < sceneRanges.length; i++) {
+      if (sceneRanges[i][0] <= this.getCurrentBarWithinAct() && this.getCurrentBarWithinAct() <= sceneRanges[i][1]) {
+        return i + 1;
+      }
     }
   }
 
