@@ -56,6 +56,10 @@ class TimelineManager extends TimeManagerListener {
     sceneStructureDiv.style.width = "100%";
     sceneStructureTimeline.appendChild(sceneStructureDiv);
 
+    let currentBarCursorDiv = document.createElement("div");
+    currentBarCursorDiv.id = "timeline-current-bar-cursor";
+    sceneStructureDiv.appendChild(currentBarCursorDiv);
+
     let cursorDiv = document.createElement("div");
     cursorDiv.id = "timeline-cursor";
     sceneStructureDiv.appendChild(cursorDiv);
@@ -95,6 +99,7 @@ class TimelineManager extends TimeManagerListener {
   }
 
   timeUpdated(scoreTime) {
+      console.log("timeline update")
     const act = this.timeManager.getCurrentAct();
     const scene = this.timeManager.getCurrentScene();
 
@@ -115,6 +120,13 @@ class TimelineManager extends TimeManagerListener {
         child.classList.remove("current-scene");
       }
     }
+
+    const currentBarCursor = document.getElementById("timeline-current-bar-cursor");
+    let sceneStructure = document.getElementById("scene-structure-button");
+    const rect = sceneStructure.getBoundingClientRect();
+    const p = rect.width * this.timeManager.getProportionOfCurrentScene();
+    console.log(p);
+    currentBarCursor.style.left = p + "px";
   }
 
   #getBarAtProportionOfCurrentScene(proportion) {
