@@ -47,6 +47,15 @@ class TimeManager {
     }
   }
 
+  getProportionOfCurrentScene() {
+      const sceneRanges = scene_bar_ranges[this.getCurrentAct() - 1];
+    for (let i = 0; i < sceneRanges.length; ++i) {
+      if (sceneRanges[i][0] <= this.getCurrentBarWithinAct() && this.getCurrentBarWithinAct() <= sceneRanges[i][1]) {
+          return (this.getCurrentBarWithinAct() - sceneRanges[i][0]) / (sceneRanges[i][1] + 1 - sceneRanges[i][0]);
+      }
+    }
+  }
+
   scoreTime = {
     act: 1,
     bar: 1,

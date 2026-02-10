@@ -132,9 +132,19 @@ h1, h2 {
 #timeline-cursor {
     border: 1px solid red;
     height: 100%;
+    top: -30px;
     position: relative;
     width: 0;
     pointer-events: none;
+}
+
+#timeline-current-bar-cursor {
+   border: 1px solid pink;
+    height: 100%;
+    position: relative;
+    width: 0;
+    pointer-events: none;
+
 }
 
 #timeline-cursor-label {
