@@ -1,7 +1,7 @@
 function getSceneNumber(scoreTime) {
   const act = scoreTime.act;
   const bar = scoreTime.bar;
-  const sceneRanges = scene_bar_ranges[act];
+  const sceneRanges = scene_bar_ranges[act-1];
   let sceneNumber = 1;
   for (const range of sceneRanges) {
     if (bar >= range[0] && bar <= range[1]) {

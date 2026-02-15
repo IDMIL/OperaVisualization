@@ -18,7 +18,10 @@
       <div class="timeline" id="scene-structure-timeline"></div>
     </div>
     <div class="section" id="score-viewer-section">
+    <div id="image-holder">
       <img class="score-page-image" id="score-viewer-image" src="data/pages/sheet5.png" alt="Page 5"/>
+      <div id="current-bar-overlay" class="score-overlay"></div>
+    </div>
     </div>
     <div class="section" id="annotations-section">
       <h2>` + text[lang].ANNOTATIONS + `</h2>
