@@ -69,7 +69,20 @@ h1, h2 {
     grid-area: score;
     display: flex;
     justify-content: center;
+}
 
+#image-holder {
+    position: relative;
+}
+
+#current-bar-overlay {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: pink;
+    opacity: 30%;
+    top: 0;
+    left: 0;
 }
 
 #annotations-section {
