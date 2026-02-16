@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 bar_mappings = [{}, {}, {}]
 
-for actNumber in (2, 3):
+for actNumber in (1, 2, 3):
     pagedir = 'Act' + str(actNumber)
 
     with open(f'scanscore_xml/Act {actNumber}.xml', 'r', encoding='utf8') as f:
