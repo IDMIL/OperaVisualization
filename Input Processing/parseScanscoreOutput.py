@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 
 bar_mappings = [{}, {}, {}]
 
+
+
 for actNumber in (1, 2, 3):
     pagedir = 'Act' + str(actNumber)
 
