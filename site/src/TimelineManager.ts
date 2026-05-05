@@ -147,8 +147,13 @@ export class TimelineManager extends TimeManagerListener {
             let timelineCursor = document.getElementById("timeline-cursor");
             if (timelineCursor !== null) {
                 const rect = sceneStructureDiv.getBoundingClientRect();
-                timelineCursor.style.left = event.clientX - rect.x + "px";
+                console.log(event.clientX, rect.x);
+                const numBars = this.timeManager.getLengthOfCurrentScene();
                 const proportion = (event.clientX - rect.x) / (rect.width);
+                const lo = Math.floor(proportion * numBars) / numBars;
+                const hi = (Math.floor(proportion * numBars) + 1) / numBars;
+                timelineCursor.style.left = rect.width * lo + "px";
+                timelineCursor.style.width = rect.width * (hi - lo) + "px";
 
                 const barNumber = this.#getBarAtProportionOfCurrentScene(proportion);
                 const pageNumber = bar_to_page[this.timeManager.getCurrentAct() - 1][barNumber].page + act_starting_pages[this.timeManager.getCurrentAct() - 1] - 1;
@@ -209,6 +214,7 @@ export class TimelineManager extends TimeManagerListener {
             const rect = sceneStructure.getBoundingClientRect();
             const p = rect.width * this.timeManager.getProportionOfCurrentScene();
             currentBarCursor.style.left = p + "px";
+            currentBarCursor.style.width = rect.width / this.timeManager.getLengthOfCurrentScene() + "px";
         }
     }
 

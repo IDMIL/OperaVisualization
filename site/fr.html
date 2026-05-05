@@ -9,6 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="icon" type="image/x-icon" href="https://musique.umontreal.ca/favicon-32x32.png">
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
 </head>
 <body>
 <script type="module" src="./src/main.ts"></script>

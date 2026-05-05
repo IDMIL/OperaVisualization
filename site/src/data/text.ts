@@ -21,7 +21,9 @@ export const text = {
         VIDEO_PLAYER: 'Video Player',
         PAGE: 'page',
         INFO: 'info',
-        CLOSE: 'close'
+        CLOSE: 'close',
+        THEME_LIGHT: 'light mode',
+        THEME_DARK: 'dark mode'
     },
     'fr' : {
         ACT: 'acte',
@@ -43,7 +45,9 @@ export const text = {
         VIDEO_PLAYER: 'Lecteur vidéo',
         PAGE: 'page',
         INFO: 'infos',
-        CLOSE: 'annuler'
+        CLOSE: 'annuler',
+        THEME_LIGHT: 'mode clair',
+        THEME_DARK: 'mode sombre'
     }
 }
 
