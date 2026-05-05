@@ -64,14 +64,14 @@ export class TransportManager extends TimeManagerListener {
         const prevPageButton = document.getElementById("prev-page-button");
         if (prevPageButton !== null) {
             prevPageButton.onclick = () => {
-                this.timeManager.advancePage(-1);
+                this.timeManager.advancePage(-1, 'transport-click');
             }
         }
 
         const nextPageButton = document.getElementById("next-page-button");
         if (nextPageButton !== null) {
             nextPageButton.onclick = () => {
-                this.timeManager.advancePage(1);
+                this.timeManager.advancePage(1, 'transport-click');
             }
         }
     }

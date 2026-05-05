@@ -165,7 +165,7 @@ export class AnnotationManager extends TimeManagerListener {
                 (annotations[i].measure_range[1] >= scoreTime.bar)) {
                 annotationDivs[i].classList.add("current-annotation");
                 if (!firstAnnotationSeen && (updateSource !== "annotation-click")) {
-                    annotationDivs[i].scrollIntoView();
+                    annotationDivs[i].scrollIntoView({behavior: 'smooth'});
                     firstAnnotationSeen = true;
                 }
             } else {

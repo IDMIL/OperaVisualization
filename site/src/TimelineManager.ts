@@ -75,7 +75,7 @@ export class TimelineManager extends TimeManagerListener {
             actDiv.append(actDivText);
             actDiv.style.width = (actLengths[i] * 100 / totalLength) + "%";
             actDiv.onclick = () => {
-                this.timeManager.goToTime(i + 1, 1, 1);
+                this.timeManager.goToTime(i + 1, 1, 1, 'timeline-click');
             }
             actDiv.onmouseenter = () => {
                 this.timeManager.preloadTime({act: i + 1, bar: 1, beat: 1, barLength: 1});
@@ -99,7 +99,7 @@ export class TimelineManager extends TimeManagerListener {
                 const a = actNumber;
                 const sceneBar = sceneBarRange[0];
                 sceneDiv.onclick = () => {
-                    this.timeManager.goToTime(a, sceneBar, 1);
+                    this.timeManager.goToTime(a, sceneBar, 1, 'timeline-click');
                 }
 
                 sceneDiv.onmouseenter = () => {
@@ -177,7 +177,8 @@ export class TimelineManager extends TimeManagerListener {
             this.timeManager.goToTime(
                 this.timeManager.getCurrentAct(),
                 this.#getBarAtProportionOfCurrentScene(clickProportion),
-                1);
+                1,
+                'timeline-click');
         });
     }
 
