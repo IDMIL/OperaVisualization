@@ -15,7 +15,7 @@ jobs:
       - name: Pre-process data
         run: |
           cd Input\ Processing
-          python parse_annotations.py
+          python parse_annotations_xlsx.py
           python getBarMappingsDummyMeasurebounds.py
           cd ..
 
