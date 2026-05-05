@@ -1,4 +1,4 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager, TimeManagerListener, UpdateSource} from "./TimeManager";
 import {Annotation, AnnotationCode, annotations} from "./data/annotations";
 import {globals} from "./globals";
 import {text} from "./data/text";
@@ -82,7 +82,7 @@ export class AnnotationManager extends TimeManagerListener {
             annotationDiv.appendChild(annotationTextDiv);
 
             annotationDiv.onclick = () => {
-                this.timeManager.goToTime(annotation.act, annotation.measure_range[0], 1);
+                this.timeManager.goToTime(annotation.act, annotation.measure_range[0], 1, "annotation-click");
             }
 
             scrollerDiv.appendChild(annotationDiv);
@@ -152,7 +152,7 @@ export class AnnotationManager extends TimeManagerListener {
         }
     }
 
-    async timeUpdated(scoreTime : ScoreTime) {
+    async timeUpdated(scoreTime : ScoreTime, updateSource : UpdateSource) {
         const scroller = document.getElementById('annotations-scroller');
         if (scroller === null) {
             return;
@@ -164,7 +164,7 @@ export class AnnotationManager extends TimeManagerListener {
                 (annotations[i].measure_range[0] <= scoreTime.bar) &&
                 (annotations[i].measure_range[1] >= scoreTime.bar)) {
                 annotationDivs[i].classList.add("current-annotation");
-                if (!firstAnnotationSeen) {
+                if (!firstAnnotationSeen && (updateSource !== "annotation-click")) {
                     annotationDivs[i].scrollIntoView();
                     firstAnnotationSeen = true;
                 }

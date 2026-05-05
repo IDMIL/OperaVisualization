@@ -7,6 +7,7 @@ export type Bar = number;
 export type Beat = number;
 export type Scene = number;
 export type BarLength = number;
+export type UpdateSource = "timeline-click" | "annotation-click" | "transport-click";
 
 export interface ScoreTime {
     act: Act,
@@ -16,7 +17,7 @@ export interface ScoreTime {
 }
 
 export class TimeManagerListener {
-    async timeUpdated(_ : ScoreTime) {
+    async timeUpdated(_ : ScoreTime, __ : UpdateSource) {
         // Called when the time is set to this time. Classes should modify the view as needed to reflect this position.
     }
 
@@ -31,18 +32,17 @@ export class TimeManager {
 
     }
 
-    goToTime(act : Act, bar : Bar, beat : Beat) {
+    goToTime(act : Act, bar : Bar, beat : Beat, updateSource: UpdateSource) {
         this.scoreTime.act = act;
         this.scoreTime.bar = bar;
         this.scoreTime.beat = beat;
-        this.notifyListeners();
+        this.notifyListeners(updateSource);
     }
 
     preloadTime(time: ScoreTime) {
         for (const listener of this.listeners) {
             listener.preloadTime(time);
         }
-
     }
 
     addToTime(time : ScoreTime, numBars : number) {
@@ -67,13 +67,13 @@ export class TimeManager {
         }
     }
 
-    advanceBar(numBars : number) {
+    advanceBar(numBars : number, updateSource: UpdateSource = "transport-click") {
         this.addToTime(this.scoreTime, numBars);
 
-        this.notifyListeners();
+        this.notifyListeners(updateSource);
     }
 
-    advancePage(numPages : number) {
+    advancePage(numPages : number, updateSource: UpdateSource) {
         const currentPage = bar_to_page[this.scoreTime.act - 1][this.scoreTime.bar].page - 1
             + act_starting_pages[this.scoreTime.act - 1];
         let targetPage = currentPage + numPages;
@@ -89,7 +89,7 @@ export class TimeManager {
                 targetPage += 1;
                 for (const bar in bar_to_page[act]) {
                     if (bar_to_page[act][bar].page === targetPage) {
-                        this.goToTime(act + 1, Number(bar), this.scoreTime.beat);
+                        this.goToTime(act + 1, Number(bar), this.scoreTime.beat, updateSource);
                         return;
                     }
                 }
@@ -97,9 +97,9 @@ export class TimeManager {
         }
     }
 
-    notifyListeners() {
+    notifyListeners(updateSource: UpdateSource) {
         for (const listener of this.listeners) {
-            listener.timeUpdated(this.scoreTime);
+            listener.timeUpdated(this.scoreTime, updateSource);
         }
     }
 
