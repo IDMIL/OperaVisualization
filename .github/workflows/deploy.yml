@@ -15,6 +15,7 @@ jobs:
       - name: Pre-process data
         run: |
           cd Input\ Processing
+          pip install openpyxl
           python parse_annotations_xlsx.py
           python getBarMappingsDummyMeasurebounds.py
           cd ..
