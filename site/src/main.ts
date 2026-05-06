@@ -44,7 +44,7 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.listeners.push(annotationManager);
     timeManager.listeners.push(architectureManager);
 
-    timeManager.notifyListeners();
+    timeManager.notifyListeners("init");
 
 }
 
