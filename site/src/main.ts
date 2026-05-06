@@ -7,6 +7,7 @@ import {AnnotationManager} from "./AnnotationManager";
 import {globals} from "./globals";
 import {ArchitectureManager} from "./ArchitectureManager";
 import {TitleSectionManager} from "./TitleSectionManager";
+import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 
 function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
@@ -37,6 +38,7 @@ function buildWindow(lang : LanguageCode ) {
     let annotationManager = new AnnotationManager(timeManager);
     let architectureManager = new ArchitectureManager(timeManager);
     new TitleSectionManager();
+    new ScoreTransportOverlay(timeManager);
 
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(transportManager);

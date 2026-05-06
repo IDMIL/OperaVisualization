@@ -4,7 +4,6 @@ import {bar_to_page, BarInfo} from "./data/barToPage";
 export class ScoreManager extends TimeManagerListener {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
-
     constructor(tm : TimeManager) {
         super();
         this.currentPage = undefined;
