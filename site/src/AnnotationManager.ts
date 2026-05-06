@@ -15,6 +15,7 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
+    private searchText: string = '';
     private timeManager: TimeManager;
 
     constructor(timeManager : TimeManager) {
@@ -57,6 +58,16 @@ export class AnnotationManager extends TimeManagerListener {
 
         annotationsSection.appendChild(annotationTypeSelectorDiv);
 
+        let searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.id = 'annotation-search';
+        searchInput.placeholder = text[globals.language].SEARCH_PLACEHOLDER;
+        searchInput.addEventListener('input', () => {
+            this.searchText = searchInput.value;
+            this.setAnnotationVisibilityFromState();
+        });
+        annotationsSection.appendChild(searchInput);
+
         let scrollerDiv = document.createElement('div');
         scrollerDiv.id = 'annotations-scroller';
         scrollerDiv.classList.add('scroller-area');
@@ -78,6 +89,7 @@ export class AnnotationManager extends TimeManagerListener {
 
             let annotationTextDiv = document.createElement("div");
             annotationTextDiv.classList.add("annotation-text");
+            annotationTextDiv.dataset.originalText = annotation.annotation;
             annotationTextDiv.innerText = annotation.annotation;
             annotationDiv.appendChild(annotationTextDiv);
 
@@ -110,28 +122,11 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     setAnnotationVisibilityFromState() {
-        if (this.soloedAnnotationCategories.length === 0) {
-            for (const elem of document.getElementsByClassName('unclassified-annotation')) {
-                elem.classList.remove('annotation-hidden');
-            }
-            for (const elem of document.getElementsByClassName('annotation-type')) {
-                elem.classList.remove('annotation-type-hidden');
-            }
-
-            for (const elem of document.getElementsByClassName('annotation')) {
-                elem.classList.remove('annotation-hidden');
-            }
-            return;
-        }
-
-        for (const elem of document.getElementsByClassName('unclassified-annotation')) {
-            elem.classList.add('annotation-hidden');
-        }
-
+        const searchLower = this.searchText.toLowerCase();
 
         for (const key in this.annotationCodes) {
             for (const elem of document.getElementsByClassName(key + '-annotation-type')) {
-                if (this.soloedAnnotationCategories.includes(key as AnnotationCode)) {
+                if (this.soloedAnnotationCategories.length === 0 || this.soloedAnnotationCategories.includes(key as AnnotationCode)) {
                     elem.classList.remove('annotation-type-hidden');
                 } else {
                     elem.classList.add('annotation-type-hidden');
@@ -139,17 +134,45 @@ export class AnnotationManager extends TimeManagerListener {
             }
         }
 
-        for (const key in this.annotationCodes) {
-            if (this.soloedAnnotationCategories.includes(key as AnnotationCode)) {
-                for (const elem of document.getElementsByClassName(key + '-annotation')) {
-                    elem.classList.remove('annotation-hidden');
-                }
+        const scroller = document.getElementById('annotations-scroller');
+        if (!scroller) return;
+
+        for (const annotationDiv of scroller.children) {
+            const textEl = annotationDiv.querySelector('.annotation-text') as HTMLElement | null;
+            const originalText = textEl?.dataset.originalText ?? '';
+            const matchesSearch = searchLower === '' || originalText.toLowerCase().includes(searchLower);
+
+            let matchesCategory: boolean;
+            if (this.soloedAnnotationCategories.length === 0) {
+                matchesCategory = true;
+            } else if (annotationDiv.classList.contains('unclassified-annotation')) {
+                matchesCategory = false;
             } else {
-                for (const elem of document.getElementsByClassName(key + '-annotation')) {
-                    elem.classList.add('annotation-hidden');
+                matchesCategory = this.soloedAnnotationCategories.some(
+                    code => annotationDiv.classList.contains(code + '-annotation')
+                );
+            }
+
+            if (matchesSearch && matchesCategory) {
+                annotationDiv.classList.remove('annotation-hidden');
+            } else {
+                annotationDiv.classList.add('annotation-hidden');
+            }
+
+            if (textEl) {
+                if (searchLower !== '' && matchesSearch) {
+                    textEl.innerHTML = this.highlightText(originalText, this.searchText);
+                } else {
+                    textEl.textContent = originalText;
                 }
             }
         }
+    }
+
+    private highlightText(original: string, query: string): string {
+        const safe = original.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return safe.replace(new RegExp(`(${escaped})`, 'gi'), '<mark class="search-highlight">$1</mark>');
     }
 
     async timeUpdated(scoreTime : ScoreTime, updateSource : UpdateSource) {

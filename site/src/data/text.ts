@@ -23,7 +23,8 @@ export const text = {
         INFO: 'info',
         CLOSE: 'close',
         THEME_LIGHT: 'light mode',
-        THEME_DARK: 'dark mode'
+        THEME_DARK: 'dark mode',
+        SEARCH_PLACEHOLDER: 'Search annotations…'
     },
     'fr' : {
         ACT: 'acte',
@@ -47,7 +48,8 @@ export const text = {
         INFO: 'infos',
         CLOSE: 'annuler',
         THEME_LIGHT: 'mode clair',
-        THEME_DARK: 'mode sombre'
+        THEME_DARK: 'mode sombre',
+        SEARCH_PLACEHOLDER: 'Rechercher des annotations…'
     }
 }
 

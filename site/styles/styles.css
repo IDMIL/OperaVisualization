@@ -479,6 +479,30 @@ button {
 .tim-annotation-type { background-color: var(--timbre-color); }
 .graph-annotation-type { background-color: var(--graph-color); }
 
+#annotation-search {
+    width: 100%;
+    padding: 5px 9px;
+    margin-bottom: 6px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color var(--transition), background var(--transition);
+}
+
+#annotation-search::placeholder {
+    color: var(--color-muted);
+}
+
+#annotation-search:focus {
+    border-color: var(--color-accent);
+    background: var(--color-panel);
+}
+
 .scroller-area {
     border-top: 1px solid var(--color-border);
     padding: 8px 2px;
@@ -528,6 +552,13 @@ button {
 
 .annotation-hidden {
     display: none;
+}
+
+mark.search-highlight {
+    background-color: rgba(251, 191, 36, 0.35);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
 }
 
 /* ── Architecture list ───────────────────────────────── */
