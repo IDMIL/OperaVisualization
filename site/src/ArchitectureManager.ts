@@ -61,7 +61,8 @@ export class ArchitectureManager extends TimeManagerListener {
                     archListItem.innerText = annotation.annotation + ' (m. ' + annotation.range[0] + '‒' + annotation.range[1] + ')';
                 }
                 archListItem.onclick = () => {
-                    this.timeManager.goToTime(this.currentAct, annotation.range[0], scoreTime.beat);
+                    this.timeManager.goToTime(this.currentAct, annotation.range[0], scoreTime.beat,
+                        "timeline-click");
                 }
                 archList.appendChild(archListItem);
             }

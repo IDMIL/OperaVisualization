@@ -73,7 +73,7 @@ export class ScoreManager extends TimeManagerListener {
             } else {
                 div.classList.add('other-bar-overlay');
                 div.addEventListener('click', () => {
-                    this.timeManager.goToTime(scoreTime.act, parseInt(barNum), 1);
+                    this.timeManager.goToTime(scoreTime.act, parseInt(barNum), 1, "score-click");
                 });
             }
             this.positionOverlay(div, barInfo, w, h);
@@ -88,7 +88,7 @@ export class ScoreManager extends TimeManagerListener {
             prev.removeAttribute('id');
             prev.classList.add('other-bar-overlay');
             prev.addEventListener('click', () => {
-                this.timeManager.goToTime(scoreTime.act, prevBar, 1);
+                this.timeManager.goToTime(scoreTime.act, prevBar, 1, "score-click");
             });
         }
         const imageHolder = document.getElementById('image-holder');
