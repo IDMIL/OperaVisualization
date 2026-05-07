@@ -48,6 +48,10 @@ export class ScoreManager extends TimeManagerListener {
         overlay.style.height = (barInfo.h * h) + "px";
     }
 
+    rebuildOveralysAtCurrentTime() {
+        this.rebuildPageOverlays(this.timeManager.scoreTime);
+    }
+
     private rebuildPageOverlays(scoreTime: ScoreTime) {
         const imageHolder = document.getElementById('image-holder');
         if (!imageHolder) return;

@@ -38,7 +38,7 @@ function buildWindow(lang : LanguageCode ) {
     let annotationManager = new AnnotationManager(timeManager);
     let architectureManager = new ArchitectureManager(timeManager);
     new TitleSectionManager();
-    new ScoreTransportOverlay(timeManager);
+    new ScoreTransportOverlay(timeManager, scoreManager);
 
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(transportManager);
