@@ -1,9 +1,16 @@
+import html as html_module
 import io
 import zipfile
 import openpyxl
 import warnings
 from os import listdir
 from difflib import SequenceMatcher
+
+try:
+    from openpyxl.cell.rich_text import CellRichText, TextBlock
+    _RICH_TEXT_AVAILABLE = True
+except ImportError:
+    _RICH_TEXT_AVAILABLE = False
 
 warnings.filterwarnings('ignore')
 
@@ -31,7 +38,7 @@ def load_workbook_strict(path):
                         data = data.replace(old, new)
                 zout.writestr(item, data)
     buf.seek(0)
-    return openpyxl.load_workbook(buf, data_only=True)
+    return openpyxl.load_workbook(buf, data_only=True, rich_text=True)
 
 def isTypoOf(a, b):
     similarity_ratio = SequenceMatcher(None, a, b).ratio()
@@ -89,23 +96,52 @@ def cell_to_str(value):
         return str(int(value))
     return str(value)
 
+def cell_to_html(cell):
+    """Return cell text as an HTML string, wrapping italic runs in <i> tags."""
+    value = cell.value
+    if value is None:
+        return ''
+
+    if _RICH_TEXT_AVAILABLE and isinstance(value, CellRichText):
+        parts = []
+        for block in value:
+            if isinstance(block, TextBlock):
+                text = html_module.escape(replaceSymbols(str(block.text)), quote=False)
+                if block.font and block.font.i:
+                    parts.append(f'<i>{text}</i>')
+                else:
+                    parts.append(text)
+            else:
+                parts.append(html_module.escape(replaceSymbols(str(block)), quote=False))
+        return ''.join(parts)
+
+    # Uniform-formatted cell: check cell-level italic
+    if isinstance(value, float):
+        text = str(int(value))
+    else:
+        text = str(value)
+    text = html_module.escape(replaceSymbols(text), quote=False)
+    if cell.font and cell.font.i:
+        return f'<i>{text}</i>'
+    return text
+
 def parse_annotations_sheet(ws, act_number, isGeneral):
     annotations = []
     current_measures = None
     current_page_range = None
     is_header = True
-    for row in ws.iter_rows(values_only=True):
+    for row in ws.iter_rows():
         if is_header:
             is_header = False
             continue
 
-        if row[2] is None or cell_to_str(row[2]).strip() == "":
+        if row[2].value is None or cell_to_str(row[2].value).strip() == "":
             continue
 
         a = {}
-        a['code'] = parseAnnotationCodes(cell_to_str(row[0]))
+        a['code'] = parseAnnotationCodes(cell_to_str(row[0].value))
 
-        cell1 = cell_to_str(row[1])
+        cell1 = cell_to_str(row[1].value)
 
         if isGeneral and cell1 != '':
             page_range_raw = cell1.split('-')
@@ -138,7 +174,7 @@ def parse_annotations_sheet(ws, act_number, isGeneral):
                     measure_range[1] = int(prefix + str(measure_range[1]))
                 current_measures = [measure_range[0], measure_range[1]]
 
-        a['annotation'] = replaceSymbols(cell_to_str(row[2]))
+        a['annotation'] = cell_to_html(row[2])
         a['act'] = act_number
         a['is_general'] = isGeneral
         a['page_range'] = current_page_range if isGeneral else [0, 0]

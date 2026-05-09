@@ -89,8 +89,9 @@ export class AnnotationManager extends TimeManagerListener {
 
             let annotationTextDiv = document.createElement("div");
             annotationTextDiv.classList.add("annotation-text");
-            annotationTextDiv.dataset.originalText = annotation.annotation;
-            annotationTextDiv.innerText = annotation.annotation;
+            annotationTextDiv.dataset.originalHtml = annotation.annotation;
+            annotationTextDiv.innerHTML = annotation.annotation;
+            annotationTextDiv.dataset.originalText = annotationTextDiv.textContent || '';
             annotationDiv.appendChild(annotationTextDiv);
 
             annotationDiv.onclick = () => {
@@ -160,19 +161,24 @@ export class AnnotationManager extends TimeManagerListener {
             }
 
             if (textEl) {
+                const originalHtml = textEl.dataset.originalHtml ?? originalText;
                 if (searchLower !== '' && matchesSearch) {
-                    textEl.innerHTML = this.highlightText(originalText, this.searchText);
+                    textEl.innerHTML = this.highlightText(originalHtml, this.searchText);
                 } else {
-                    textEl.textContent = originalText;
+                    textEl.innerHTML = originalHtml;
                 }
             }
         }
     }
 
-    private highlightText(original: string, query: string): string {
-        const safe = original.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    private highlightText(html: string, query: string): string {
         const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        return safe.replace(new RegExp(`(${escaped})`, 'gi'), '<mark class="search-highlight">$1</mark>');
+        const re = new RegExp(`(${escaped})`, 'gi');
+        // Apply highlighting only to text nodes, not inside HTML tags
+        return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+            if (tag) return tag;
+            return text.replace(re, '<mark class="search-highlight">$1</mark>');
+        });
     }
 
     async timeUpdated(scoreTime : ScoreTime, updateSource : UpdateSource) {
