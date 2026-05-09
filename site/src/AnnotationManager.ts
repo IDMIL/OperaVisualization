@@ -175,7 +175,7 @@ export class AnnotationManager extends TimeManagerListener {
         const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const re = new RegExp(`(${escaped})`, 'gi');
         // Apply highlighting only to text nodes, not inside HTML tags
-        return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        return html.replace(/(<[^>]+>)|([^<]+)/g, (_, tag, text) => {
             if (tag) return tag;
             return text.replace(re, '<mark class="search-highlight">$1</mark>');
         });
