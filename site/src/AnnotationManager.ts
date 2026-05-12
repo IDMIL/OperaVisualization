@@ -2,6 +2,7 @@ import {ScoreTime, TimeManager, TimeManagerListener, UpdateSource} from "./TimeM
 import {Annotation, AnnotationCode, annotations} from "./data/annotations";
 import {globals} from "./globals";
 import {text} from "./data/text";
+import {AddAnnotationPanel} from "./AddAnnotationPanel";
 
 export class AnnotationManager extends TimeManagerListener {
     annotationCodes : { [code in AnnotationCode] : string; } = {
@@ -15,6 +16,8 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
+    userAnnotations: Array<Annotation> = [];
+    private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];
     private searchText: string = '';
     private timeManager: TimeManager;
 
@@ -66,40 +69,75 @@ export class AnnotationManager extends TimeManagerListener {
             this.searchText = searchInput.value;
             this.setAnnotationVisibilityFromState();
         });
-        annotationsSection.appendChild(searchInput);
+        let searchRow = document.createElement('div');
+        searchRow.id = 'annotation-search-row';
+        searchRow.appendChild(searchInput);
+
+        let addButton = document.createElement('button');
+        addButton.id = 'annotation-add-button';
+        addButton.textContent = '+';
+        searchRow.appendChild(addButton);
+
+        annotationsSection.appendChild(searchRow);
 
         let scrollerDiv = document.createElement('div');
         scrollerDiv.id = 'annotations-scroller';
         scrollerDiv.classList.add('scroller-area');
         annotationsSection.appendChild(scrollerDiv);
 
+        const addAnnotationPanel = new AddAnnotationPanel(scrollerDiv, this.annotationCodes, (annotation) => {
+            this.userAnnotations.push(annotation);
+            const div = this.buildAnnotationDiv(annotation);
+            const insertIndex = this.annotationEntries.findIndex(
+                e => e.annotation.act > annotation.act ||
+                    (e.annotation.act === annotation.act &&
+                     e.annotation.measure_range[0] > annotation.measure_range[0])
+            );
+            if (insertIndex === -1) {
+                scrollerDiv.appendChild(div);
+                this.annotationEntries.push({div, annotation});
+            } else {
+                scrollerDiv.insertBefore(div, this.annotationEntries[insertIndex].div);
+                this.annotationEntries.splice(insertIndex, 0, {div, annotation});
+            }
+            this.setAnnotationVisibilityFromState();
+        });
+        addButton.addEventListener('click', () => addAnnotationPanel.open());
+
         for (const annotation of annotations) {
-            let annotationDiv = document.createElement("div");
-            annotationDiv.classList.add("annotation");
-            for (const code of annotation.code) {
-                annotationDiv.classList.add(code + "-annotation");
-            }
-            if (annotation.code.length === 0) {
-                annotationDiv.classList.add('unclassified-annotation');
-            }
-            let timeStampDiv = document.createElement("div");
-            timeStampDiv.classList.add("annotation-time-stamp");
-            timeStampDiv.innerText = this.getStringForTimestamp(annotation);
-            annotationDiv.appendChild(timeStampDiv);
-
-            let annotationTextDiv = document.createElement("div");
-            annotationTextDiv.classList.add("annotation-text");
-            annotationTextDiv.dataset.originalHtml = annotation.annotation;
-            annotationTextDiv.innerHTML = annotation.annotation;
-            annotationTextDiv.dataset.originalText = annotationTextDiv.textContent || '';
-            annotationDiv.appendChild(annotationTextDiv);
-
-            annotationDiv.onclick = () => {
-                this.timeManager.goToTime(annotation.act, annotation.measure_range[0], 1, "annotation-click");
-            }
-
-            scrollerDiv.appendChild(annotationDiv);
+            const div = this.buildAnnotationDiv(annotation);
+            scrollerDiv.appendChild(div);
+            this.annotationEntries.push({div, annotation});
         }
+    }
+
+    private buildAnnotationDiv(annotation: Annotation): HTMLElement {
+        const annotationDiv = document.createElement("div");
+        annotationDiv.classList.add("annotation");
+        for (const code of annotation.code) {
+            annotationDiv.classList.add(code + "-annotation");
+        }
+        if (annotation.code.length === 0) {
+            annotationDiv.classList.add('unclassified-annotation');
+        }
+
+        const timeStampDiv = document.createElement("div");
+        timeStampDiv.classList.add("annotation-time-stamp");
+        timeStampDiv.innerText = this.getStringForTimestamp(annotation);
+        annotationDiv.appendChild(timeStampDiv);
+
+        const annotationTextDiv = document.createElement("div");
+        annotationTextDiv.classList.add("annotation-text");
+        annotationTextDiv.dataset.originalHtml = annotation.annotation;
+        annotationTextDiv.innerHTML = annotation.annotation;
+        annotationTextDiv.dataset.originalText = annotationTextDiv.textContent || '';
+        annotationDiv.appendChild(annotationTextDiv);
+
+        annotationDiv.onclick = () => {
+            this.timeManager.goToTime(annotation.act, annotation.measure_range[0], 1, "annotation-click");
+        };
+
+        return annotationDiv;
     }
 
     getStringForTimestamp(annotation : Annotation) {
@@ -182,23 +220,18 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     async timeUpdated(scoreTime : ScoreTime, updateSource : UpdateSource) {
-        const scroller = document.getElementById('annotations-scroller');
-        if (scroller === null) {
-            return;
-        }
-        let annotationDivs = scroller.children;
         let firstAnnotationSeen = false;
-        for (let i = 0; i < annotationDivs.length; i++) {
-            if ((annotations[i].act === scoreTime.act) &&
-                (annotations[i].measure_range[0] <= scoreTime.bar) &&
-                (annotations[i].measure_range[1] >= scoreTime.bar)) {
-                annotationDivs[i].classList.add("current-annotation");
-                if (!firstAnnotationSeen && (updateSource !== "annotation-click")) {
-                    annotationDivs[i].scrollIntoView({behavior: 'smooth'});
+        for (const {div, annotation} of this.annotationEntries) {
+            if (annotation.act === scoreTime.act &&
+                annotation.measure_range[0] <= scoreTime.bar &&
+                annotation.measure_range[1] >= scoreTime.bar) {
+                div.classList.add("current-annotation");
+                if (!firstAnnotationSeen && updateSource !== "annotation-click") {
+                    div.scrollIntoView({behavior: 'smooth'});
                     firstAnnotationSeen = true;
                 }
             } else {
-                annotationDivs[i].classList.remove("current-annotation");
+                div.classList.remove("current-annotation");
             }
         }
     }
