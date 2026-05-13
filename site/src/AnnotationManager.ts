@@ -4,22 +4,29 @@ import {globals} from "./globals";
 import {text} from "./data/text";
 import {AddAnnotationPanel} from "./AddAnnotationPanel";
 
+interface AnnotationSources {
+    [source_name: string]: Array<Annotation>
+}
+
 export class AnnotationManager extends TimeManagerListener {
     annotationCodes : { [code in AnnotationCode] : string; } = {
-        'dy' : 'Dynamiques',
-        'du': 'Durée',
-        'for' : 'Formes',
-        'int' : 'Intonation',
-        'mo' : 'Motifs',
-        'tim' : 'Timbre',
-        'graph' : 'Graphique'
+        'dy' : text[globals.language].DYNAMICS,
+        'du': text[globals.language].DURATION,
+        'for' : text[globals.language].FORM,
+        'int' : text[globals.language].INTONATION,
+        'mo' : text[globals.language].MOTIFS,
+        'tim' : text[globals.language].TIMBRE,
+        'graph' : text[globals.language].GRAPHICAL
     }
 
+    private allAnnotations : AnnotationSources = {"Default": annotations, "User": []};
+
     soloedAnnotationCategories : Array<AnnotationCode> = [];
-    userAnnotations: Array<Annotation> = [];
     private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];
     private searchText: string = '';
+    private enabledSources: Set<string> = new Set(Object.keys(this.allAnnotations));
     private timeManager: TimeManager;
+    scrollerDiv : HTMLElement | undefined;
 
     constructor(timeManager : TimeManager) {
         super();
@@ -61,6 +68,30 @@ export class AnnotationManager extends TimeManagerListener {
 
         annotationsSection.appendChild(annotationTypeSelectorDiv);
 
+        let sourceFilterDiv = document.createElement('div');
+        sourceFilterDiv.id = 'annotation-source-filters';
+        Object.keys(this.allAnnotations).forEach((source) => {
+            const label = document.createElement('label');
+            label.classList.add('annotation-source-label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            checkbox.classList.add('annotation-source-checkbox');
+            checkbox.dataset.source = source;
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    this.enabledSources.add(source);
+                } else {
+                    this.enabledSources.delete(source);
+                }
+                this.setAnnotationVisibilityFromState();
+            });
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(source));
+            sourceFilterDiv.appendChild(label);
+        });
+        annotationsSection.appendChild(sourceFilterDiv);
+
         let searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.id = 'annotation-search';
@@ -80,35 +111,40 @@ export class AnnotationManager extends TimeManagerListener {
 
         annotationsSection.appendChild(searchRow);
 
-        let scrollerDiv = document.createElement('div');
-        scrollerDiv.id = 'annotations-scroller';
-        scrollerDiv.classList.add('scroller-area');
-        annotationsSection.appendChild(scrollerDiv);
+        this.scrollerDiv = document.createElement('div');
+        this.scrollerDiv.id = 'annotations-scroller';
+        this.scrollerDiv.classList.add('scroller-area');
+        annotationsSection.appendChild(this.scrollerDiv);
 
-        const addAnnotationPanel = new AddAnnotationPanel(scrollerDiv, this.annotationCodes, (annotation) => {
-            this.userAnnotations.push(annotation);
-            const div = this.buildAnnotationDiv(annotation);
-            const insertIndex = this.annotationEntries.findIndex(
-                e => e.annotation.act > annotation.act ||
-                    (e.annotation.act === annotation.act &&
-                     e.annotation.measure_range[0] > annotation.measure_range[0])
-            );
-            if (insertIndex === -1) {
-                scrollerDiv.appendChild(div);
-                this.annotationEntries.push({div, annotation});
-            } else {
-                scrollerDiv.insertBefore(div, this.annotationEntries[insertIndex].div);
-                this.annotationEntries.splice(insertIndex, 0, {div, annotation});
-            }
-            this.setAnnotationVisibilityFromState();
-        });
+        const addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
+            this.allAnnotations["User"].push(annotation);
+            this.insertAnnotationAtCorrectPosition(annotation);
+        }, this.timeManager);
         addButton.addEventListener('click', () => addAnnotationPanel.open());
 
-        for (const annotation of annotations) {
-            const div = this.buildAnnotationDiv(annotation);
-            scrollerDiv.appendChild(div);
-            this.annotationEntries.push({div, annotation});
+        for (const key in this.allAnnotations) {
+            for (const annotation of this.allAnnotations[key]) {
+                this.insertAnnotationAtCorrectPosition(annotation, key);
+            }
         }
+    }
+
+    insertAnnotationAtCorrectPosition(annotation: Annotation, source: string = 'User') {
+        const div = this.buildAnnotationDiv(annotation);
+        div.dataset.source = source;
+        const insertIndex = this.annotationEntries.findIndex(
+            e => e.annotation.act > annotation.act ||
+                (e.annotation.act === annotation.act &&
+                    e.annotation.measure_range[0] > annotation.measure_range[0])
+        );
+        if (insertIndex === -1 && this.scrollerDiv !== undefined) {
+            this.scrollerDiv.appendChild(div);
+            this.annotationEntries.push({div, annotation});
+        } else if (this.scrollerDiv !== undefined) {
+            this.scrollerDiv.insertBefore(div, this.annotationEntries[insertIndex].div);
+            this.annotationEntries.splice(insertIndex, 0, {div, annotation});
+        }
+        this.setAnnotationVisibilityFromState();
     }
 
     private buildAnnotationDiv(annotation: Annotation): HTMLElement {
@@ -160,6 +196,8 @@ export class AnnotationManager extends TimeManagerListener {
         return act_scene + ', ' + measure;
     }
 
+
+
     setAnnotationVisibilityFromState() {
         const searchLower = this.searchText.toLowerCase();
 
@@ -192,7 +230,10 @@ export class AnnotationManager extends TimeManagerListener {
                 );
             }
 
-            if (matchesSearch && matchesCategory) {
+            const source = (annotationDiv as HTMLElement).dataset.source ?? '';
+            const matchesSource = !source || this.enabledSources.has(source);
+
+            if (matchesSearch && matchesCategory && matchesSource) {
                 annotationDiv.classList.remove('annotation-hidden');
             } else {
                 annotationDiv.classList.add('annotation-hidden');

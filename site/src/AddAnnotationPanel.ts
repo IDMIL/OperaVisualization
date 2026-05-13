@@ -1,4 +1,5 @@
 import {Annotation, AnnotationCode} from "./data/annotations";
+import {TimeManager} from "./TimeManager";
 
 export class AddAnnotationPanel {
     private panel: HTMLElement;
@@ -6,15 +7,18 @@ export class AddAnnotationPanel {
 
     private readonly annotationCodes: { [code in AnnotationCode]: string };
     private readonly onAdd: (annotation: Annotation) => void;
+    private readonly timeManager: TimeManager;
 
     constructor(
         scroller: HTMLElement,
         annotationCodes: { [code in AnnotationCode]: string },
         onAdd: (annotation: Annotation) => void,
+        timeManager: TimeManager,
     ) {
         this.scroller = scroller;
         this.annotationCodes = annotationCodes;
         this.onAdd = onAdd;
+        this.timeManager = timeManager;
 
         this.panel = document.createElement('div');
         this.panel.id = 'add-annotation-panel';
@@ -170,11 +174,17 @@ export class AddAnnotationPanel {
             measure_range: [bar, bar],
         };
 
-        console.log(annotation);
         this.onAdd(annotation);
+        this.close();
     }
 
     open() {
+        (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
+            String(this.timeManager.getCurrentAct());
+        (this.panel.querySelector('#add-annotation-scene') as HTMLSelectElement).value =
+            String(this.timeManager.getCurrentScene());
+        (this.panel.querySelector('#add-annotation-bar') as HTMLInputElement).value =
+            String(this.timeManager.getCurrentBarWithinAct());
         this.scroller.hidden = true;
         this.panel.hidden = false;
     }

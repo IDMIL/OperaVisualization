@@ -24,7 +24,14 @@ export const text = {
         CLOSE: 'close',
         THEME_LIGHT: 'light mode',
         THEME_DARK: 'dark mode',
-        SEARCH_PLACEHOLDER: 'Search annotations…'
+        SEARCH_PLACEHOLDER: 'Search annotations…',
+        DYNAMICS: "Dynamics",
+        DURATION: "Duration",
+        FORM: "Form",
+        INTONATION: "Intonation",
+        MOTIFS: "Motifs",
+        TIMBRE: "Timbre",
+        GRAPHICAL: "Graphical"
     },
     'fr' : {
         ACT: 'acte',
@@ -49,7 +56,14 @@ export const text = {
         CLOSE: 'annuler',
         THEME_LIGHT: 'mode clair',
         THEME_DARK: 'mode sombre',
-        SEARCH_PLACEHOLDER: 'Rechercher des annotations…'
+        SEARCH_PLACEHOLDER: 'Rechercher des annotations…',
+        DYNAMICS: "Dynamiques",
+        DURATION: "Durée",
+        FORM: "Formes",
+        INTONATION: "Intonation",
+        MOTIFS: "Motifs",
+        TIMBRE: "Timbre",
+        GRAPHICAL: "Graphique"
     }
 }
 
