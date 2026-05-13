@@ -7,18 +7,23 @@ export class AddAnnotationPanel {
 
     private readonly annotationCodes: { [code in AnnotationCode]: string };
     private readonly onAdd: (annotation: Annotation) => void;
+    private readonly onEdit: (old: Annotation, updated: Annotation) => void;
     private readonly timeManager: TimeManager;
+    private editingAnnotation: Annotation | null = null;
+    private submitButton!: HTMLButtonElement;
 
     constructor(
         scroller: HTMLElement,
         annotationCodes: { [code in AnnotationCode]: string },
         onAdd: (annotation: Annotation) => void,
         timeManager: TimeManager,
+        onEdit: (old: Annotation, updated: Annotation) => void,
     ) {
         this.scroller = scroller;
         this.annotationCodes = annotationCodes;
         this.onAdd = onAdd;
         this.timeManager = timeManager;
+        this.onEdit = onEdit;
 
         this.panel = document.createElement('div');
         this.panel.id = 'add-annotation-panel';
@@ -124,6 +129,7 @@ export class AddAnnotationPanel {
         addButton.id = 'add-annotation-add-button';
         addButton.addEventListener('click', () => this.submitAnnotation());
         buttonsRow.appendChild(addButton);
+        this.submitButton = addButton;
 
         form.appendChild(buttonsRow);
 
@@ -174,17 +180,44 @@ export class AddAnnotationPanel {
             measure_range: [bar, bar],
         };
 
-        this.onAdd(annotation);
+        if (this.editingAnnotation) {
+            this.onEdit(this.editingAnnotation, annotation);
+        } else {
+            this.onAdd(annotation);
+        }
         this.close();
     }
 
-    open() {
-        (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
-            String(this.timeManager.getCurrentAct());
-        (this.panel.querySelector('#add-annotation-scene') as HTMLSelectElement).value =
-            String(this.timeManager.getCurrentScene());
-        (this.panel.querySelector('#add-annotation-bar') as HTMLInputElement).value =
-            String(this.timeManager.getCurrentBarWithinAct());
+    open(annotationToEdit?: Annotation) {
+        this.editingAnnotation = annotationToEdit ?? null;
+
+        if (annotationToEdit) {
+            (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
+                String(annotationToEdit.act);
+            (this.panel.querySelector('#add-annotation-scene') as HTMLSelectElement).value =
+                String(this.timeManager.getScene(annotationToEdit.act, annotationToEdit.measure_range[0]));
+            (this.panel.querySelector('#add-annotation-bar') as HTMLInputElement).value =
+                String(annotationToEdit.measure_range[0]);
+            for (const checkbox of this.panel.querySelectorAll<HTMLInputElement>('.add-annotation-category-checkbox')) {
+                checkbox.checked = annotationToEdit.code.includes(checkbox.value as AnnotationCode);
+            }
+            (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value =
+                annotationToEdit.annotation;
+            this.submitButton.textContent = 'Save';
+        } else {
+            (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
+                String(this.timeManager.getCurrentAct());
+            (this.panel.querySelector('#add-annotation-scene') as HTMLSelectElement).value =
+                String(this.timeManager.getCurrentScene());
+            (this.panel.querySelector('#add-annotation-bar') as HTMLInputElement).value =
+                String(this.timeManager.getCurrentBarWithinAct());
+            for (const checkbox of this.panel.querySelectorAll<HTMLInputElement>('.add-annotation-category-checkbox')) {
+                checkbox.checked = false;
+            }
+            (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value = '';
+            this.submitButton.textContent = 'Add';
+        }
+
         this.scroller.hidden = true;
         this.panel.hidden = false;
     }

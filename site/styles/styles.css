@@ -792,6 +792,7 @@ button {
 }
 
 .annotation {
+    position: relative;
     background: var(--color-surface);
     border-left: 3px solid;
     border-radius: var(--radius);
@@ -799,6 +800,42 @@ button {
     padding: 7px 10px;
     cursor: pointer;
     transition: background-color var(--transition), transform var(--transition);
+}
+
+.annotation-edit-button,
+.annotation-delete-button {
+    position: absolute;
+    top: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-muted);
+    padding: 2px 4px;
+    line-height: 1;
+    opacity: 0.5;
+    transition: opacity var(--transition), color var(--transition);
+}
+
+.annotation-edit-button {
+    right: 26px;
+}
+
+.annotation-delete-button {
+    right: 6px;
+}
+
+.annotation:hover .annotation-edit-button,
+.annotation:hover .annotation-delete-button {
+    opacity: 1;
+}
+
+.annotation-edit-button:hover {
+    color: var(--color-text);
+}
+
+.annotation-delete-button:hover {
+    color: #e05252;
 }
 
 .annotation:hover {

@@ -26,6 +26,7 @@ export class AnnotationManager extends TimeManagerListener {
     private searchText: string = '';
     private enabledSources: Set<string> = new Set(Object.keys(this.allAnnotations));
     private timeManager: TimeManager;
+    private addAnnotationPanel!: AddAnnotationPanel;
     scrollerDiv : HTMLElement | undefined;
 
     constructor(timeManager : TimeManager) {
@@ -116,11 +117,23 @@ export class AnnotationManager extends TimeManagerListener {
         this.scrollerDiv.classList.add('scroller-area');
         annotationsSection.appendChild(this.scrollerDiv);
 
-        const addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
+        this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
             this.allAnnotations["User"].push(annotation);
-            this.insertAnnotationAtCorrectPosition(annotation);
-        }, this.timeManager);
-        addButton.addEventListener('click', () => addAnnotationPanel.open());
+            this.insertAnnotationAtCorrectPosition(annotation, 'User');
+        }, this.timeManager, (old, updated) => {
+            const index = this.annotationEntries.findIndex(e => e.annotation === old);
+            if (index !== -1) {
+                this.annotationEntries[index].div.remove();
+                this.annotationEntries.splice(index, 1);
+            }
+            const userIndex = this.allAnnotations["User"].indexOf(old);
+            if (userIndex !== -1) {
+                this.allAnnotations["User"].splice(userIndex, 1);
+            }
+            this.allAnnotations["User"].push(updated);
+            this.insertAnnotationAtCorrectPosition(updated, 'User');
+        });
+        addButton.addEventListener('click', () => this.addAnnotationPanel.open());
 
         for (const key in this.allAnnotations) {
             for (const annotation of this.allAnnotations[key]) {
@@ -132,6 +145,33 @@ export class AnnotationManager extends TimeManagerListener {
     insertAnnotationAtCorrectPosition(annotation: Annotation, source: string = 'User') {
         const div = this.buildAnnotationDiv(annotation);
         div.dataset.source = source;
+        if (source === 'User') {
+            const editButton = document.createElement('button');
+            editButton.classList.add('annotation-edit-button');
+            editButton.textContent = '✎';
+            editButton.onclick = (event) => {
+                event.stopPropagation();
+                this.addAnnotationPanel.open(annotation);
+            };
+            div.appendChild(editButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('annotation-delete-button');
+            deleteButton.textContent = '✕';
+            deleteButton.onclick = (event) => {
+                event.stopPropagation();
+                const index = this.annotationEntries.findIndex(e => e.annotation === annotation);
+                if (index !== -1) {
+                    this.annotationEntries[index].div.remove();
+                    this.annotationEntries.splice(index, 1);
+                }
+                const userIndex = this.allAnnotations["User"].indexOf(annotation);
+                if (userIndex !== -1) {
+                    this.allAnnotations["User"].splice(userIndex, 1);
+                }
+            };
+            div.appendChild(deleteButton);
+        }
         const insertIndex = this.annotationEntries.findIndex(
             e => e.annotation.act > annotation.act ||
                 (e.annotation.act === annotation.act &&
