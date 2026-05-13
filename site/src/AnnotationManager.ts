@@ -120,6 +120,7 @@ export class AnnotationManager extends TimeManagerListener {
         this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
             this.allAnnotations["User"].push(annotation);
             this.insertAnnotationAtCorrectPosition(annotation, 'User');
+            this.saveUserAnnotations();
         }, this.timeManager, (old, updated) => {
             const index = this.annotationEntries.findIndex(e => e.annotation === old);
             if (index !== -1) {
@@ -132,8 +133,18 @@ export class AnnotationManager extends TimeManagerListener {
             }
             this.allAnnotations["User"].push(updated);
             this.insertAnnotationAtCorrectPosition(updated, 'User');
+            this.saveUserAnnotations();
         });
         addButton.addEventListener('click', () => this.addAnnotationPanel.open());
+
+        const saved = localStorage.getItem('wozzeck-user-annotations');
+        if (saved) {
+            try {
+                this.allAnnotations["User"] = JSON.parse(saved);
+            } catch {
+                // ignore malformed stored data
+            }
+        }
 
         for (const key in this.allAnnotations) {
             for (const annotation of this.allAnnotations[key]) {
@@ -169,6 +180,7 @@ export class AnnotationManager extends TimeManagerListener {
                 if (userIndex !== -1) {
                     this.allAnnotations["User"].splice(userIndex, 1);
                 }
+                this.saveUserAnnotations();
             };
             div.appendChild(deleteButton);
         }
@@ -288,6 +300,10 @@ export class AnnotationManager extends TimeManagerListener {
                 }
             }
         }
+    }
+
+    private saveUserAnnotations() {
+        localStorage.setItem('wozzeck-user-annotations', JSON.stringify(this.allAnnotations["User"]));
     }
 
     private highlightText(html: string, query: string): string {
