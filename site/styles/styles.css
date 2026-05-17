@@ -901,9 +901,13 @@ mark.search-highlight {
 
 /* ── Video / hidden ──────────────────────────────────── */
 
+#architecture-video-column {
+    display: flex;
+    flex-direction: column;
+}
+
 #video-player-section {
     grid-area: video-player;
-    display: none;
 }
 
 /* ── Page buttons ────────────────────────────────────── */

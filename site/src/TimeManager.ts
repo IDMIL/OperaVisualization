@@ -7,7 +7,7 @@ export type Bar = number;
 export type Beat = number;
 export type Scene = number;
 export type BarLength = number;
-export type UpdateSource = "timeline-click" | "annotation-click" | "transport-click" | "score-click" | "init";
+export type UpdateSource = "timeline-click" | "annotation-click" | "transport-click" | "score-click" | "video-playhead" | "init";
 
 export interface ScoreTime {
     act: Act,
@@ -36,6 +36,7 @@ export class TimeManager {
         this.scoreTime.act = act;
         this.scoreTime.bar = bar;
         this.scoreTime.beat = beat;
+        console.log(this.scoreTime);
         this.notifyListeners(updateSource);
     }
 
@@ -74,13 +75,14 @@ export class TimeManager {
     }
 
     advancePage(numPages : number, updateSource: UpdateSource) {
+        console.log("advancePage", numPages);
         const currentPage = bar_to_page[this.scoreTime.act - 1][this.scoreTime.bar].page - 1
             + act_starting_pages[this.scoreTime.act - 1];
         let targetPage = currentPage + numPages;
         if (targetPage < act_starting_pages[0]) {
             targetPage = act_starting_pages[0];
-        } else if (targetPage >= act_starting_pages[bar_to_page.length]) {
-            targetPage = act_starting_pages[bar_to_page.length] - 1;
+        } else if (targetPage >= 486) {
+            targetPage = 486;
         }
 
         for (let act = 0; act < bar_to_page.length; ++act) {

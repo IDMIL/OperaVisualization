@@ -8,6 +8,7 @@ import {globals} from "./globals";
 import {ArchitectureManager} from "./ArchitectureManager";
 import {TitleSectionManager} from "./TitleSectionManager";
 import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
+import {VideoPlayerManager} from "./VideoPlayerManager";
 
 function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
@@ -21,8 +22,10 @@ function buildWindow(lang : LanguageCode ) {
           <div class="section" id="transport-section"></div>
           <div id="analysis-tabs">
             <div class="section" id="annotations-section"></div>
-            <div class="section" id="architecture-list"></div>
-            <div class="section" id="video-player-section"></div>
+            <div id="architecture-video-column">
+              <div class="section" id="architecture-list"></div>
+              <div class="section" id="video-player-section"></div>
+            </div>
           </div>
         </div>
       <div class="section" id="score-viewer-section"></div>
@@ -37,6 +40,7 @@ function buildWindow(lang : LanguageCode ) {
     let timelineManager = new TimelineManager(timeManager);
     let annotationManager = new AnnotationManager(timeManager);
     let architectureManager = new ArchitectureManager(timeManager);
+    let videoPlayerManager = new VideoPlayerManager(timeManager);
     new TitleSectionManager();
     new ScoreTransportOverlay(timeManager, scoreManager);
 
@@ -45,6 +49,7 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.listeners.push(timelineManager);
     timeManager.listeners.push(annotationManager);
     timeManager.listeners.push(architectureManager);
+    timeManager.listeners.push(videoPlayerManager);
 
     timeManager.notifyListeners("init");
 
