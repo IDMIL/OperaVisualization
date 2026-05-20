@@ -5,6 +5,7 @@ import openpyxl
 import warnings
 from os import listdir
 from difflib import SequenceMatcher
+from translate import translate
 
 try:
     from openpyxl.cell.rich_text import CellRichText, TextBlock
@@ -174,7 +175,9 @@ def parse_annotations_sheet(ws, act_number, isGeneral):
                     measure_range[1] = int(prefix + str(measure_range[1]))
                 current_measures = [measure_range[0], measure_range[1]]
 
-        a['annotation'] = cell_to_html(row[2])
+        french_annotation = cell_to_html(row[2])
+        english_annotation = translate(french_annotation, 'FR', 'EN-US')
+        a['annotation'] = {'fr': french_annotation, 'en': english_annotation}
         a['act'] = act_number
         a['is_general'] = isGeneral
         a['page_range'] = current_page_range if isGeneral else [0, 0]
@@ -214,7 +217,7 @@ with open("../site/src/data/annotations.ts", 'w', encoding='utf8') as annotation
 
 export interface Annotation {
     code : Array<AnnotationCode>;
-    annotation : string;
+    annotation : { 'fr' : string, 'en': string };
     act : number;
     is_general: boolean;
     page_range: [number, number];

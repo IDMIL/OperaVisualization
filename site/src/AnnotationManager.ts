@@ -216,8 +216,8 @@ export class AnnotationManager extends TimeManagerListener {
 
         const annotationTextDiv = document.createElement("div");
         annotationTextDiv.classList.add("annotation-text");
-        annotationTextDiv.dataset.originalHtml = annotation.annotation;
-        annotationTextDiv.innerHTML = annotation.annotation;
+        annotationTextDiv.dataset.originalHtml = annotation.annotation[globals.language];
+        annotationTextDiv.innerHTML = annotation.annotation[globals.language];
         annotationTextDiv.dataset.originalText = annotationTextDiv.textContent || '';
         annotationDiv.appendChild(annotationTextDiv);
 
