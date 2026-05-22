@@ -177,7 +177,9 @@ def parse_annotations_sheet(ws, act_number, isGeneral):
 
         french_annotation = cell_to_html(row[2])
         english_annotation = translate(french_annotation, 'FR', 'EN-US')
-        a['annotation'] = {'fr': french_annotation, 'en': english_annotation}
+        portuguese_annotation = translate(french_annotation, 'FR', 'PT-BR')
+        german_annotation = translate(french_annotation, 'FR', 'DE')
+        a['annotation'] = {'fr': french_annotation, 'en': english_annotation, 'pt': portuguese_annotation, 'de': german_annotation}
         a['act'] = act_number
         a['is_general'] = isGeneral
         a['page_range'] = current_page_range if isGeneral else [0, 0]
