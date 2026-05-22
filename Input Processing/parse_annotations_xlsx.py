@@ -215,16 +215,19 @@ for f in listdir("../annotations"):
 
 all_annotations.sort(key=lambda a: a['act'] * 10000 + a['measure_range'][0])
 with open("../site/src/data/annotations.ts", 'w', encoding='utf8') as annotations_file:
-    annotations_file.write("""export type AnnotationCode = 'dy' | 'du' | 'for' | 'int' | 'mo' | 'tim' | 'graph';
+    annotations_file.write("""import {LanguageCode} from "./text";
+
+export type AnnotationCode = 'dy' | 'du' | 'for' | 'int' | 'mo' | 'tim' | 'graph';
 
 export interface Annotation {
     code : Array<AnnotationCode>;
-    annotation : { 'fr' : string, 'en': string };
+    annotation : {[language in LanguageCode] : string};
     act : number;
     is_general: boolean;
     page_range: [number, number];
     measure_range : [number, number];
 }
+
 
 export const annotations : Array<Annotation> =
 """)

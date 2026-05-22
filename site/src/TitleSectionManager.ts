@@ -1,4 +1,4 @@
-import {text} from "./data/text";
+import {text, LanguageCode} from "./data/text";
 import {globals} from "./globals";
 
 function showCredits(showOrHide: boolean) {
@@ -31,15 +31,23 @@ function themeToggleLabel(): string {
     return getTheme() === 'dark' ? t.THEME_LIGHT : t.THEME_DARK;
 }
 
+const LANGUAGES: { code: LanguageCode; label: string; page: string }[] = [
+    { code: 'fr', label: 'Français', page: 'fr.html' },
+    { code: 'en', label: 'English',  page: 'en.html' },
+    { code: 'de', label: 'Deutsch',  page: 'de.html' },
+    { code: 'pt', label: 'Português', page: 'pt.html' },
+];
+
 export class TitleSectionManager {
     constructor() {
         const titleSection = document.getElementById("title-section");
         if (titleSection) {
-            const otherLangPage = globals.language === 'en' ? 'fr.html' : 'en.html';
-            const otherLangName = globals.language === 'en' ? 'FR' : 'EN';
+            const options = LANGUAGES.map(l =>
+                `<option value="${l.page}"${l.code === globals.language ? ' selected' : ''}>${l.label}</option>`
+            ).join('');
 
             titleSection.innerHTML = `<h1>` + text[globals.language].TITLE + `</h1>
-      <div class="title-links-and-buttons"><h3 id="info-link">Info</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><h3 class="language-switch"><a href="`+ otherLangPage + `">` + otherLangName + `</a></h3></div>`;
+      <div class="title-links-and-buttons"><h3 id="info-link">Info</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
 
             const darken = document.createElement("div");
             darken.id = 'darken';
@@ -61,6 +69,10 @@ export class TitleSectionManager {
                 setTheme(next);
                 const toggle = document.getElementById("theme-toggle");
                 if (toggle) toggle.textContent = themeToggleLabel();
+            });
+
+            document.getElementById("language-select")?.addEventListener("change", (e) => {
+                window.location.href = (e.target as HTMLSelectElement).value;
             });
         }
     }

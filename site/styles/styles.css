@@ -182,6 +182,35 @@ button {
     text-decoration: none;
 }
 
+.language-select {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: none;
+    background: transparent;
+    transition: color var(--transition), background var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.language-select:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.language-select option {
+    background: var(--color-navy, #1a1a2e);
+    color: white;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
 /* ── Timelines ───────────────────────────────────────── */
 
 #timelines-section {
