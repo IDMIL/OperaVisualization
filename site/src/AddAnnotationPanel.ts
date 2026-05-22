@@ -1,5 +1,6 @@
 import {Annotation, AnnotationCode} from "./data/annotations";
 import {TimeManager} from "./TimeManager";
+import {globals} from "./globals";
 
 export class AddAnnotationPanel {
     private panel: HTMLElement;
@@ -174,7 +175,7 @@ export class AddAnnotationPanel {
         const annotation: Annotation = {
             act,
             code: codes,
-            annotation: text,
+            annotation: {'fr': text, 'en': text, 'de': text, "pt": text},
             is_general: false,
             page_range: [0, 0],
             measure_range: [bar, bar],
@@ -202,7 +203,7 @@ export class AddAnnotationPanel {
                 checkbox.checked = annotationToEdit.code.includes(checkbox.value as AnnotationCode);
             }
             (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value =
-                annotationToEdit.annotation;
+                annotationToEdit.annotation[globals.language];
             this.submitButton.textContent = 'Save';
         } else {
             (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
