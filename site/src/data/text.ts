@@ -1,4 +1,4 @@
-export type LanguageCode = "en" | "fr";
+export type LanguageCode = "en" | "fr" | "pt" | "de";
 
 export const text = {
     'en' : {
