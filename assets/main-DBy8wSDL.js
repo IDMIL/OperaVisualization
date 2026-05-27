@@ -30,6 +30,7 @@ var K=o=>{throw TypeError(o)};var U=(o,e,a)=>e.has(o)||K("Cannot "+a);var G=(o,e
           <div class="section" id="transport-section"></div>
           <div id="analysis-tabs">
             <div class="section" id="annotations-section"></div>
+            <div id="column-resizer" aria-hidden="true"></div>
             <div id="architecture-video-column">
               <div class="section" id="architecture-list"></div>
               <div class="section" id="video-player-section"></div>
@@ -39,4 +40,4 @@ var K=o=>{throw TypeError(o)};var U=(o,e,a)=>e.has(o)||K("Cannot "+a);var G=(o,e
       <div class="section" id="score-viewer-section"></div>
     </div>
   </div>
-    `;let e=new X,a=new Y(e),n=new Q(e),t=new $(e),s=new ae(e),r=new ne(e),g=new pe(e);new re,new me(e,a),e.listeners.push(a),e.listeners.push(n),e.listeners.push(t),e.listeners.push(s),e.listeners.push(r),e.listeners.push(g),e.notifyListeners("init")}window.buildWindow=oe;
+    `;let e=new X,a=new Y(e),n=new Q(e),t=new $(e),s=new ae(e),r=new ne(e),g=new pe(e);new re,new me(e,a),e.listeners.push(a),e.listeners.push(n),e.listeners.push(t),e.listeners.push(s),e.listeners.push(r),e.listeners.push(g),e.notifyListeners("init"),de()}function de(){const o=document.getElementById("column-resizer"),e=document.getElementById("annotations-section");o.addEventListener("mousedown",a=>{const n=a.clientX,t=e.getBoundingClientRect().width;o.classList.add("dragging"),document.body.style.cursor="col-resize",document.body.style.userSelect="none";function s(g){const m=Math.max(120,t+(g.clientX-n));e.style.flexBasis=`${m}px`}function r(){o.classList.remove("dragging"),document.body.style.cursor="",document.body.style.userSelect="",document.removeEventListener("mousemove",s),document.removeEventListener("mouseup",r)}document.addEventListener("mousemove",s),document.addEventListener("mouseup",r),a.preventDefault()})}window.buildWindow=oe;
