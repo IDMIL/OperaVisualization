@@ -39,22 +39,24 @@ export class VideoPlayerManager extends TimeManagerListener {
     }
 
     navigateToCurrentTime() {
-        const time : number | null =  this.player?.getCurrentTime() ?? null;
-        let gotoAct = 1;
-        let gotoBar = 1;
-        if (time !== null) {
-            for (const act in recordingTimestamps) {
-                for (const bar in recordingTimestamps[act]) {
-                    if (recordingTimestamps[act][bar] > time) {
-                        this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
-                        return;
+        if (this.player?.getPlayerState() === 1) {
+            const time : number | null =  this.player?.getCurrentTime() ?? null;
+            let gotoAct = 1;
+            let gotoBar = 1;
+            if (time !== null) {
+                for (const act in recordingTimestamps) {
+                    for (const bar in recordingTimestamps[act]) {
+                        if (recordingTimestamps[act][bar] > time) {
+                            this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
+                            return;
+                        }
+                        gotoAct = Number(act);
+                        gotoBar = Number(bar);
                     }
-                    gotoAct = Number(act);
-                    gotoBar = Number(bar);
                 }
             }
+            this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
         }
-        this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
     }
 
     seekTo(seconds: number) {

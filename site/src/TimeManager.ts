@@ -76,30 +76,48 @@ export class TimeManager {
 
     advancePage(numPages : number, updateSource: UpdateSource) {
         console.log("advancePage", numPages);
-        const currentPage = bar_to_page[this.scoreTime.act - 1][this.scoreTime.bar].page - 1
-            + act_starting_pages[this.scoreTime.act - 1];
-        let targetPage = currentPage + numPages;
-        if (targetPage < act_starting_pages[0]) {
-            targetPage = act_starting_pages[0];
-        } else if (targetPage >= 486) {
-            targetPage = 486;
-        }
 
-        for (let act = 0; act < bar_to_page.length; ++act) {
-            if (targetPage >= act_starting_pages[act] && targetPage < act_starting_pages[act + 1]) {
-                targetPage -= act_starting_pages[act];
-                targetPage += 1;
-                for (const bar in bar_to_page[act]) {
-                    if (bar_to_page[act][bar].page === targetPage) {
-                        this.goToTime(act + 1, Number(bar), this.scoreTime.beat, updateSource);
-                        return;
-                    }
+        const firstPage = act_starting_pages[0];
+        const lastPage = 486;
+
+        // Compute current absolute page (act-relative page is 1-based, so subtract 1 before adding act offset)
+        const currentActIndex = this.scoreTime.act - 1;
+        const currentWithinActPage = bar_to_page[currentActIndex][this.scoreTime.bar].page;
+        const currentAbsolutePage = currentWithinActPage - 1 + act_starting_pages[currentActIndex];
+
+        const targetAbsolutePage = Math.max(firstPage, Math.min(lastPage, currentAbsolutePage + numPages));
+
+        // Search outward from targetAbsolutePage in the direction of travel until we find a
+        // page that has at least one bar starting on it.  This handles pages that fall in
+        // the middle of a bar (no bar starts there) without silently doing nothing.
+        const direction = numPages >= 0 ? 1 : -1;
+
+        for (let page = targetAbsolutePage; page >= firstPage && page <= lastPage; page += direction) {
+            // Determine which act this absolute page belongs to (last act whose start ≤ page)
+            let actIndex = -1;
+            for (let a = act_starting_pages.length - 1; a >= 0; a--) {
+                if (page >= act_starting_pages[a]) {
+                    actIndex = a;
+                    break;
+                }
+            }
+            if (actIndex === -1) continue;
+
+            const withinActPage = page - act_starting_pages[actIndex] + 1;
+
+            // Numeric keys in JS objects iterate in ascending order, so the first match is
+            // the lowest-numbered (i.e. first) bar that starts on this page.
+            for (const barStr in bar_to_page[actIndex]) {
+                if (bar_to_page[actIndex][barStr].page === withinActPage) {
+                    this.goToTime(actIndex + 1, Number(barStr), this.scoreTime.beat, updateSource);
+                    return;
                 }
             }
         }
     }
 
     notifyListeners(updateSource: UpdateSource) {
+        console.log("updateSource", updateSource, "time", this.scoreTime);
         for (const listener of this.listeners) {
             listener.timeUpdated(this.scoreTime, updateSource);
         }
