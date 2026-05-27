@@ -553,13 +553,16 @@ button {
 /* ── Annotations ─────────────────────────────────────── */
 
 #architecture-list {
-    min-width: 400px;
+    min-width: 0;
 }
 
 #annotations-section {
     height: 100%;
     display: flex;
     flex-direction: column;
+    flex: 0 0 340px;
+    min-width: 120px;
+    overflow: hidden;
 }
 
 #annotation-type-selectors {
@@ -933,10 +936,33 @@ mark.search-highlight {
 #architecture-video-column {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 120px;
+    overflow: hidden;
 }
 
 #video-player-section {
-    grid-area: video-player;
+    /* grid-area was a leftover from an old grid layout; flex handles placement now */
+}
+
+/* Responsive 16:9 wrapper — makes the YouTube iframe shrink with the column.
+   aspect-ratio gives the wrapper a real computed height (unlike the old
+   height:0 / padding-bottom trick, which caused overflow:hidden to clip the
+   absolutely-positioned iframe at the zero-height content box).
+   !important on the iframe beats any inline width/height the YT API injects. */
+#yt-player {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+#yt-player iframe {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    border: 0;
 }
 
 /* ── Page buttons ────────────────────────────────────── */
@@ -1023,8 +1049,32 @@ mark.search-highlight {
     display: flex;
     flex-direction: row;
     min-height: 0;
-    gap: var(--gap);
+    gap: 0;
     padding-bottom: var(--gap);
+}
+
+/* ── Column resizer ──────────────────────────────────── */
+
+#column-resizer {
+    flex: 0 0 9px;
+    cursor: col-resize;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    z-index: 1;
+}
+
+#column-resizer::after {
+    content: '';
+    width: 1px;
+    background: var(--color-border);
+    transition: background var(--transition), width var(--transition);
+}
+
+#column-resizer:hover::after,
+#column-resizer.dragging::after {
+    background: var(--color-accent);
+    width: 2px;
 }
 
 /* ── Responsive ──────────────────────────────────────── */
@@ -1040,6 +1090,19 @@ mark.search-highlight {
 
     #analysis-tabs {
         flex-direction: column;
+        gap: var(--gap);
+    }
+
+    #column-resizer {
+        display: none;
+    }
+
+    #annotations-section {
+        flex: 1 1 auto;
+    }
+
+    #architecture-video-column {
+        flex: 1 1 auto;
     }
 
     #annotations-scroller {

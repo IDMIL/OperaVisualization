@@ -22,6 +22,7 @@ function buildWindow(lang : LanguageCode ) {
           <div class="section" id="transport-section"></div>
           <div id="analysis-tabs">
             <div class="section" id="annotations-section"></div>
+            <div id="column-resizer" aria-hidden="true"></div>
             <div id="architecture-video-column">
               <div class="section" id="architecture-list"></div>
               <div class="section" id="video-player-section"></div>
@@ -53,6 +54,38 @@ function buildWindow(lang : LanguageCode ) {
 
     timeManager.notifyListeners("init");
 
+    setupColumnResizer();
+}
+
+function setupColumnResizer() {
+    const resizer   = document.getElementById('column-resizer')!;
+    const leftPanel = document.getElementById('annotations-section')!;
+
+    resizer.addEventListener('mousedown', (e: MouseEvent) => {
+        const startX     = e.clientX;
+        const startWidth = leftPanel.getBoundingClientRect().width;
+
+        resizer.classList.add('dragging');
+        document.body.style.cursor     = 'col-resize';
+        document.body.style.userSelect = 'none';
+
+        function onMouseMove(e: MouseEvent) {
+            const newWidth = Math.max(120, startWidth + (e.clientX - startX));
+            leftPanel.style.flexBasis = `${newWidth}px`;
+        }
+
+        function onMouseUp() {
+            resizer.classList.remove('dragging');
+            document.body.style.cursor     = '';
+            document.body.style.userSelect = '';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup',   onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup',   onMouseUp);
+        e.preventDefault();
+    });
 }
 
 // Expose to window so index.html can call it
