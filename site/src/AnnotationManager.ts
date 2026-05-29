@@ -27,6 +27,8 @@ export class AnnotationManager extends TimeManagerListener {
     private enabledSources: Set<string> = new Set(Object.keys(this.allAnnotations));
     private timeManager: TimeManager;
     private addAnnotationPanel!: AddAnnotationPanel;
+    private downloadButton!: HTMLButtonElement;
+    private uploadButton!: HTMLButtonElement;
     scrollerDiv : HTMLElement | undefined;
 
     constructor(timeManager : TimeManager) {
@@ -110,6 +112,27 @@ export class AnnotationManager extends TimeManagerListener {
         addButton.textContent = '+';
         searchRow.appendChild(addButton);
 
+        this.downloadButton = document.createElement('button');
+        this.downloadButton.id = 'annotation-download-button';
+        this.downloadButton.title = 'Download user annotations as JSON';
+        this.downloadButton.textContent = '↓';
+        this.downloadButton.addEventListener('click', () => this.downloadUserAnnotations());
+        searchRow.appendChild(this.downloadButton);
+
+        this.uploadButton = document.createElement('button');
+        this.uploadButton.id = 'annotation-upload-button';
+        this.uploadButton.title = 'Upload annotations from JSON';
+        this.uploadButton.textContent = '↑';
+        searchRow.appendChild(this.uploadButton);
+
+        let fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json';
+        fileInput.style.display = 'none';
+        fileInput.addEventListener('change', () => this.handleAnnotationUpload(fileInput));
+        document.body.appendChild(fileInput);
+        this.uploadButton.addEventListener('click', () => fileInput.click());
+
         annotationsSection.appendChild(searchRow);
 
         this.scrollerDiv = document.createElement('div');
@@ -151,6 +174,7 @@ export class AnnotationManager extends TimeManagerListener {
                 this.insertAnnotationAtCorrectPosition(annotation, key);
             }
         }
+        this.updateTransferButtons();
     }
 
     insertAnnotationAtCorrectPosition(annotation: Annotation, source: string = 'User') {
@@ -306,8 +330,46 @@ export class AnnotationManager extends TimeManagerListener {
         return Object.values(this.allAnnotations).flat();
     }
 
+    private downloadUserAnnotations() {
+        const data = JSON.stringify(this.allAnnotations["User"], null, 2);
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'wozzeck-annotations.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    private handleAnnotationUpload(fileInput: HTMLInputElement) {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const imported = JSON.parse(e.target?.result as string) as Annotation[];
+                for (const annotation of imported) {
+                    this.allAnnotations["User"].push(annotation);
+                    this.insertAnnotationAtCorrectPosition(annotation, 'User');
+                }
+                this.saveUserAnnotations();
+            } catch {
+                // ignore malformed data
+            }
+            fileInput.value = '';
+        };
+        reader.readAsText(file);
+    }
+
+    private updateTransferButtons() {
+        const hasUserAnnotations = this.allAnnotations["User"].length > 0;
+        this.downloadButton.disabled = !hasUserAnnotations;
+        this.uploadButton.disabled = !hasUserAnnotations;
+    }
+
     private saveUserAnnotations() {
         localStorage.setItem('wozzeck-user-annotations', JSON.stringify(this.allAnnotations["User"]));
+        this.updateTransferButtons();
     }
 
     private highlightText(html: string, query: string): string {
