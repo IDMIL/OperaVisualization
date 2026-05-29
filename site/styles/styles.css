@@ -205,8 +205,8 @@ button {
 }
 
 .language-select option {
-    background: var(--color-navy, #1a1a2e);
-    color: white;
+    background: var(--color-panel);
+    color: var(--color-text);
     text-transform: none;
     letter-spacing: normal;
 }
