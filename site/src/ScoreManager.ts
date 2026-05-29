@@ -4,6 +4,8 @@ import {bar_to_page, BarInfo} from "./data/barToPage";
 export class ScoreManager extends TimeManagerListener {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
+    private rebuildTimer: ReturnType<typeof setTimeout> | null = null;
+
     constructor(tm : TimeManager) {
         super();
         this.currentPage = undefined;
@@ -16,6 +18,27 @@ export class ScoreManager extends TimeManagerListener {
             <div id="image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
+        }
+
+        // Recalculate overlay positions whenever the score image is resized.
+        // ResizeObserver fires after layout, so im.width/height and the image's
+        // position within #image-holder are already up-to-date when the callback
+        // runs. This covers window resizes, entering fullscreen, and exiting
+        // fullscreen without any per-trigger wiring in ScoreTransportOverlay.
+        const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
+        if (img) {
+            new ResizeObserver(() => {
+                // Skip the initial synchronous callback that fires on observe() —
+                // no page has loaded yet at construction time.
+                if (this.currentPage === undefined) return;
+
+                // Debounce: window resizes fire many times per second.
+                if (this.rebuildTimer !== null) clearTimeout(this.rebuildTimer);
+                this.rebuildTimer = setTimeout(() => {
+                    this.rebuildTimer = null;
+                    this.rebuildOveralysAtCurrentTime();
+                }, 50);
+            }).observe(img);
         }
     }
 
@@ -41,14 +64,29 @@ export class ScoreManager extends TimeManagerListener {
         }
     }
 
-    private positionOverlay(overlay: HTMLElement, barInfo: BarInfo, w: number, h: number) {
-        overlay.style.top = (barInfo.y * h) + "px";
-        overlay.style.left = (barInfo.x * w) + "px";
-        overlay.style.width = (barInfo.w * w) + "px";
+    // Returns how far the rendered image is offset from the top-left corner of
+    // #image-holder. In normal mode this is (0, 0); in fullscreen the image is
+    // centred, so there may be horizontal and/or vertical whitespace.
+    private imageOffset(): { x: number; y: number } {
+        const imageHolder = document.getElementById('image-holder');
+        const im = document.getElementById('score-viewer-image') as HTMLImageElement | null;
+        if (!imageHolder || !im) return { x: 0, y: 0 };
+        const hr = imageHolder.getBoundingClientRect();
+        const ir = im.getBoundingClientRect();
+        return { x: ir.left - hr.left, y: ir.top - hr.top };
+    }
+
+    private positionOverlay(overlay: HTMLElement, barInfo: BarInfo,
+                            w: number, h: number,
+                            offsetX: number, offsetY: number) {
+        overlay.style.top    = (barInfo.y * h + offsetY) + "px";
+        overlay.style.left   = (barInfo.x * w + offsetX) + "px";
+        overlay.style.width  = (barInfo.w * w) + "px";
         overlay.style.height = (barInfo.h * h) + "px";
     }
 
     rebuildOveralysAtCurrentTime() {
+        if (this.currentPage === undefined) return;
         this.rebuildPageOverlays(this.timeManager.scoreTime);
     }
 
@@ -61,6 +99,8 @@ export class ScoreManager extends TimeManagerListener {
         const im = document.getElementById('score-viewer-image') as HTMLImageElement;
         const w = im.width;
         const h = im.height;
+        const { x: offsetX, y: offsetY } = this.imageOffset();
+
         const currentImage = bar_to_page[scoreTime.act - 1][scoreTime.bar].image;
         const actBars = bar_to_page[scoreTime.act - 1];
 
@@ -79,7 +119,7 @@ export class ScoreManager extends TimeManagerListener {
                     this.timeManager.goToTime(scoreTime.act, parseInt(barNum), 1, "score-click");
                 });
             }
-            this.positionOverlay(div, barInfo, w, h);
+            this.positionOverlay(div, barInfo, w, h, offsetX, offsetY);
             imageHolder.appendChild(div);
         }
     }

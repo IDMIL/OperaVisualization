@@ -9,6 +9,7 @@ import {ArchitectureManager} from "./ArchitectureManager";
 import {TitleSectionManager} from "./TitleSectionManager";
 import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
+import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 
 function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
@@ -40,6 +41,7 @@ function buildWindow(lang : LanguageCode ) {
     let transportManager = new TransportManager(timeManager);
     let timelineManager = new TimelineManager(timeManager);
     let annotationManager = new AnnotationManager(timeManager);
+    let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
     let architectureManager = new ArchitectureManager(timeManager);
     let videoPlayerManager = new VideoPlayerManager(timeManager);
     new TitleSectionManager();
@@ -49,6 +51,7 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.listeners.push(transportManager);
     timeManager.listeners.push(timelineManager);
     timeManager.listeners.push(annotationManager);
+    timeManager.listeners.push(currentPageAnnotations);
     timeManager.listeners.push(architectureManager);
     timeManager.listeners.push(videoPlayerManager);
 

@@ -322,7 +322,68 @@ button {
 #image-holder {
     height: 100%;
     width: auto;
+    position: relative;
 }
+
+/* ── Current-page annotation overlay ────────────────── */
+
+/* Hidden everywhere except when the score is in fullscreen and there are
+   annotations for the current page (.has-annotations toggled by JS).
+   Inline style.display is NOT used so this CSS selector can win. */
+#current-page-annotations {
+    display: none;
+    position: absolute;
+    pointer-events: none;
+}
+
+#score-viewer-section.score-fullscreen #current-page-annotations.has-annotations {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    top: 0;
+    left: 0;
+    max-width: 280px;
+    max-height: 50%;
+    overflow-y: auto;
+    background: var(--color-overlay);
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+}
+
+.page-annotation {
+    border-left: 3px solid var(--color-muted);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.4);
+    cursor: default;
+    transition: background var(--transition), outline-color var(--transition);
+    outline: 1px solid transparent;
+}
+
+.page-annotation:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Highlighted from bar-overlay hover */
+.page-annotation.annotation-highlight {
+    background: rgba(255, 255, 255, 0.12);
+    outline-color: rgba(255, 255, 255, 0.22);
+}
+
+.page-annotation-text {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+/* re-use the same left-border colours as the sidebar annotations */
+.page-annotation.dy-annotation { border-left-color: var(--dynamiques-color); }
+.page-annotation.du-annotation { border-left-color: var(--duree-color); }
+.page-annotation.for-annotation { border-left-color: var(--formes-color); }
+.page-annotation.int-annotation { border-left-color: var(--intonation-color); }
+.page-annotation.mo-annotation  { border-left-color: var(--motifs-color); }
+.page-annotation.tim-annotation { border-left-color: var(--timbre-color); }
 
 .score-page-image {
     max-height: 100%;
@@ -340,6 +401,7 @@ button {
     opacity: 0.28;
     top: 0;
     left: 0;
+    transition: opacity var(--transition), background var(--transition);
 }
 
 .other-bar-overlay {
@@ -347,7 +409,7 @@ button {
     opacity: 0;
     pointer-events: auto;
     cursor: pointer;
-    transition: opacity var(--transition);
+    transition: opacity var(--transition), background var(--transition);
 }
 
 .other-bar-overlay:hover {
@@ -440,8 +502,20 @@ button {
     height: auto;
 }
 
+/* In fullscreen, bar overlays are invisible by default but stay in the DOM so
+   hover events still fire. .other-bar-overlay keeps pointer-events:auto from its
+   base rule, enabling the bar→annotation hover path. The current-bar overlay
+   keeps its own opacity. Highlighted overlays become visible. */
 #score-viewer-section.score-fullscreen .score-overlay {
-    display: none;
+    opacity: 0;
+}
+
+#score-viewer-section.score-fullscreen #current-bar-overlay {
+    opacity: 0;
+}
+
+#score-viewer-section.score-fullscreen .score-overlay.annotation-highlight {
+    opacity: 0.25 !important;
 }
 
 /* ── Timeline cursor ─────────────────────────────────── */

@@ -302,6 +302,10 @@ export class AnnotationManager extends TimeManagerListener {
         }
     }
 
+    getAllAnnotations(): Annotation[] {
+        return Object.values(this.allAnnotations).flat();
+    }
+
     private saveUserAnnotations() {
         localStorage.setItem('wozzeck-user-annotations', JSON.stringify(this.allAnnotations["User"]));
     }
