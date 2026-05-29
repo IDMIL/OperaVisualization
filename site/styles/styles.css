@@ -30,7 +30,7 @@
     --btn-hover-bg: rgba(255, 255, 255, 0.07);
     --btn-hover-border: rgba(255, 255, 255, 0.3);
 
-    --timeline-height: 26px;
+    --timeline-height: 18px;
 }
 
 [data-theme="light"] {
@@ -344,9 +344,9 @@ button {
     top: 0;
     left: 0;
     max-width: 280px;
-    max-height: 50%;
+    max-height: 100%;
     overflow-y: auto;
-    background: var(--color-overlay);
+    overscroll-behavior: contain;
     backdrop-filter: blur(4px);
     pointer-events: auto;
 }
@@ -355,20 +355,19 @@ button {
     border-left: 3px solid var(--color-muted);
     border-radius: var(--radius);
     padding: 4px 8px;
-    background: rgba(0, 0, 0, 0.4);
     cursor: default;
     transition: background var(--transition), outline-color var(--transition);
     outline: 1px solid transparent;
 }
 
 .page-annotation:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0,0,0, 0.08);
 }
 
 /* Highlighted from bar-overlay hover */
 .page-annotation.annotation-highlight {
-    background: rgba(255, 255, 255, 0.12);
-    outline-color: rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.12);
+    outline-color: rgba(0, 0, 0, 0.22);
 }
 
 .page-annotation-text {
@@ -401,7 +400,7 @@ button {
     opacity: 0.28;
     top: 0;
     left: 0;
-    transition: opacity var(--transition), background var(--transition);
+    pointer-events: auto;
 }
 
 .other-bar-overlay {
@@ -409,7 +408,6 @@ button {
     opacity: 0;
     pointer-events: auto;
     cursor: pointer;
-    transition: opacity var(--transition), background var(--transition);
 }
 
 .other-bar-overlay:hover {

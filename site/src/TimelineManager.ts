@@ -22,9 +22,9 @@ export class TimelineManager extends TimeManagerListener {
             return;
         }
 
-        const heading = document.createElement("h2");
-        heading.innerText = text[globals.language].TIMELINES;
-        timelineSection.appendChild(heading);
+        // const heading = document.createElement("h2");
+        // heading.innerText = text[globals.language].TIMELINES;
+        // timelineSection.appendChild(heading);
 
 
         let actsSection = document.createElement("div");

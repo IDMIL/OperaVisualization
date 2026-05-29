@@ -40,6 +40,8 @@ export class CurrentPageAnnotations extends TimeManagerListener {
         this.imageHolder = document.getElementById('image-holder');
         this.imageHolder?.appendChild(this.container);
 
+        this.container.addEventListener('wheel', e => e.stopPropagation());
+
         // Set up delegated listeners on imageHolder so bar-overlay events are
         // caught regardless of when ScoreManager adds or removes those elements.
         if (this.imageHolder) {
