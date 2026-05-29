@@ -10,6 +10,8 @@ export default defineConfig({
               // Add other HTML files here
               french: 'fr.html',
               english: 'en.html',
+              german: 'de.html',
+              portuguese: 'pt.html'
           },
       },
     outDir: "dist",
