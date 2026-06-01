@@ -628,6 +628,11 @@ button {
     min-width: 0;
 }
 
+.annotation-source-label {
+    color: var(--color-text);
+}
+
+
 #annotations-section {
     height: 100%;
     display: flex;
@@ -1199,3 +1204,4 @@ mark.search-highlight {
         min-width: 0;
     }
 }
+
