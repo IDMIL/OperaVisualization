@@ -31,7 +31,8 @@ export const text = {
         INTONATION: "Intonation",
         MOTIFS: "Motifs",
         TIMBRE: "Timbre",
-        GRAPHICAL: "Graphical"
+        GRAPHICAL: "Graphical",
+        USER: "User"
     },
     'pt' : {
         ACT: 'ato',
@@ -63,7 +64,8 @@ export const text = {
         INTONATION: "Entonação",
         MOTIFS: "Motivos",
         TIMBRE: "Timbre",
-        GRAPHICAL: "Gráfico"
+        GRAPHICAL: "Gráfico",
+        USER: "Usuário",
     },
     'de' : {
         ACT: 'Akt',
@@ -95,7 +97,8 @@ export const text = {
         INTONATION: "Intonation",
         MOTIFS: "Motive",
         TIMBRE: "Klangfarbe",
-        GRAPHICAL: "Grafisch"
+        GRAPHICAL: "Grafisch",
+        USER: "Benutzer",
     },
     'fr' : {
         ACT: 'acte',
@@ -127,7 +130,8 @@ export const text = {
         INTONATION: "Intonation",
         MOTIFS: "Motifs",
         TIMBRE: "Timbre",
-        GRAPHICAL: "Graphique"
+        GRAPHICAL: "Graphique",
+        USER: "Utilisateur"
     }
 }
 

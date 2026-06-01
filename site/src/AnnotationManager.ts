@@ -19,7 +19,7 @@ export class AnnotationManager extends TimeManagerListener {
         'graph' : text[globals.language].GRAPHICAL
     }
 
-    private allAnnotations : AnnotationSources = {"Default": annotations, "User": []};
+    private allAnnotations : AnnotationSources = {"Rene Schmidt": annotations, "User": []};
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
     private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];
@@ -90,7 +90,8 @@ export class AnnotationManager extends TimeManagerListener {
                 this.setAnnotationVisibilityFromState();
             });
             label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(source));
+            let labelText = source === "User" ? text[globals.language].USER : source;
+            label.appendChild(document.createTextNode(labelText));
             sourceFilterDiv.appendChild(label);
         });
         annotationsSection.appendChild(sourceFilterDiv);
