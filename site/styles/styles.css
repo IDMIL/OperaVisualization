@@ -639,7 +639,7 @@ button {
     flex-direction: column;
     flex: 0 0 340px;
     min-width: 120px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 #annotation-type-selectors {
@@ -1088,9 +1088,10 @@ mark.search-highlight {
 
 #credits-box {
     position: relative;
-    width: 360px;
+    width: 90vw;
+    max-width: 90vw;
     padding: 24px;
-    left: -180px;
+    left: -45vw;
     background-color: var(--color-panel);
     border: 1px solid var(--color-border);
     border-radius: 12px;
@@ -1165,6 +1166,107 @@ mark.search-highlight {
 }
 
 /* ── Responsive ──────────────────────────────────────── */
+
+/* ── Tutorial bubble ──────────────────────────────────── */
+
+#tutorial-window {
+    position: absolute;
+    z-index: 200;
+    width: 260px;
+    background: var(--color-panel);
+    border: 1px solid var(--color-accent);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    padding: 14px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#tutorial-window::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--color-panel);
+}
+
+/* bubble below parent, arrow points up */
+#tutorial-window[data-side="bottom"] {
+    top: calc(100% + 10px);
+    right: 16px;
+}
+#tutorial-window[data-side="bottom"]::before {
+    top: -7px;
+    right: 24px;
+    border-left: 1px solid var(--color-accent);
+    border-top: 1px solid var(--color-accent);
+    transform: rotate(45deg);
+}
+
+/* bubble above parent, arrow points down */
+#tutorial-window[data-side="top"] {
+    bottom: calc(100% + 10px);
+    right: 16px;
+}
+#tutorial-window[data-side="top"]::before {
+    bottom: -7px;
+    right: 24px;
+    border-right: 1px solid var(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
+    transform: rotate(45deg);
+}
+
+/* bubble right of parent, arrow points left */
+#tutorial-window[data-side="right"] {
+    left: calc(100% + 10px);
+    top: 8px;
+}
+#tutorial-window[data-side="right"]::before {
+    left: -7px;
+    top: 16px;
+    border-left: 1px solid var(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
+    transform: rotate(45deg);
+}
+
+/* bubble left of parent, arrow points right */
+#tutorial-window[data-side="left"] {
+    right: calc(100% + 10px);
+    top: 8px;
+}
+#tutorial-window[data-side="left"]::before {
+    right: -7px;
+    top: 16px;
+    border-right: 1px solid var(--color-accent);
+    border-top: 1px solid var(--color-accent);
+    transform: rotate(45deg);
+}
+
+#tut-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--color-text);
+}
+
+#next-tut-button {
+    align-self: flex-end;
+    padding: 5px 14px;
+    background: var(--color-accent);
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity var(--transition);
+}
+
+#next-tut-button:hover {
+    opacity: 0.82;
+}
 
 @media screen and (max-width: 800px) {
     .main-area {

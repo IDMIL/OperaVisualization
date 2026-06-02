@@ -10,6 +10,7 @@ import {TitleSectionManager} from "./TitleSectionManager";
 import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
+import {Tutorial} from "./Tutorial";
 
 function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
@@ -46,7 +47,6 @@ function buildWindow(lang : LanguageCode ) {
     let videoPlayerManager = new VideoPlayerManager(timeManager);
     new TitleSectionManager();
     new ScoreTransportOverlay(timeManager, scoreManager);
-
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(transportManager);
     timeManager.listeners.push(timelineManager);
@@ -58,6 +58,8 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.notifyListeners("init");
 
     setupColumnResizer();
+
+    new Tutorial();
 }
 
 function setupColumnResizer() {
