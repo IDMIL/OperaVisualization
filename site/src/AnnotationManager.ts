@@ -19,7 +19,7 @@ export class AnnotationManager extends TimeManagerListener {
         'graph' : text[globals.language].GRAPHICAL
     }
 
-    private allAnnotations : AnnotationSources = {"Rene Schmidt": annotations, "User": []};
+    private allAnnotations : AnnotationSources = {"René Schmidt": annotations, "User": []};
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
     private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];

@@ -261,7 +261,7 @@ export const text = {
         MOTIFS: "Motifs",
         TIMBRE: "Timbre",
         GRAPHICAL: "Graphique",
-        USER: "Utilisateur",
+        USER: "Utilisateur.trice",
         NEXT: "Suivant",
         DONE: "Terminer",
     }
