@@ -197,6 +197,8 @@ button {
     transition: color var(--transition), background var(--transition);
     appearance: none;
     -webkit-appearance: none;
+    width: 9em;
+    text-align: center;
 }
 
 .language-select:hover {
@@ -1088,8 +1090,11 @@ mark.search-highlight {
 
 #credits-box {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 90vw;
     max-width: 90vw;
+    max-height: calc(100vh - 175px);
     padding: 24px;
     left: -45vw;
     background-color: var(--color-panel);
@@ -1099,11 +1104,30 @@ mark.search-highlight {
     transition: background-color var(--transition);
 }
 
-#credits-box p {
+#credits-box-contents {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+}
+
+#credits-box-text {
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1;
+    padding-right: 4px;
+}
+
+#credits-box p,#credits-box li {
     color: var(--color-text);
     font-size: 14px;
     line-height: 1.65;
     margin: 0 0 16px;
+}
+
+#credits-box em {
+    font-style: normal;
+    font-weight: bold;
 }
 
 #credits-box-buttons {

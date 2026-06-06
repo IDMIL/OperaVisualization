@@ -47,7 +47,7 @@ export class TitleSectionManager {
             ).join('');
 
             titleSection.innerHTML = `<h1>` + text[globals.language].TITLE + `</h1>
-      <div class="title-links-and-buttons"><h3 id="info-link">Info</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
+      <div class="title-links-and-buttons"><h3 id="info-link">` + text[globals.language].INFO + `</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
 
             const darken = document.createElement("div");
             darken.id = 'darken';
@@ -63,6 +63,11 @@ export class TitleSectionManager {
             showCredits(false);
             document.getElementById("close-credits-box")?.addEventListener("click", () => showCredits(false), false);
             document.getElementById("info-link")?.addEventListener("click", () => showCredits(true), false);
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && document.getElementById("credits-anchor")?.style.display !== "none") {
+                    showCredits(false);
+                }
+            });
 
             document.getElementById("theme-toggle")?.addEventListener("click", () => {
                 const next = getTheme() === 'dark' ? 'light' : 'dark';
