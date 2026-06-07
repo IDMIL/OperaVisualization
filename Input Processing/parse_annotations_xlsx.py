@@ -1,6 +1,8 @@
 import html as html_module
 import io
 import zipfile
+from tkinter.constants import FALSE
+
 import openpyxl
 import warnings
 from os import listdir
@@ -192,7 +194,7 @@ all_annotations = []
 for f in listdir("../annotations"):
     if not f.endswith('.xlsx'):
         continue
-
+    print("parsing", f)
     act_number = 0
     if 'act1' in f.lower():
         act_number = 1
@@ -209,9 +211,10 @@ for f in listdir("../annotations"):
         continue
 
     for sheet_name in wb.sheetnames:
-        isGeneral = 'mesur' not in sheet_name.lower()
-        ws = wb[sheet_name]
-        all_annotations += parse_annotations_sheet(ws, act_number, isGeneral)
+        if 'mesur' in sheet_name.lower():
+            all_annotations += parse_annotations_sheet(wb[sheet_name], act_number, isGeneral=False)
+        elif 'général' in sheet_name.lower():
+            all_annotations += parse_annotations_sheet(wb[sheet_name], act_number, isGeneral=True)
 
 all_annotations.sort(key=lambda a: a['act'] * 10000 + a['measure_range'][0])
 with open("../site/src/data/annotations.ts", 'w', encoding='utf8') as annotations_file:

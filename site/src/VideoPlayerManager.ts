@@ -39,7 +39,7 @@ export class VideoPlayerManager extends TimeManagerListener {
     }
 
     navigateToCurrentTime() {
-        if (this.player?.getPlayerState() === 1) {
+        if (this.player?.getPlayerState?.() === 1) {
             const time : number | null =  this.player?.getCurrentTime() ?? null;
             let gotoAct = 1;
             let gotoBar = 1;
@@ -60,7 +60,12 @@ export class VideoPlayerManager extends TimeManagerListener {
     }
 
     seekTo(seconds: number) {
-        this.player?.seekTo(seconds, true);
+        if (!this.player) return;
+        const wasPlaying = this.player.getPlayerState?.() === 1;
+        this.player.seekTo(seconds, true);
+        if (!wasPlaying) {
+            this.player.pauseVideo?.();
+        }
     }
 
     async timeUpdated(scoreTime: ScoreTime, updateSource: UpdateSource) {

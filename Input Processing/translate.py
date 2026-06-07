@@ -7,7 +7,7 @@ def translate(text, source_language, target_language):
     if text not in json_data:
         json_data[text] = {source_language: text}
     if target_language not in json_data[text]:
-        auth_key = ""
+        auth_key = "e6eb65b3-ca21-4ed2-a350-179044efe4c6:fx"
         deepl_client = deepl.DeepLClient(auth_key)
         print("Calling API to translate ", text, " to ", target_language)
         result = deepl_client.translate_text(text, source_lang=source_language, target_lang=target_language)
