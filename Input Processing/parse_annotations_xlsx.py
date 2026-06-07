@@ -1,8 +1,6 @@
 import html as html_module
 import io
 import zipfile
-from tkinter.constants import FALSE
-
 import openpyxl
 import warnings
 from os import listdir
