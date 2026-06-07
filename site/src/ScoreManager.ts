@@ -52,12 +52,12 @@ export class ScoreManager extends TimeManagerListener {
     }
 
     preloadAround(time : ScoreTime, numBars: number) {
-        let timeCopy : ScoreTime = {act: time.act, bar: time.bar, beat: time.beat, barLength: time.barLength};
+        let timeCopy : ScoreTime = {act: time.act, bar: time.bar,barLength: time.barLength};
         for (let i = 0; i <= numBars; ++i) {
             this.timeManager.addToTime(timeCopy, i);
             this.preloadImage(bar_to_page[timeCopy.act - 1][timeCopy.bar].image);
         }
-        timeCopy = {act: time.act, bar: time.bar, beat: time.beat, barLength: time.barLength};
+        timeCopy = {act: time.act, bar: time.bar, barLength: time.barLength};
         for (let i = 1; i <= numBars; ++i) {
             this.timeManager.addToTime(timeCopy, -i);
             this.preloadImage(bar_to_page[timeCopy.act - 1][timeCopy.bar].image);
@@ -116,7 +116,7 @@ export class ScoreManager extends TimeManagerListener {
             } else {
                 div.classList.add('other-bar-overlay');
                 div.addEventListener('click', () => {
-                    this.timeManager.goToTime(scoreTime.act, parseInt(barNum), 1, "score-click");
+                    this.timeManager.goToTime(scoreTime.act, parseInt(barNum), "score-click");
                 });
             }
             this.positionOverlay(div, barInfo, w, h, offsetX, offsetY);
@@ -131,7 +131,7 @@ export class ScoreManager extends TimeManagerListener {
             prev.removeAttribute('id');
             prev.classList.add('other-bar-overlay');
             prev.addEventListener('click', () => {
-                this.timeManager.goToTime(scoreTime.act, prevBar, 1, "score-click");
+                this.timeManager.goToTime(scoreTime.act, prevBar, "score-click");
             });
         }
         const imageHolder = document.getElementById('image-holder');

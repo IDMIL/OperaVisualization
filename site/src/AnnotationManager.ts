@@ -247,7 +247,7 @@ export class AnnotationManager extends TimeManagerListener {
         annotationDiv.appendChild(annotationTextDiv);
 
         annotationDiv.onclick = () => {
-            this.timeManager.goToTime(annotation.act, annotation.measure_range[0], 1, "annotation-click");
+            this.timeManager.goToTime(annotation.act, annotation.measure_range[0], "annotation-click");
         };
 
         return annotationDiv;

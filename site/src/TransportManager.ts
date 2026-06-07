@@ -36,8 +36,6 @@ export class TransportManager extends TimeManagerListener {
         <p id="transport-scene-number">1</p>
         <p class="level-name">` + text[globals.language].BAR + `</p>
         <p id="transport-bar-number">1</p>
-        <p class="level-name">` + text[globals.language].BEAT + `</p>
-        <p id="transport-beat-number">1</p>
       </div>
       <div class="transport buttons">
         <button id="prev-bar-button">` + text[globals.language].PREV_BAR + `</button>
@@ -88,10 +86,6 @@ export class TransportManager extends TimeManagerListener {
         const transportBarNumber = document.getElementById("transport-bar-number");
         if (transportBarNumber !== null) {
             transportBarNumber.innerText = scoreTime.bar.toString();
-        }
-        const transportBeatNumber = document.getElementById("transport-beat-number");
-        if (transportBeatNumber !== null) {
-            transportBeatNumber.innerText = scoreTime.beat.toString();
         }
     }
 

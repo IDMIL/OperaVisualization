@@ -9,7 +9,6 @@ export const text = {
         SCENE_STRUCTURE: 'measures',
         BAR: 'bar',
         BARS: 'bars',
-        BEAT: 'beat',
         PREV_BAR: 'previous bar',
         NEXT_BAR: 'next bar',
         PREV_PAGE: 'previous page',

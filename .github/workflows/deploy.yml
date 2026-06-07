@@ -15,9 +15,11 @@ jobs:
       - name: Pre-process data
         run: |
           cd Input\ Processing
-          pip install openpyxl deepl
+          pip install openpyxl deepl fitz Pillow
           python parse_annotations_xlsx.py
           python getBarMappingsDummyMeasurebounds.py
+          python split_graphical_pdfs.py
+          python align_annotated_crops.py
           cd ..
 
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.

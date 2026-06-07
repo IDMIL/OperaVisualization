@@ -75,10 +75,10 @@ export class TimelineManager extends TimeManagerListener {
             actDiv.append(actDivText);
             actDiv.style.width = (actLengths[i] * 100 / totalLength) + "%";
             actDiv.onclick = () => {
-                this.timeManager.goToTime(i + 1, 1, 1, 'timeline-click');
+                this.timeManager.goToTime(i + 1, 1, 'timeline-click');
             }
             actDiv.onmouseenter = () => {
-                this.timeManager.preloadTime({act: i + 1, bar: 1, beat: 1, barLength: 1});
+                this.timeManager.preloadTime({act: i + 1, bar: 1, barLength: 1});
             }
 
             actsTimeline.appendChild(actDiv);
@@ -99,11 +99,11 @@ export class TimelineManager extends TimeManagerListener {
                 const a = actNumber;
                 const sceneBar = sceneBarRange[0];
                 sceneDiv.onclick = () => {
-                    this.timeManager.goToTime(a, sceneBar, 1, 'timeline-click');
+                    this.timeManager.goToTime(a, sceneBar, 'timeline-click');
                 }
 
                 sceneDiv.onmouseenter = () => {
-                    this.timeManager.preloadTime({act: a, bar: sceneBar, beat: 1, barLength: 1});
+                    this.timeManager.preloadTime({act: a, bar: sceneBar, barLength: 1});
                 }
                 scenesTimeline.appendChild(sceneDiv);
                 sceneNumber++;
@@ -159,7 +159,7 @@ export class TimelineManager extends TimeManagerListener {
                 const pageNumber = bar_to_page[this.timeManager.getCurrentAct() - 1][barNumber].page + act_starting_pages[this.timeManager.getCurrentAct() - 1] - 1;
                 cursorLabel.innerText = text[globals.language].BAR + " " + barNumber + ", " +
                     text[globals.language].PAGE + " " + pageNumber;
-                this.timeManager.preloadTime({act: this.timeManager.getCurrentAct(), bar: barNumber, beat: 1, barLength: 1})
+                this.timeManager.preloadTime({act: this.timeManager.getCurrentAct(), bar: barNumber, barLength: 1})
                 if (proportion > 0.5) {
                     timelineCursor.classList.add("left");
                 } else {
@@ -177,7 +177,6 @@ export class TimelineManager extends TimeManagerListener {
             this.timeManager.goToTime(
                 this.timeManager.getCurrentAct(),
                 this.#getBarAtProportionOfCurrentScene(clickProportion),
-                1,
                 'timeline-click');
         });
     }

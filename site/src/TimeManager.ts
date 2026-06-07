@@ -12,7 +12,6 @@ export type UpdateSource = "timeline-click" | "annotation-click" | "transport-cl
 export interface ScoreTime {
     act: Act,
     bar: Bar,
-    beat: Beat,
     barLength: BarLength,
 }
 
@@ -32,10 +31,9 @@ export class TimeManager {
 
     }
 
-    goToTime(act : Act, bar : Bar, beat : Beat, updateSource: UpdateSource) {
+    goToTime(act : Act, bar : Bar, updateSource: UpdateSource) {
         this.scoreTime.act = act;
         this.scoreTime.bar = bar;
-        this.scoreTime.beat = beat;
         console.log(this.scoreTime);
         this.notifyListeners(updateSource);
     }
@@ -109,7 +107,7 @@ export class TimeManager {
             // the lowest-numbered (i.e. first) bar that starts on this page.
             for (const barStr in bar_to_page[actIndex]) {
                 if (bar_to_page[actIndex][barStr].page === withinActPage) {
-                    this.goToTime(actIndex + 1, Number(barStr), this.scoreTime.beat, updateSource);
+                    this.goToTime(actIndex + 1, Number(barStr), updateSource);
                     return;
                 }
             }
@@ -182,7 +180,6 @@ export class TimeManager {
     scoreTime : ScoreTime = {
         act: 1,
         bar: 1,
-        beat: 1,
         barLength: 4
     }
 

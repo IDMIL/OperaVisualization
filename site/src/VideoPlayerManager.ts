@@ -47,7 +47,7 @@ export class VideoPlayerManager extends TimeManagerListener {
                 for (const act in recordingTimestamps) {
                     for (const bar in recordingTimestamps[act]) {
                         if (recordingTimestamps[act][bar] > time) {
-                            this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
+                            this.timeManager.goToTime(gotoAct, gotoBar, "video-playhead");
                             return;
                         }
                         gotoAct = Number(act);
@@ -55,7 +55,7 @@ export class VideoPlayerManager extends TimeManagerListener {
                     }
                 }
             }
-            this.timeManager.goToTime(gotoAct, gotoBar, 1, "video-playhead");
+            this.timeManager.goToTime(gotoAct, gotoBar, "video-playhead");
         }
     }
 
