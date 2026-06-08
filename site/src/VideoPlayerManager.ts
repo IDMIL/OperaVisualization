@@ -33,9 +33,26 @@ export class VideoPlayerManager extends TimeManagerListener {
             this.player = new window.YT.Player("yt-player", {
                 videoId: "jVmWimEX1gw",
                 playerVars: { playsinline: 1 },
+                events: {
+                    onStateChange: (event: any) => this.onPlayerStateChange(event),
+                },
             });
         };
         setInterval(() => this.navigateToCurrentTime(), 100)
+    }
+
+    private pendingPause: boolean = false;
+    private pendingSeekSeconds: number | null = null;
+
+    onPlayerStateChange(event: any) {
+        if (event.data === 1 && this.pendingPause) {
+            this.pendingPause = false;
+            if (this.pendingSeekSeconds !== null) {
+                this.player.seekTo(this.pendingSeekSeconds, true);
+                this.pendingSeekSeconds = null;
+            }
+            this.player.pauseVideo?.();
+        }
     }
 
     navigateToCurrentTime() {
@@ -61,10 +78,14 @@ export class VideoPlayerManager extends TimeManagerListener {
 
     seekTo(seconds: number) {
         if (!this.player) return;
-        const wasPlaying = this.player.getPlayerState?.() === 1;
-        this.player.seekTo(seconds, true);
-        if (!wasPlaying) {
-            this.player.pauseVideo?.();
+        const state = this.player.getPlayerState?.();
+        if (state === 1 || state === 2) {
+            this.player.seekTo(seconds, true);
+        } else {
+            // Video is unstarted — play first so a frame is decoded, then pause.
+            this.pendingPause = true;
+            this.pendingSeekSeconds = seconds;
+            this.player.playVideo?.();
         }
     }
 
