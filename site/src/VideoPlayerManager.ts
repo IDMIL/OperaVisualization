@@ -17,7 +17,7 @@ export class VideoPlayerManager extends TimeManagerListener {
         const videoPlayer = document.getElementById("video-player-section");
         if (videoPlayer) {
             const header = document.createElement("h2");
-            header.innerText = text[globals.language].VIDEO_PLAYER;
+            header.innerText = text.VIDEO_PLAYER[globals.language];
             videoPlayer.appendChild(header);
 
             const playerDiv = document.createElement("div");

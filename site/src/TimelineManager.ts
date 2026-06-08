@@ -31,7 +31,7 @@ export class TimelineManager extends TimeManagerListener {
         actsSection.id = "acts-timeline";
         actsSection.classList.add("timeline-container");
         let actsHeading = document.createElement("h3");
-        actsHeading.innerText = text[globals.language].ACTS;
+        actsHeading.innerText = text.ACTS[globals.language];
         let actsTimeline = document.createElement("div");
         actsTimeline.classList.add("timeline");
 
@@ -44,7 +44,7 @@ export class TimelineManager extends TimeManagerListener {
         scenesSection.id = "scenes-timeline";
         scenesSection.classList.add("timeline-container");
         let scenesHeading = document.createElement("h3");
-        scenesHeading.innerText = text[globals.language].SCENES;
+        scenesHeading.innerText = text.SCENES[globals.language];
         let scenesTimeline = document.createElement("div");
         scenesTimeline.classList.add("timeline");
 
@@ -57,7 +57,7 @@ export class TimelineManager extends TimeManagerListener {
         sceneStructureSection.id = "scene-structure-timeline";
         sceneStructureSection.classList.add("timeline-container");
         let sceneStructureHeading = document.createElement("h3");
-        sceneStructureHeading.innerText = text[globals.language].SCENE_STRUCTURE;
+        sceneStructureHeading.innerText = text.SCENE_STRUCTURE[globals.language];
         let sceneStructureTimeline = document.createElement("div");
         sceneStructureTimeline.classList.add("timeline");
 
@@ -157,8 +157,8 @@ export class TimelineManager extends TimeManagerListener {
 
                 const barNumber = this.#getBarAtProportionOfCurrentScene(proportion);
                 const pageNumber = bar_to_page[this.timeManager.getCurrentAct() - 1][barNumber].page + act_starting_pages[this.timeManager.getCurrentAct() - 1] - 1;
-                cursorLabel.innerText = text[globals.language].BAR + " " + barNumber + ", " +
-                    text[globals.language].PAGE + " " + pageNumber;
+                cursorLabel.innerText = text.BAR[globals.language] + " " + barNumber + ", " +
+                    text.PAGE[globals.language] + " " + pageNumber;
                 this.timeManager.preloadTime({act: this.timeManager.getCurrentAct(), bar: barNumber, barLength: 1})
                 if (proportion > 0.5) {
                     timelineCursor.classList.add("left");

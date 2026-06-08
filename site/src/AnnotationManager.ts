@@ -1,25 +1,30 @@
 import {ScoreTime, TimeManager, TimeManagerListener, UpdateSource} from "./TimeManager";
 import {Annotation, AnnotationCode, annotations} from "./data/annotations";
 import {globals} from "./globals";
-import {text} from "./data/text";
 import {AddAnnotationPanel} from "./AddAnnotationPanel";
+import {addInfoBox} from "./InfoBox";
+import {text} from "./data/text";
 
 interface AnnotationSources {
-    [source_name: string]: Array<Annotation>
+    [source_name: string]: {description: string, annotations: Array<Annotation>}
 }
 
 export class AnnotationManager extends TimeManagerListener {
     annotationCodes : { [code in AnnotationCode] : string; } = {
-        'dy' : text[globals.language].DYNAMICS,
-        'du': text[globals.language].DURATION,
-        'for' : text[globals.language].FORM,
-        'int' : text[globals.language].INTONATION,
-        'mo' : text[globals.language].MOTIFS,
-        'tim' : text[globals.language].TIMBRE,
-        'graph' : text[globals.language].GRAPHICAL
+        'dy' : text.DYNAMICS[globals.language],
+        'du': text.DURATION[globals.language],
+        'for' : text.FORM[globals.language],
+        'int' : text.INTONATION[globals.language],
+        'mo' : text.MOTIFS[globals.language],
+        'tim' : text.TIMBRE[globals.language],
+        'graph' : text.GRAPHICAL[globals.language]
     }
 
-    private allAnnotations : AnnotationSources = {"René Schmidt": annotations, "User": []};
+    private allAnnotations : AnnotationSources = {
+        "René Schmidt": {description:text.SCHMIDT_DESCRIPTION[globals.language], annotations: annotations},
+        "Serge Garant": {description:text.GARANT_DESCRIPTION[globals.language], annotations: []},
+        "George Perle": {description:text.PERLE_DESCRIPTION[globals.language], annotations: []},
+        "User": {description: text.USER_DESCRIPTION[globals.language], annotations: []}};
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
     private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];
@@ -42,7 +47,7 @@ export class AnnotationManager extends TimeManagerListener {
         }
 
         const header = document.createElement("h2");
-        header.innerText = text[globals.language].ANNOTATIONS;
+        header.innerText = text.ANNOTATIONS[globals.language];
         annotationsSection.appendChild(header);
 
         let annotationTypeSelectorDiv = document.createElement('div');
@@ -90,8 +95,9 @@ export class AnnotationManager extends TimeManagerListener {
                 this.setAnnotationVisibilityFromState();
             });
             label.appendChild(checkbox);
-            let labelText = source === "User" ? text[globals.language].USER : source;
+            let labelText = source === "User" ? text.USER[globals.language] : source;
             label.appendChild(document.createTextNode(labelText));
+            addInfoBox(label, this.allAnnotations[source].description);
             sourceFilterDiv.appendChild(label);
         });
         annotationsSection.appendChild(sourceFilterDiv);
@@ -99,7 +105,7 @@ export class AnnotationManager extends TimeManagerListener {
         let searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.id = 'annotation-search';
-        searchInput.placeholder = text[globals.language].SEARCH_PLACEHOLDER;
+        searchInput.placeholder = text.SEARCH_PLACEHOLDER[globals.language];
         searchInput.addEventListener('input', () => {
             this.searchText = searchInput.value;
             this.setAnnotationVisibilityFromState();
@@ -142,7 +148,7 @@ export class AnnotationManager extends TimeManagerListener {
         annotationsSection.appendChild(this.scrollerDiv);
 
         this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
-            this.allAnnotations["User"].push(annotation);
+            this.allAnnotations["User"].annotations.push(annotation);
             this.insertAnnotationAtCorrectPosition(annotation, 'User');
             this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
@@ -152,11 +158,11 @@ export class AnnotationManager extends TimeManagerListener {
                 this.annotationEntries[index].div.remove();
                 this.annotationEntries.splice(index, 1);
             }
-            const userIndex = this.allAnnotations["User"].indexOf(old);
+            const userIndex = this.allAnnotations["User"].annotations.indexOf(old);
             if (userIndex !== -1) {
-                this.allAnnotations["User"].splice(userIndex, 1);
+                this.allAnnotations["User"].annotations.splice(userIndex, 1);
             }
-            this.allAnnotations["User"].push(updated);
+            this.allAnnotations["User"].annotations.push(updated);
             this.insertAnnotationAtCorrectPosition(updated, 'User');
             this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
@@ -166,14 +172,14 @@ export class AnnotationManager extends TimeManagerListener {
         const saved = localStorage.getItem('wozzeck-user-annotations');
         if (saved) {
             try {
-                this.allAnnotations["User"] = JSON.parse(saved);
+                this.allAnnotations["User"].annotations = JSON.parse(saved);
             } catch {
                 // ignore malformed stored data
             }
         }
 
         for (const key in this.allAnnotations) {
-            for (const annotation of this.allAnnotations[key]) {
+            for (const annotation of this.allAnnotations[key].annotations) {
                 this.insertAnnotationAtCorrectPosition(annotation, key);
             }
         }
@@ -205,9 +211,9 @@ export class AnnotationManager extends TimeManagerListener {
                     this.annotationEntries[index].div.remove();
                     this.annotationEntries.splice(index, 1);
                 }
-                const userIndex = this.allAnnotations["User"].indexOf(annotation);
+                const userIndex = this.allAnnotations["User"].annotations.indexOf(annotation);
                 if (userIndex !== -1) {
-                    this.allAnnotations["User"].splice(userIndex, 1);
+                    this.allAnnotations["User"].annotations.splice(userIndex, 1);
                 }
                 this.saveUserAnnotations();
             };
@@ -257,12 +263,12 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     getStringForTimestamp(annotation : Annotation) {
-        const act_scene = text[globals.language]["ACT"] + ' ' +
-            annotation.act + ', ' + text[globals.language]["SCENE"] + ' ' +
+        const act_scene = text["ACT"][globals.language] + ' ' +
+            annotation.act + ', ' + text["SCENE"][globals.language] + ' ' +
             this.timeManager.getScene(annotation.act, annotation.measure_range[0]);
 
         if (annotation.is_general) {
-            const pages = text[globals.language]["PAGE"] + ' ' + (
+            const pages = text["PAGE"][globals.language] + ' ' + (
             (annotation.page_range[0] === annotation.page_range[1])
                 ? annotation.page_range[0] : [annotation.page_range[0]] + '–' + annotation.page_range[1]);
             return act_scene + ', ' + pages;
@@ -270,8 +276,8 @@ export class AnnotationManager extends TimeManagerListener {
 
         const mr = annotation.measure_range;
         const measure = (mr[0] === mr[1]) ?
-            (text[globals.language]["BAR"] + ' ' + mr[0]) :
-            (text[globals.language]["BARS"] + ' ' + mr[0] + '–' + mr[1]);
+            (text["BAR"][globals.language] + ' ' + mr[0]) :
+            (text["BARS"][globals.language] + ' ' + mr[0] + '–' + mr[1]);
 
         return act_scene + ', ' + measure;
     }
@@ -331,7 +337,7 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     getAllAnnotations(): Annotation[] {
-        return Object.values(this.allAnnotations).flat();
+        return Object.values(this.allAnnotations).flatMap(source => source.annotations);
     }
 
     private downloadUserAnnotations() {
@@ -353,7 +359,7 @@ export class AnnotationManager extends TimeManagerListener {
             try {
                 const imported = JSON.parse(e.target?.result as string) as Annotation[];
                 for (const annotation of imported) {
-                    this.allAnnotations["User"].push(annotation);
+                    this.allAnnotations["User"].annotations.push(annotation);
                     this.insertAnnotationAtCorrectPosition(annotation, 'User');
                 }
                 this.setAnnotationVisibilityFromState();
@@ -367,7 +373,7 @@ export class AnnotationManager extends TimeManagerListener {
     }
 
     private updateTransferButtons() {
-        const hasUserAnnotations = this.allAnnotations["User"].length > 0;
+        const hasUserAnnotations = this.allAnnotations["User"].annotations.length > 0;
         this.downloadButton.disabled = !hasUserAnnotations;
         this.uploadButton.disabled = !hasUserAnnotations;
     }

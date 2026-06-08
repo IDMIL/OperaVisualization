@@ -34,7 +34,7 @@ export class Tutorial {
         tut.appendChild(tutText);
         const nextTutButton = document.createElement('button');
         nextTutButton.id = "next-tut-button";
-        nextTutButton.textContent = text[globals.language].NEXT;
+        nextTutButton.textContent = text.NEXT[globals.language];
         nextTutButton.onclick = () => this.advanceTutorialStep();
         tut.appendChild(nextTutButton);
         document.body.appendChild(tut);
@@ -65,7 +65,7 @@ export class Tutorial {
         if (this.tutorialStepIndex >= this.tutorialSteps.length) {
             const nextButton = document.getElementById("next-tut-button");
             if (nextButton != null) {
-                nextButton.textContent = text[globals.language].DONE;
+                nextButton.textContent = text.DONE[globals.language];
                 nextButton.onclick = () => {
                     let tut = document.getElementById('tutorial-window');
                     if (tut != null) {

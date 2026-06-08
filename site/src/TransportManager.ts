@@ -30,18 +30,18 @@ export class TransportManager extends TimeManagerListener {
         }
         transportSection.innerHTML = `
       <div id="position-text">
-      <p class="level-name">` + text[globals.language].ACT + `</p>
+      <p class="level-name">` + text.ACT[globals.language] + `</p>
         <p id="transport-act-number">1</p>
-        <p class="level-name">` + text[globals.language].SCENE + `</p>
+        <p class="level-name">` + text.SCENE[globals.language] + `</p>
         <p id="transport-scene-number">1</p>
-        <p class="level-name">` + text[globals.language].BAR + `</p>
+        <p class="level-name">` + text.BAR[globals.language] + `</p>
         <p id="transport-bar-number">1</p>
       </div>
       <div class="transport buttons">
-        <button id="prev-bar-button">` + text[globals.language].PREV_BAR + `</button>
-        <button id="next-bar-button">` + text[globals.language].NEXT_BAR + `</button>
-        <button id="prev-page-button">` + text[globals.language].PREV_PAGE + `</button>
-        <button id="next-page-button">` + text[globals.language].NEXT_PAGE + `</button>
+        <button id="prev-bar-button">` + text.PREV_BAR[globals.language] + `</button>
+        <button id="next-bar-button">` + text.NEXT_BAR[globals.language] + `</button>
+        <button id="prev-page-button">` + text.PREV_PAGE[globals.language] + `</button>
+        <button id="next-page-button">` + text.NEXT_PAGE[globals.language] + `</button>
       </div>`;
 
         const prevBarButton = document.getElementById("prev-bar-button");

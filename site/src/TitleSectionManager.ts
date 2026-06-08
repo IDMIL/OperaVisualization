@@ -27,8 +27,7 @@ function setTheme(theme: 'dark' | 'light') {
 }
 
 function themeToggleLabel(): string {
-    const t = text[globals.language];
-    return getTheme() === 'dark' ? t.THEME_LIGHT : t.THEME_DARK;
+    return getTheme() === 'dark' ? text.THEME_LIGHT[globals.language] : text.THEME_DARK[globals.language];
 }
 
 const LANGUAGES: { code: LanguageCode; label: string; page: string }[] = [
@@ -46,8 +45,8 @@ export class TitleSectionManager {
                 `<option value="${l.page}"${l.code === globals.language ? ' selected' : ''}>${l.label}</option>`
             ).join('');
 
-            titleSection.innerHTML = `<h1>` + text[globals.language].TITLE + `</h1>
-      <div class="title-links-and-buttons"><h3 id="info-link">` + text[globals.language].INFO + `</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
+            titleSection.innerHTML = `<h1>` + text.TITLE[globals.language] + `</h1>
+      <div class="title-links-and-buttons"><h3 id="info-link">` + text.INFO[globals.language] + `</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
 
             const darken = document.createElement("div");
             darken.id = 'darken';
@@ -56,8 +55,8 @@ export class TitleSectionManager {
             const creditsAnchor = document.createElement("div");
             creditsAnchor.setAttribute("id", "credits-anchor");
             creditsAnchor.innerHTML = `<div id="credits-box"><div id="credits-box-contents">
-<div id="credits-box-text"><p>` + text[globals.language].BYLINE + `</p></div>
-<div id="credits-box-buttons"><button id="close-credits-box">` + text[globals.language].CLOSE + `</button></div>
+<div id="credits-box-text"><p>` + text.BYLINE[globals.language] + `</p></div>
+<div id="credits-box-buttons"><button id="close-credits-box">` + text.CLOSE[globals.language] + `</button></div>
 </div></div>`;
             titleSection.append(creditsAnchor);
             showCredits(false);
