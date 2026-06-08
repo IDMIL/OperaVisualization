@@ -144,6 +144,7 @@ export class AnnotationManager extends TimeManagerListener {
         this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
             this.allAnnotations["User"].push(annotation);
             this.insertAnnotationAtCorrectPosition(annotation, 'User');
+            this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
         }, this.timeManager, (old, updated) => {
             const index = this.annotationEntries.findIndex(e => e.annotation === old);
@@ -157,6 +158,7 @@ export class AnnotationManager extends TimeManagerListener {
             }
             this.allAnnotations["User"].push(updated);
             this.insertAnnotationAtCorrectPosition(updated, 'User');
+            this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
         });
         addButton.addEventListener('click', () => this.addAnnotationPanel.open());
@@ -175,6 +177,8 @@ export class AnnotationManager extends TimeManagerListener {
                 this.insertAnnotationAtCorrectPosition(annotation, key);
             }
         }
+        this.setAnnotationVisibilityFromState();
+
         this.updateTransferButtons();
     }
 
@@ -221,7 +225,6 @@ export class AnnotationManager extends TimeManagerListener {
             this.scrollerDiv.insertBefore(div, this.annotationEntries[insertIndex].div);
             this.annotationEntries.splice(insertIndex, 0, {div, annotation});
         }
-        this.setAnnotationVisibilityFromState();
     }
 
     private buildAnnotationDiv(annotation: Annotation): HTMLElement {
@@ -353,6 +356,7 @@ export class AnnotationManager extends TimeManagerListener {
                     this.allAnnotations["User"].push(annotation);
                     this.insertAnnotationAtCorrectPosition(annotation, 'User');
                 }
+                this.setAnnotationVisibilityFromState();
                 this.saveUserAnnotations();
             } catch {
                 // ignore malformed data
