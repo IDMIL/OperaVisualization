@@ -15,7 +15,7 @@ jobs:
       - name: Pre-process data
         run: |
           cd Input\ Processing
-          pip install openpyxl deepl fitz Pillow
+          pip install openpyxl deepl PyMuPDF Pillow
           python parse_annotations_xlsx.py
           python getBarMappingsDummyMeasurebounds.py
           python split_graphical_pdfs.py

@@ -8,7 +8,7 @@ Output: site/data/pages/Act<act>/annotated/sheet<start_sheet + page_index>.png
 import csv
 import os
 import sys
-import fitz  # pymupdf
+import pymupdf
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
@@ -39,10 +39,10 @@ def main():
         out_dir = os.path.join(PAGES_DIR, f"Act{act}", "annotated")
         os.makedirs(out_dir, exist_ok=True)
 
-        doc = fitz.open(pdf_path)
+        doc = pymupdf.open(pdf_path)
         print(f"{pdf_filename}: {len(doc)} pages -> Act{act}/annotated/ starting at sheet{start_sheet}")
 
-        matrix = fitz.Matrix(DPI / 72, DPI / 72)
+        matrix = pymupdf.Matrix(DPI / 72, DPI / 72)
 
         for page_index, page in enumerate(doc):
             sheet_number = start_sheet + page_index
