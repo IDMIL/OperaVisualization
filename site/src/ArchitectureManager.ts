@@ -1,5 +1,6 @@
 import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
 import {architecture} from "./data/architecture";
+import {globals} from "./globals";
 
 export class ArchitectureManager extends TimeManagerListener {
     constructor(tm: TimeManager) {
@@ -44,7 +45,7 @@ export class ArchitectureManager extends TimeManagerListener {
             this.currentScene = this.timeManager.getCurrentScene();
             const archHeader = document.getElementById("architecture-list-header");
             if (archHeader !== null) {
-                archHeader.innerText = sceneArchitecture.scene_name;
+                archHeader.innerText = sceneArchitecture.scene_name[globals.language];
             }
 
             const archList = document.getElementById("architecture-list-inner");
@@ -56,9 +57,9 @@ export class ArchitectureManager extends TimeManagerListener {
                 const archListItem = document.createElement('div');
                 archListItem.classList.add('architecture-list-item');
                 if (annotation.range[0] === annotation.range[1]) {
-                    archListItem.innerText = annotation.annotation + ' m. ' + annotation.range[0];
+                    archListItem.innerText = annotation.annotation[globals.language] + ' m. ' + annotation.range[0];
                 } else {
-                    archListItem.innerText = annotation.annotation + ' (m. ' + annotation.range[0] + '‒' + annotation.range[1] + ')';
+                    archListItem.innerText = annotation.annotation[globals.language] + ' (m. ' + annotation.range[0] + '‒' + annotation.range[1] + ')';
                 }
                 archListItem.onclick = () => {
                     this.timeManager.goToTime(this.currentAct, annotation.range[0],
