@@ -113,7 +113,7 @@ function setupRowResizer() {
 
         function onMouseMove(e: MouseEvent) {
             const newHeight = Math.min(maxHeight, Math.max(60, startHeight + (e.clientY - startY)));
-            topPanel.style.flexBasis = `${newHeight}px`;
+            topPanel.style.flex = `0 1 ${newHeight}px`;
         }
 
         function onMouseUp() {
