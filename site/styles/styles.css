@@ -628,6 +628,15 @@ button {
 
 #architecture-list {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+#architecture-list-inner {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .annotation-source-label {
@@ -681,12 +690,14 @@ button {
 .graph-annotation-type { background-color: var(--graph-color); }
 
 .info-box-icon {
+    font-size: 0.5em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 1.2em;
     height: 1.2em;
-    border: 1px solid currentColor;
+    border: 0 solid currentcolor;
+    background: var(--color-panel);
     border-radius: 50%;
     margin-left: 0.2em;
     position: relative;
@@ -1080,7 +1091,9 @@ mark.search-highlight {
 }
 
 #video-player-section {
-    /* grid-area was a leftover from an old grid layout; flex handles placement now */
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
 }
 
 /* Responsive 16:9 wrapper — makes the YouTube iframe shrink with the column.
@@ -1238,6 +1251,30 @@ mark.search-highlight {
     width: 2px;
 }
 
+/* ── Row resizer ─────────────────────────────────────── */
+
+#row-resizer {
+    flex: 0 0 9px;
+    cursor: row-resize;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+#row-resizer::after {
+    content: '';
+    height: 1px;
+    width: 100%;
+    background: var(--color-border);
+    transition: background var(--transition), height var(--transition);
+}
+
+#row-resizer:hover::after,
+#row-resizer.dragging::after {
+    background: var(--color-accent);
+    height: 2px;
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 
 /* ── Tutorial bubble ──────────────────────────────────── */
@@ -1377,10 +1414,6 @@ mark.search-highlight {
 
     #score-viewer-image {
         width: 100%;
-    }
-
-    #architecture-list {
-        min-width: 0;
     }
 }
 

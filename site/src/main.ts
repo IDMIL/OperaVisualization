@@ -27,6 +27,7 @@ function buildWindow(lang : LanguageCode ) {
             <div id="column-resizer" aria-hidden="true"></div>
             <div id="architecture-video-column">
               <div class="section" id="architecture-list"></div>
+              <div id="row-resizer" aria-hidden="true"></div>
               <div class="section" id="video-player-section"></div>
             </div>
           </div>
@@ -58,6 +59,7 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.notifyListeners("init");
 
     setupColumnResizer();
+    setupRowResizer();
 
     new Tutorial();
 }
@@ -67,16 +69,49 @@ function setupColumnResizer() {
     const leftPanel = document.getElementById('annotations-section')!;
 
     resizer.addEventListener('mousedown', (e: MouseEvent) => {
-        const startX     = e.clientX;
-        const startWidth = leftPanel.getBoundingClientRect().width;
+        const startX        = e.clientX;
+        const startWidth    = leftPanel.getBoundingClientRect().width;
+        const containerWidth = resizer.parentElement!.getBoundingClientRect().width;
+        const maxWidth      = containerWidth - resizer.offsetWidth - 120;
 
         resizer.classList.add('dragging');
         document.body.style.cursor     = 'col-resize';
         document.body.style.userSelect = 'none';
 
         function onMouseMove(e: MouseEvent) {
-            const newWidth = Math.max(120, startWidth + (e.clientX - startX));
+            const newWidth = Math.min(maxWidth, Math.max(120, startWidth + (e.clientX - startX)));
             leftPanel.style.flexBasis = `${newWidth}px`;
+        }
+
+        function onMouseUp() {
+            resizer.classList.remove('dragging');
+            document.body.style.cursor     = '';
+            document.body.style.userSelect = '';
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup',   onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup',   onMouseUp);
+        e.preventDefault();
+    });
+}
+
+function setupRowResizer() {
+    const resizer  = document.getElementById('row-resizer')!;
+    const topPanel = document.getElementById('architecture-list')!;
+
+    resizer.addEventListener('mousedown', (e: MouseEvent) => {
+        const startY      = e.clientY;
+        const startHeight = topPanel.getBoundingClientRect().height;
+
+        resizer.classList.add('dragging');
+        document.body.style.cursor     = 'row-resize';
+        document.body.style.userSelect = 'none';
+
+        function onMouseMove(e: MouseEvent) {
+            const newHeight = Math.max(60, startHeight + (e.clientY - startY));
+            topPanel.style.flexBasis = `${newHeight}px`;
         }
 
         function onMouseUp() {

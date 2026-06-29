@@ -17,390 +17,261 @@ export interface Architecture {
 export const architecture : Architecture = {
     1: {
         1: {
-            scene_name: "Première Scène: Suite",
+            scene_name: "Première Scène : Suite",
             annotations: [
                 {"annotation": "Prélude", "range": [1, 29]},
                 {"annotation": "Pavane", "range": [30, 50]},
                 {"annotation": "Cadenza pour alto seul", "range": [51, 64]},
                 {"annotation": "Gigue", "range": [65, 108]},
                 {"annotation": "Cadenza pour contrebasson", "range": [109, 114]},
-                {"annotation": "Gavotte", "range": [115, 136]},
+                {"annotation": "Quasi Gavotte", "range": [115, 136]},
                 {"annotation": "Air", "range": [136, 153]},
-                {"annotation": "Reprise", "range": [153, 171]},
+                {"annotation": "Coda", "range": [153, 171]},
                 {"annotation": "Rideau", "range": [172, 172]},
-                {"annotation": "Interlude orchestral —Changement de scéne", "range": [173, 200]},
+                {"annotation": "Interlude orchestral — Changement de scène", "range": [173, 200]},
             ]
         },
         2: {
-            scene_name: "Deuxième Scène: Rhapsodie sur trois accords—Chant de chasseur en trois strophes",
+            scene_name: "Deuxième Scène : Rhapsodie sur trois accords — Chant de chasseur en trois strophes",
             annotations: [
                 {"annotation": "Rhapsodie", "range": [201, 211]},
-                {"annotation": "Chant de chasseur — 1ere strophe", "range": [212, 222]},
+                {"annotation": "Chant de chasseur — 1ère strophe", "range": [212, 222]},
                 {"annotation": "Rhapsodie", "range": [223, 248]},
-                {"annotation": "Chant de chasseur — 2ieme strophe", "range": [249, 257]},
-                {"annotation": "Rhapsodie et Chant de chasseur — 3ieme strophe", "range": [257, 270]},
-                {"annotation": "Rhapsodie", "range": [286, 301]},
-                {"annotation": "Interlude orchestral ;", "range": [302, 329]},
-                {"annotation": "Rideau", "range": [307, 310]},
-                {"annotation": "Changement de scéne", "range": [311, 325]},
+                {"annotation": "Chant de chasseur — 2ième strophe", "range": [249, 256]},
+                {"annotation": "Rhapsodie et Chant de chasseur — 3ième strophe", "range": [257, 270]},
+                {"annotation": "Cataclysme", "range": [271, 299]},
+                {"annotation": "Coda", "range": [300, 310]},
+                {"annotation": "Interlude orchestral — Changement de scène", "range": [311, 325]},
                 {"annotation": "Approche de la musique militaire", "range": [326, 327]},
                 {"annotation": "Levée du rideau", "range": [328, 329]},
+            ]
+        },
+        3: {
+            scene_name: "Troisième Scène : Marche militaire et berceuse",
+            annotations: [
+                {"annotation": "Introduction", "range": [330, 333]},
+                {"annotation": "Marche militaire", "range": [334, 345]},
+                {"annotation": "Quasi Trio", "range": [346, 362]},
+                {"annotation": "Introduction à la berceuse", "range": [363, 371]},
+                {"annotation": "Berceuse — Premier couplet", "range": [372, 379]},
+                {"annotation": "Berceuse — Refrain", "range": [380, 387]},
+                {"annotation": "Berceuse — Deuxième couplet", "range": [388, 395]},
+                {"annotation": "Berceuse — Refrain", "range": [396, 416]},
+                {"annotation": "Coda de la berceuse", "range": [417, 424]},
+                {"annotation": "Arrivée de Wozzeck — Épisode durchkomponiert", "range": [425, 472]},
+                {"annotation": "Interlude orchestral — Changement de scène", "range": [473, 487]},
+            ]
+        },
+        4: {
+            scene_name: "Quatrième Scène : Passacaille",
+            annotations: [
+                {"annotation": "Thème", "range": [488, 495]},
+                {"annotation": "Variation 1", "range": [496, 502]},
+                {"annotation": "Variation 2", "range": [503, 509]},
+                {"annotation": "Variation 3", "range": [510, 516]},
+                {"annotation": "Variation 4", "range": [517, 523]},
+                {"annotation": "Variation 5", "range": [524, 530]},
+                {"annotation": "Variation 6", "range": [531, 537]},
+                {"annotation": "Variation 7", "range": [538, 538]},
+                {"annotation": "Variation 8", "range": [539, 545]},
+                {"annotation": "Variation 9", "range": [546, 552]},
+                {"annotation": "Variation 10", "range": [553, 553]},
+                {"annotation": "Variation 11", "range": [554, 560]},
+                {"annotation": "Variation 12", "range": [561, 561]},
+                {"annotation": "Variation 13", "range": [562, 568]},
+                {"annotation": "Variation 14", "range": [569, 575]},
+                {"annotation": "Variation 15", "range": [576, 582]},
+                {"annotation": "Variation 16", "range": [583, 589]},
+                {"annotation": "Variation 17", "range": [590, 596]},
+                {"annotation": "Variation 18", "range": [597, 610]},
+                {"annotation": "Variation 19", "range": [611, 619]},
+                {"annotation": "Variation 20", "range": [620, 637]},
+                {"annotation": "Variation 21", "range": [638, 645]},
+                {"annotation": "Interlude orchestral — Changement de scène (Andante affettuoso)", "range": [656, 665]},
+            ]
+        },
+        5: {
+            scene_name: "Cinquième Scène : Quasi Rondo",
+            annotations: [
+                {"annotation": "Section 1", "range": [666, 676]},
+                {"annotation": "Section 2", "range": [677, 685]},
+                {"annotation": "Section 3", "range": [686, 693]},
+                {"annotation": "Section 4", "range": [693, 698]},
+                {"annotation": "Pause", "range": [699, 699]},
+                {"annotation": "Section 5", "range": [700, 701]},
+                {"annotation": "Section 6", "range": [702, 709]},
+                {"annotation": "Section 7", "range": [709, 715]},
+            ]
+        }
+    },
+    2: {
+        1: {
+            scene_name: "Premier mouvement : Sonate",
+            annotations: [
+                {"annotation": "Introduction", "range": [1, 6]},
+                {"annotation": "Exposition — Section principale", "range": [7, 28]},
+                {"annotation": "Exposition — Thème 1 (Boucles d'oreilles)", "range": [7, 24]},
+                {"annotation": "Exposition — Transition", "range": [25, 28]},
+                {"annotation": "Exposition — Pont", "range": [29, 42]},
+                {"annotation": "Exposition — Section secondaire", "range": [43, 54]},
+                {"annotation": "Exposition — Thème 2 (Chanson du bohémien)", "range": [43, 48]},
+                {"annotation": "Exposition — Transition", "range": [48, 54]},
+                {"annotation": "Exposition — Coda (Thème du malheur de Wozzeck)", "range": [55, 59]},
+                {"annotation": "Première reprise — Section principale", "range": [60, 80]},
+                {"annotation": "Première reprise — Pont", "range": [81, 89]},
+                {"annotation": "Première reprise — Section secondaire (Thème 2)", "range": [90, 92]},
+                {"annotation": "Première reprise — Coda", "range": [93, 95]},
+                {"annotation": "Développement — Thème 1", "range": [96, 101]},
+                {"annotation": "Développement — Thème du malheur de Wozzeck", "range": [101, 104]},
+                {"annotation": "Développement — Thème 1", "range": [105, 108]},
+                {"annotation": "Développement — Thème du pont", "range": [109, 123]},
+                {"annotation": "Développement — Coda", "range": [124, 127]},
+                {"annotation": "Deuxième reprise — Section principale", "range": [128, 149]},
+                {"annotation": "Deuxième reprise — Thème 1", "range": [128, 139]},
+                {"annotation": "Deuxième reprise — Changement de scène", "range": [141, 149]},
+                {"annotation": "Deuxième reprise — Section secondaire (Thème 1 en augmentation)", "range": [150, 161]},
+                {"annotation": "Deuxième reprise — Coda (Strette)", "range": [162, 165]},
+                {"annotation": "Deuxième reprise — Cadence finale", "range": [165, 166]},
+                {"annotation": "Deuxième reprise — Silence", "range": [167, 169]},
+            ]
+        },
+        2: {
+            scene_name: "Deuxième mouvement : Fantaisie et Fugue",
+            annotations: [
+                {"annotation": "Première partie — Invention sur les Sujets I et II", "range": [171, 200]},
+                {"annotation": "Valse (Aria) — Ritournelle", "range": [201, 207]},
+                {"annotation": "Valse (Aria) — A1", "range": [208, 215]},
+                {"annotation": "Valse (Aria) — Ritournelle", "range": [215, 219]},
+                {"annotation": "Valse (Aria) — B", "range": [219, 231]},
+                {"annotation": "Valse (Aria) — Ritournelle et Transition", "range": [232, 237]},
+                {"annotation": "Valse (Aria) — A2", "range": [238, 244]},
+                {"annotation": "Valse (Aria) — Ritournelle", "range": [245, 247]},
+                {"annotation": "Coda", "range": [248, 272]},
+                {"annotation": "Deuxième partie — Présentation chorale du Sujet III", "range": [273, 285]},
+                {"annotation": "Fugue — Exposition du Sujet I", "range": [286, 292]},
+                {"annotation": "Fugue — Exposition du Sujet II", "range": [293, 296]},
+                {"annotation": "Fugue — Première section du Développement (Sujets I et II)", "range": [297, 312]},
+                {"annotation": "Fugue — Exposition du Sujet III", "range": [313, 316]},
+                {"annotation": "Fugue — Deuxième section du Développement (Sujets I et III)", "range": [317, 334]},
+                {"annotation": "Fugue — Troisième section du Développement (Sujets I, II et III)", "range": [335, 341]},
+                {"annotation": "Fugue — Coda", "range": [341, 345]},
+                {"annotation": "Fugue — Coda", "range": [345, 362]},
+                {"annotation": "Interlude — Changement de scène (Orchestre de chambre)", "range": [366, 371]},
+            ]
+        },
+        3: {
+            scene_name: "Troisième mouvement : Largo",
+            annotations: [
+                {"annotation": "A1 (Orchestre de chambre)", "range": [371, 387]},
+                {"annotation": "B (Orchestre de chambre et orchestre symphonique)", "range": [387, 397]},
+                {"annotation": "A2a (Orchestre de chambre)", "range": [398, 401]},
+                {"annotation": "A2b (Orchestre de chambre et orchestre symphonique)", "range": [402, 405]},
+                {"annotation": "Interlude et Fermeture du rideau", "range": [406, 411]},
+            ]
+        },
+        4: {
+            scene_name: "Quatrième mouvement : Scherzo",
+            annotations: [
+                {"annotation": "Scherzo I — A1", "range": [412, 429]},
+                {"annotation": "Scherzo I — B", "range": [430, 438]},
+                {"annotation": "Scherzo I — A2", "range": [439, 455]},
+                {"annotation": "Trio I — Choral, Strophe I", "range": [456, 464]},
+                {"annotation": "Trio I — Choral, Strophe II", "range": [465, 480]},
+                {"annotation": "Scherzo II — Section 1", "range": [481, 495]},
+                {"annotation": "Scherzo II — Section 2", "range": [496, 503]},
+                {"annotation": "Scherzo II — Section 3", "range": [504, 513]},
+                {"annotation": "Scherzo II — Section 4", "range": [514, 528]},
+                {"annotation": "Scherzo II — Section 5", "range": [529, 538]},
+                {"annotation": "Scherzo II — Section 6", "range": [539, 545]},
+                {"annotation": "Scherzo II — Section 7", "range": [546, 560]},
+                {"annotation": "Trio II — A1 : Chœur de chasse", "range": [561, 577]},
+                {"annotation": "Trio II — Chanson d'Andres", "range": [577, 580]},
+                {"annotation": "Trio II — A2 : Chœur de chasse", "range": [581, 591]},
+                {"annotation": "Scherzo I (quasi reprise) — A", "range": [592, 602]},
+                {"annotation": "Scherzo I (quasi reprise) — B", "range": [602, 604]},
+                {"annotation": "Trio I (quasi reprise) — Variation de choral", "range": [605, 633]},
+                {"annotation": "Trio I (quasi reprise) — Transition (Orchestre symphonique)", "range": [634, 649]},
+                {"annotation": "Trio I (quasi reprise) — Transition (Orchestre de chambre — le Fou)", "range": [650, 669]},
+                {"annotation": "Scherzo II (quasi reprise)", "range": [671, 684]},
+                {"annotation": "Interlude symphonique — Changement de scène", "range": [685, 736]},
+            ]
+        },
+        5: {
+            scene_name: "Cinquième mouvement : Introduction et Rondo",
+            annotations: [
+                {"annotation": "Introduction", "range": [737, 760]},
+                {"annotation": "Rondo marziale — A1 (Premier refrain)", "range": [761, 768]},
+                {"annotation": "Rondo marziale — A2", "range": [768, 775]},
+                {"annotation": "Rondo marziale — B1", "range": [776, 785]},
+                {"annotation": "Rondo marziale — A3 (Deuxième refrain)", "range": [785, 788]},
+                {"annotation": "Rondo marziale — C", "range": [789, 799]},
+                {"annotation": "Rondo marziale — B2", "range": [800, 804]},
+                {"annotation": "Rondo marziale — A4", "range": [805, 814]},
+                {"annotation": "Rondo marziale — Silence", "range": [815, 818]},
+            ]
+        }
+    },
+    3: {
+        1: {
+            scene_name: "Première scène : Invention sur un Thème",
+            annotations: [
+                {"annotation": "Silence (Ouverture du rideau)", "range": [1, 2]},
+                {"annotation": "Thème", "range": [3, 9]},
+                {"annotation": "Variation 1", "range": [10, 16]},
+                {"annotation": "Variation 2", "range": [17, 18]},
+                {"annotation": "Variation 3", "range": [19, 25]},
+                {"annotation": "Variation 4", "range": [26, 32]},
+                {"annotation": "Variation 5", "range": [33, 39]},
+                {"annotation": "Variation 6", "range": [40, 44]},
+                {"annotation": "Variation 7", "range": [45, 51]},
+                {"annotation": "Fugue — Exposition — Sujet I", "range": [52, 57]},
+                {"annotation": "Fugue — Exposition — Sujet II", "range": [57, 62]},
+                {"annotation": "Fugue — Strette", "range": [62, 64]},
+                {"annotation": "Fugue — Changement de scène", "range": [64, 70]},
+                {"annotation": "Codetta", "range": [71, 72]},
+            ]
+        },
+        2: {
+            scene_name: "Deuxième scène : Invention sur une note",
+            annotations: [
+                {"annotation": "Section 1", "range": [73, 76]},
+                {"annotation": "Section 2", "range": [77, 80]},
+                {"annotation": "Section 3", "range": [80, 85]},
+                {"annotation": "Section 4", "range": [86, 91]},
+                {"annotation": "Section 5", "range": [92, 96]},
+                {"annotation": "Section 6", "range": [97, 108]},
+                {"annotation": "Interlude — Changement de scène", "range": [109, 121]},
+            ]
+        },
+        3: {
+            scene_name: "Troisième scène : Invention sur un rythme",
+            annotations: [
+                {"annotation": "Polka", "range": [122, 144]},
+                {"annotation": "Chanson de Wozzeck et reprise de la Polka", "range": [145, 168]},
+                {"annotation": "Chanson de Margret", "range": [168, 179]},
+                {"annotation": "Canon rythmique", "range": [180, 186]},
+                {"annotation": "Strette", "range": [186, 212]},
+                {"annotation": "Interlude — Changement de scène", "range": [212, 219]},
+            ]
+        },
+        4: {
+            scene_name: "Quatrième scène : Invention sur un accord de six sons",
+            annotations: [
+                {"annotation": "Section 1", "range": [220, 256]},
+                {"annotation": "Section 2", "range": [257, 284]},
+                {"annotation": "Section 3", "range": [284, 301]},
+                {"annotation": "Section 4", "range": [301, 319]},
+                {"annotation": "Interlude en Ré mineur — Changement de scène", "range": [320, 371]},
+            ]
+        },
+        5: {
+            scene_name: "Cinquième scène : Invention sur un mouvement perpétuel de croches",
+            annotations: [
+                {"annotation": "Section 1 : Ronde enfantine", "range": [371, 375]},
+                {"annotation": "Section 2 : Dialogue parlé des enfants", "range": [375, 379]},
+                {"annotation": "Section 3 : L'enfant de Marie", "range": [380, 388]},
+                {"annotation": "Coda", "range": [388, 392]},
             ]
         }
     }
 };
-
-/*
-
-PREMIER ACTE
-
-Cing «piéces de caractére»
-Prélude m, 1-29
-Pavane m. 30-50
-Cadenza pour alto seul m, 51-64
-Gigue m. 65-108
-Cudenza pour contrebasson m, 109-114
-Gavotte m. 115-136
-Air m. 136-153
-Reprise m. 153-171
-Rideau m, | 72
-Interlude orchestral —Changement de scéne m. 173-200
-
-Rhapsodie m. 201-211
-Chant de chasseur—1"" strophe m. 212-222
-Rhapsodie m. 223-248
-Chant de chasseur — 2°" strophe m. 249-257
-Rhapsodie et Chant de chasseur — 3 strophe m, 257-270,
-    Rhapsodie m. 286-301
-Interlude orchestral ; m, 302-329
-Rideau m. 307-310
-Changement de scéne m. 341-325
-Approche de la musique militaire m, 326-327
-Levée du rideau m, 328-329
-et
-Introduction (Fanfare a la fenétre) m, 330-333
-Marche militaire (en vue) m, 334-335 FF]
-Quasi-trio m, 346-351
-Da capo m, 362-363
-Introduction 4 la berceuse m. 363-371
-Berceuse — |“ strophe] =| m. 372-387
-Berceuse —2™ strophe J— | m. 388-416
-Code et transition m, 417-427
-Episode Durchkomponiert m, 427-472
-
-Rideau m. 473
-Interlude — Changement de scéne m. 473-487
-Levée du ridean m, 488
-
-Quatri¢me Scéne : Passacaille
-
-Théme m, 488-495
-Variation | m, 496-502
-Variation 2 m, 503-509
-Variation 3 m, 510-516
-Variation 4 m, 517-523
-Variation 5 m. 524-530
-Variation 6 m. 531-537
-Variation 7 m. 538
-
-Variation 8 m. 539-545
-Variation 9 m, 546-552
-Variation 10 m. 553
-
-Variation |! m. 554-560
-Variation |2 m. 561
-
-Variation 13 m, 562-568
-Variation 14 m. 569-575
-Variation 15 m. 576-582
-Variation 16 m. 583-589
-Variation |7 m. 590-596,
-    Variation 18 m. 597-610
-Variation 19 m, 611-619
-Variation 20 m. 620-637
-Variation 21 m, 638-644
-Rideau m. 645-655
-
-Cinguiéme mouvement : Andante affetuoso (quasi-rondo)
-
-Section ! —Changement de scéne m. 636-665
-Rideau m. 666
-
-Section 2 m. 666-676
-Section 3 m. 677-684
-Section 4 m, 685-693
-Section 5 m. 693-698
-Pause m. 699
-
-Section 6 m. 700-701
-Section 7 m. 702-709
-Section 8 m, 709-715
-
-Section 9 m. 715-717
-
-(0).
-    DEUXIEME ACTE
-Symphonie en cing mouvements
-
-Introduction
-Exposition
-
-Coda
-Premiere reprise
-Section principale
-
-Pont
-Section secondaire (Théme en Cnioution~]
-
-aa
-
-Développement
-Théme principal
-Théme de la Coda! =]
-Théme du po a
-Transition
-~ Théme
-~ Rideau
-
-+ Strette — Changement de seéne
-
-Section secondaire (Théme en augmentation)
-Coda
-
-Cadence finale
-Levée du rideau
-
-m. 1-6
-
-m. 7-59
-
-m, 7-28
-m. 7-8
-m. 7-24
-m. 25-28
-
-m, 29-42
-
-m, 43-54
-im. 43- 48
-m. 49-$4
-
-m, 33-39
-
-m. 60-95
-
-m. 60-80
-m. 81-89
-m, 90-92
-m, 93-95
-
-m. 96-124
-
-m. 96-101
-m. bret]
-m. 109-12
-
-m, 124-127
-m. 128-165
-
-m. 128-149
-m. 128-139
-
-m. 140
-
-m. 141-149
-
-m. 150-16]
-m. 162-165
-
-m. 166-169
-m. 170
-
-102.
-Deuxiéme mouvement : Fantaisie et Fugue
-
-Premiére partic m. 171-271
-Invention sur les sujets | et I m. 171-202
-Valse (Aria) m, 202-247
-~ Ritornelle m, 202-207
--Al m, 208-215
-~ Rifornelle m, 215-219
--B m, 219-231
-~ Ritornella et transition m, 232-238
--AQ m. 238-245
-~ Ritornella m, 245-247
-Coda m. 248-271
-Deuxiéme partic ; Présentation chorale du Sujet MM m. 271-285
-Troisiéme partie : Fugue m. 286-345
-Exposition du Sujet | m, 286-292
-Exposition du Sujet I m. 293-297
-Premiére section du Développement (Sujets | ot I) m. 298-312
-Exposition du Sujet I m. 313-317
-Deuxiéme section du Développement (Sujets | et Ill) m. 317-333
-Troisiéme section du Développement (Sujets 1, Tl et Hi) m, 334-341
-Coda m. 341-345
-Coda m. 345-362
-Interlude m. 362-368
-Rideau m. 362-365
-Changement de scéns m. 366-368
-Troisia I
-Al (Orchestre de chambre) m. 376-387
-Levée du rideau m, 372
-B (Orchestre de chambre et Orchestre symphanique) m, 387-397
-A2a (Orchestre de chambre) m. 398-402
-A2b (Orchestre de chambre et Orchestre Symphonique)} m, 402-406
-Interlude et rideau —Changement de scéne m, 406-411
-
-103.
-Scherzo | ( Landler)
-Al
-B
-
-A2
-
-> Levée du rideau
-
-+ Orchestre de I'suberge
-
-    = Transition (Orchestre symphonique)
-
-Trio I (Orchestre symphonique)
-Strophe |
-2 Strophe
-
-Scherzo Ml (Valse) (Orchestre de 'suberge)
-Section |
-Section 2
-Section 3
-Section 4
-Section 5
-Section 6
-Section 7
-
-Trio H
-Al ; Checur de chasse
-B : Chanson d’ Andres
-A2.: Cheeur de chasse
-
-Scherzo | (Quasi-reprise du Landler)
-A (Ostinato T)
-B
-
-Trio | (Quasi-reprise)
-Variation chorale (Orchestre de l’auberge)
-Transition
-- (Orchestre symphonique)
-- (Orchestre de |"auberge)
-
-Scherzo Il (Quasi-reprise de la Valse} (les deux Orchestres) (Ostinato IT)
-Rideau rapide
-interlude symphonique — Changement de scéne
-
-m, 412-455
-m. 412-429
-m, 430-438
-m. 439-447
-m, 439-442
-m, 443-447
-m, 447-455
-
-m. 456-480
-m, 456-464
-m. 465-480
-
-m, 481-560
-m, 481-495
-m, 496-503
-m. 504-513
-m. 514-528
-m, 529-$38
-m. §39-545
-m, 546-560
-
-m. 561-59!
-m. 561-577
-m. 577-580
-m. 581-591"
-
-ey png
-m. 603-604]
-
-m. 605-669
-m. 605-633
-m. 634-669
-
-m. 634-65
-m. 6
-
-m. 671-684
-m. 684
-
-m, 685-736
-
-(04.
-    Cinquiéme mouvement : Introduction et Rondo
-
-Introduction m. 737-760
-(Levée lente du Rideau) m, 740-741
-Rondo marziale m. 761-818
-A m. 761-768
-A | ee
-BI m. 776-785
-A3 m. 785-788
-Cc EJ m. 789-799
-B2 m. 800-804
-A4 m. 805-814
-Silence m. 815-818
-Rideau m. 817-818
-TROISIEME ACTE
-Cing inventions
-Silence m. 1-2
-(Levée du rideau) m. 1 .
-    Premiére seéne : Invention sur un théme
-Theme m, 3-9
-Variation | m. 10-16
-Variation 2 m. 17-18
-Variation 3 m, 19-25
-Variation 4 m. 26-32
-Variation 5 m, 33-39
-Variation 6 m, 40-44
-Variation 7 m. 45-51
-Fugue m, §2-72
-Exposition (Sujet !) m, $2-57
-Exposition (Sujet Hi) m, 57-62
-Strette m, 62-70
-~ Rideau lent m. 62-64
-~ Changement de scéne m. 64-70
-Cadetia (levée du rideau) m, 71-72
-
-    [05
-Section | m, 73-76
-Section 2 m, 76-80
-Section 3 m, 80-85
-Section 4 m, 86-92
-Section 5 m, 92-96
-Section 6 m, 97-108
-Rideau m, 108
-Interlude—Changement de scene m. 109-121
-Troisid nes]
-Levée rapide du rideau m..122
-Polka (pianino) m. 122-145
-Chanson de Wozzeck et reprise de la Polka m, 145-168
-Chanson de Margret (piunino) m. 169-179
-Canon rythmique m. 180-186
-Strette m. 186-212
-Rideau rapide m, 211 °
-Changement de scéne m. 212-218
-Levée du rideau m. 219
-
-Premiére partie m, 220-256
-Deuxiéme partie m, 257-284
-Troisi¢me partic m, 284-30)
-Quatriéme partie m, 301-317
-Rideau m, 318-319
-Interlude en Ré mineur— Changement de scéne m. 370-37)
-Levée du rideau m. 371
-
-: Invention sur un mouvement uel deo m. 372-392
-
-Rideau m. 390-392*/
