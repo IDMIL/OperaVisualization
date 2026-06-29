@@ -102,15 +102,17 @@ function setupRowResizer() {
     const topPanel = document.getElementById('architecture-list')!;
 
     resizer.addEventListener('mousedown', (e: MouseEvent) => {
-        const startY      = e.clientY;
-        const startHeight = topPanel.getBoundingClientRect().height;
+        const startY         = e.clientY;
+        const startHeight    = topPanel.getBoundingClientRect().height;
+        const containerHeight = resizer.parentElement!.getBoundingClientRect().height;
+        const maxHeight      = containerHeight - resizer.offsetHeight - 200;
 
         resizer.classList.add('dragging');
         document.body.style.cursor     = 'row-resize';
         document.body.style.userSelect = 'none';
 
         function onMouseMove(e: MouseEvent) {
-            const newHeight = Math.max(60, startHeight + (e.clientY - startY));
+            const newHeight = Math.min(maxHeight, Math.max(60, startHeight + (e.clientY - startY)));
             topPanel.style.flexBasis = `${newHeight}px`;
         }
 
