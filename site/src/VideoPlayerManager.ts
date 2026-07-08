@@ -13,6 +13,7 @@ export class VideoPlayerManager extends TimeManagerListener {
     private videos: Array<{ id: string, name: string }> = [
         { id: "jVmWimEX1gw", name: "Alban Berg – Wozzeck" },
         { id: "rHFFPyU41_0", name: "Wozzeck (1970 film)" },
+        { id: "ALrEeDWSBXQ", name: "Sung in English"}
     ];
 
     constructor(tm : TimeManager) {
