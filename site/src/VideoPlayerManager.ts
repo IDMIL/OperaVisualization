@@ -40,7 +40,12 @@ export class VideoPlayerManager extends TimeManagerListener {
             });
             videoSelect.addEventListener("change", () => {
                 this.selectedVideoId = videoSelect.value;
-                this.player?.loadVideoById?.(videoSelect.value);
+                const scoreTime = this.timeManager.scoreTime;
+                const seconds = recordingTimestamps[this.selectedVideoId]?.[scoreTime.act]?.[scoreTime.bar] ?? 0;
+                if (this.player?.getPlayerState?.() !== 1) {
+                    this.pendingPause = true;
+                }
+                this.player?.loadVideoById?.(videoSelect.value, seconds);
             });
             headerRow.appendChild(videoSelect);
 
