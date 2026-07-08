@@ -1100,6 +1100,36 @@ mark.search-highlight {
     flex-direction: column;
 }
 
+#video-player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.video-select {
+    max-width: 55%;
+    padding: 4px 8px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.video-select:hover {
+    border-color: var(--color-accent);
+}
+
+.video-select:focus {
+    border-color: var(--color-accent);
+    background: var(--color-panel);
+}
+
 /* Fill remaining height so the iframe never overflows its container.
    The video content maintains its own aspect ratio inside the iframe. */
 #yt-player {

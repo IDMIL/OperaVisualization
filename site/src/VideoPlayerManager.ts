@@ -10,15 +10,40 @@ declare global {
 export class VideoPlayerManager extends TimeManagerListener {
     timeManager: TimeManager;
 
+    private videos: Array<{ id: string, name: string }> = [
+        { id: "jVmWimEX1gw", name: "Alban Berg – Wozzeck" },
+        { id: "rHFFPyU41_0", name: "Wozzeck (1970 film)" },
+    ];
+
     constructor(tm : TimeManager) {
         super();
         this.timeManager = tm;
 
         const videoPlayer = document.getElementById("video-player-section");
         if (videoPlayer) {
+            const headerRow = document.createElement("div");
+            headerRow.id = "video-player-header";
+
             const header = document.createElement("h2");
             header.innerText = text.VIDEO_PLAYER[globals.language];
-            videoPlayer.appendChild(header);
+            headerRow.appendChild(header);
+
+                const videoSelect = document.createElement("select");
+            videoSelect.id = "video-select";
+            videoSelect.className = "video-select";
+            this.videos.forEach((video) => {
+                const option = document.createElement("option");
+                option.value = video.id;
+                option.innerText = video.name;
+                videoSelect.appendChild(option);
+            });
+            videoSelect.addEventListener("change", () => {
+                this.selectedVideoId = videoSelect.value;
+                this.player?.loadVideoById?.(videoSelect.value);
+            });
+            headerRow.appendChild(videoSelect);
+
+            videoPlayer.appendChild(headerRow);
 
             const playerDiv = document.createElement("div");
             playerDiv.id = "yt-player";
@@ -31,7 +56,7 @@ export class VideoPlayerManager extends TimeManagerListener {
 
         window.onYouTubeIframeAPIReady = () => {
             this.player = new window.YT.Player("yt-player", {
-                videoId: "jVmWimEX1gw",
+                videoId: this.videos[0].id,
                 playerVars: { playsinline: 1 },
                 events: {
                     onStateChange: (event: any) => this.onPlayerStateChange(event),
@@ -43,6 +68,7 @@ export class VideoPlayerManager extends TimeManagerListener {
 
     private pendingPause: boolean = false;
     private pendingSeekSeconds: number | null = null;
+    private selectedVideoId: string = this.videos[0].id;
 
     onPlayerStateChange(event: any) {
         if (event.data === 1 && this.pendingPause) {
@@ -60,10 +86,11 @@ export class VideoPlayerManager extends TimeManagerListener {
             const time : number | null =  this.player?.getCurrentTime() ?? null;
             let gotoAct = 1;
             let gotoBar = 1;
-            if (time !== null) {
-                for (const act in recordingTimestamps) {
-                    for (const bar in recordingTimestamps[act]) {
-                        if (recordingTimestamps[act][bar] > time) {
+            const timestamps = recordingTimestamps[this.selectedVideoId];
+            if (time !== null && timestamps) {
+                for (const act in timestamps) {
+                    for (const bar in timestamps[act]) {
+                        if (timestamps[act][bar] > time) {
                             this.timeManager.goToTime(gotoAct, gotoBar, "video-playhead");
                             return;
                         }
@@ -91,7 +118,10 @@ export class VideoPlayerManager extends TimeManagerListener {
 
     async timeUpdated(scoreTime: ScoreTime, updateSource: UpdateSource) {
         if (updateSource !== "video-playhead") {
-            this.seekTo(recordingTimestamps[scoreTime.act]?.[scoreTime.bar]);
+            const seconds = recordingTimestamps[this.selectedVideoId]?.[scoreTime.act]?.[scoreTime.bar];
+            if (seconds !== undefined) {
+                this.seekTo(seconds);
+            }
         }
     }
     private player: any = null;
