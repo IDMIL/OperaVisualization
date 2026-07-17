@@ -12,9 +12,11 @@ import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 import {Tutorial} from "./Tutorial";
 import {SectionRect} from "./SectionManager";
+import {PanelVisibilityManager} from "./PanelVisibilityManager";
 
 const HEADER_HEIGHT = 50;
 const TIMELINES_HEIGHT = 80;
+const VISIBILITY_BAR_HEIGHT = 40;
 const GAP = 10;
 
 // Default on-screen rectangle for each section. These are only a starting
@@ -22,7 +24,8 @@ const GAP = 10;
 // the exact numbers just need to produce a sane initial arrangement.
 function computeDefaultRects(): { [sectionId: string]: SectionRect } {
     const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    // Reserve space at the bottom for the fixed panel-visibility bar.
+    const vh = window.innerHeight - VISIBILITY_BAR_HEIGHT;
 
     const contentTop = HEADER_HEIGHT + TIMELINES_HEIGHT + GAP;
 
@@ -52,6 +55,9 @@ function computeDefaultRects(): { [sectionId: string]: SectionRect } {
         "score-viewer-section": {
             top: contentTop, left: rightColumnLeft, width: rightColumnWidth, height: vh - contentTop - GAP
         },
+        "panel-visibility-bar": {
+            top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
+        },
     };
 }
 
@@ -67,6 +73,7 @@ function buildWindow(lang : LanguageCode ) {
     <div class="section" id="architecture-list"></div>
     <div class="section" id="video-player-section"></div>
     <div class="section" id="score-viewer-section"></div>
+    <div class="section" id="panel-visibility-bar"></div>
   </div>
     `;
 
@@ -82,6 +89,7 @@ function buildWindow(lang : LanguageCode ) {
     let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);
     let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
     new TitleSectionManager(rects["title-section"]);
+    new PanelVisibilityManager(rects["panel-visibility-bar"]);
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(transportManager);

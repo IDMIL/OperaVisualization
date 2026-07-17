@@ -250,6 +250,51 @@ button {
     letter-spacing: normal;
 }
 
+/* ── Panel visibility bar ──────────────────────────────
+   Pinned to the bottom of the page like the title bar is pinned to the top
+   (not draggable) — always reachable, so give it a high z-index in case a
+   movable panel gets dragged over it. */
+
+#panel-visibility-bar {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 50;
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+#panel-visibility-heading {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    flex-shrink: 0;
+}
+
+.panel-visibility-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-text);
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.panel-visibility-toggle input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+}
+
 /* ── Timelines ───────────────────────────────────────── */
 
 #timelines-section {
