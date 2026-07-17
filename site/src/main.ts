@@ -11,6 +11,49 @@ import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 import {Tutorial} from "./Tutorial";
+import {SectionRect} from "./SectionManager";
+
+const HEADER_HEIGHT = 50;
+const TIMELINES_HEIGHT = 80;
+const GAP = 10;
+
+// Default on-screen rectangle for each section. These are only a starting
+// point — every section's edges are independently draggable afterward, so
+// the exact numbers just need to produce a sane initial arrangement.
+function computeDefaultRects(): { [sectionId: string]: SectionRect } {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const contentTop = HEADER_HEIGHT + TIMELINES_HEIGHT + GAP;
+
+    const leftColumnWidth = Math.round(vw * 0.4);
+    const rightColumnLeft = leftColumnWidth + GAP;
+    const rightColumnWidth = vw - rightColumnLeft;
+
+    const transportHeight = 130;
+    const annotationsTop = contentTop + transportHeight + GAP;
+    const annotationsWidth = Math.round(leftColumnWidth * 0.55);
+    const archVideoLeft = annotationsWidth + GAP;
+    const archVideoWidth = leftColumnWidth - archVideoLeft;
+    const archListHeight = Math.round((vh - annotationsTop - GAP) * 0.4);
+    const videoTop = annotationsTop + archListHeight + GAP;
+
+    return {
+        "title-section": {top: 0, left: 0, width: vw, height: HEADER_HEIGHT},
+        "timelines-section": {top: HEADER_HEIGHT, left: 0, width: vw, height: TIMELINES_HEIGHT},
+        "transport-section": {top: contentTop, left: 0, width: leftColumnWidth, height: transportHeight},
+        "annotations-section": {
+            top: annotationsTop, left: 0, width: annotationsWidth, height: vh - annotationsTop - GAP
+        },
+        "architecture-list": {top: annotationsTop, left: archVideoLeft, width: archVideoWidth, height: archListHeight},
+        "video-player-section": {
+            top: videoTop, left: archVideoLeft, width: archVideoWidth, height: vh - videoTop - GAP
+        },
+        "score-viewer-section": {
+            top: contentTop, left: rightColumnLeft, width: rightColumnWidth, height: vh - contentTop - GAP
+        },
+    };
+}
 
 function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
@@ -19,34 +62,26 @@ function buildWindow(lang : LanguageCode ) {
   <div id="layout-sections">
     <div class="section" id="title-section"></div>
     <div class="section" id="timelines-section"></div>
-    <div class="main-area">
-        <div class="main-area-left">
-          <div class="section" id="transport-section"></div>
-          <div id="analysis-tabs">
-            <div class="section" id="annotations-section"></div>
-            <div id="column-resizer" aria-hidden="true"></div>
-            <div id="architecture-video-column">
-              <div class="section" id="architecture-list"></div>
-              <div id="row-resizer" aria-hidden="true"></div>
-              <div class="section" id="video-player-section"></div>
-            </div>
-          </div>
-        </div>
-      <div class="section" id="score-viewer-section"></div>
-    </div>
+    <div class="section" id="transport-section"></div>
+    <div class="section" id="annotations-section"></div>
+    <div class="section" id="architecture-list"></div>
+    <div class="section" id="video-player-section"></div>
+    <div class="section" id="score-viewer-section"></div>
   </div>
     `;
 
+    const rects = computeDefaultRects();
+
     let timeManager = new TimeManager();
 
-    let scoreManager = new ScoreManager(timeManager);
-    let transportManager = new TransportManager(timeManager);
-    let timelineManager = new TimelineManager(timeManager);
-    let annotationManager = new AnnotationManager(timeManager);
+    let scoreManager = new ScoreManager(timeManager, rects["score-viewer-section"]);
+    let transportManager = new TransportManager(timeManager, rects["transport-section"]);
+    let timelineManager = new TimelineManager(timeManager, rects["timelines-section"]);
+    let annotationManager = new AnnotationManager(timeManager, rects["annotations-section"]);
     let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
-    let architectureManager = new ArchitectureManager(timeManager);
-    let videoPlayerManager = new VideoPlayerManager(timeManager);
-    new TitleSectionManager();
+    let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);
+    let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
+    new TitleSectionManager(rects["title-section"]);
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(transportManager);
@@ -58,76 +93,7 @@ function buildWindow(lang : LanguageCode ) {
 
     timeManager.notifyListeners("init");
 
-    setupColumnResizer();
-    setupRowResizer();
-
     new Tutorial();
-}
-
-function setupColumnResizer() {
-    const resizer   = document.getElementById('column-resizer')!;
-    const leftPanel = document.getElementById('annotations-section')!;
-
-    resizer.addEventListener('mousedown', (e: MouseEvent) => {
-        const startX        = e.clientX;
-        const startWidth    = leftPanel.getBoundingClientRect().width;
-        const containerWidth = resizer.parentElement!.getBoundingClientRect().width;
-        const maxWidth      = containerWidth - resizer.offsetWidth - 120;
-
-        resizer.classList.add('dragging');
-        document.body.style.cursor     = 'col-resize';
-        document.body.style.userSelect = 'none';
-
-        function onMouseMove(e: MouseEvent) {
-            const newWidth = Math.min(maxWidth, Math.max(120, startWidth + (e.clientX - startX)));
-            leftPanel.style.flexBasis = `${newWidth}px`;
-        }
-
-        function onMouseUp() {
-            resizer.classList.remove('dragging');
-            document.body.style.cursor     = '';
-            document.body.style.userSelect = '';
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup',   onMouseUp);
-        }
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup',   onMouseUp);
-        e.preventDefault();
-    });
-}
-
-function setupRowResizer() {
-    const resizer  = document.getElementById('row-resizer')!;
-    const topPanel = document.getElementById('architecture-list')!;
-
-    resizer.addEventListener('mousedown', (e: MouseEvent) => {
-        const startY         = e.clientY;
-        const startHeight    = topPanel.getBoundingClientRect().height;
-        const containerHeight = resizer.parentElement!.getBoundingClientRect().height;
-        const maxHeight      = containerHeight - resizer.offsetHeight - 200;
-
-        resizer.classList.add('dragging');
-        document.body.style.cursor     = 'row-resize';
-        document.body.style.userSelect = 'none';
-
-        function onMouseMove(e: MouseEvent) {
-            const newHeight = Math.min(maxHeight, Math.max(60, startHeight + (e.clientY - startY)));
-            topPanel.style.flex = `0 1 ${newHeight}px`;
-        }
-
-        function onMouseUp() {
-            resizer.classList.remove('dragging');
-            document.body.style.cursor     = '';
-            document.body.style.userSelect = '';
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup',   onMouseUp);
-        }
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup',   onMouseUp);
-        e.preventDefault();
-    });
 }
 
 // Expose to window so index.html can call it

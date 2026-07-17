@@ -1,23 +1,25 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager} from "./TimeManager";
 import {bar_to_page, BarInfo} from "./data/barToPage";
+import {SectionManager, SectionRect} from "./SectionManager";
 
-export class ScoreManager extends TimeManagerListener {
+export class ScoreManager extends SectionManager {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
     private rebuildTimer: ReturnType<typeof setTimeout> | null = null;
 
-    constructor(tm : TimeManager) {
-        super();
+    constructor(tm : TimeManager, rect: SectionRect) {
+        super("score-viewer-section", rect);
         this.currentPage = undefined;
         this.currentAct = undefined;
         this.timeManager = tm;
 
-        const scoreViewer = document.getElementById("score-viewer-section");
+        const scoreViewer = this.element;
         if (scoreViewer) {
             scoreViewer.innerHTML = `
             <div id="image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
+            this.initResizeHandles();
         }
 
         // Recalculate overlay positions whenever the score image is resized.

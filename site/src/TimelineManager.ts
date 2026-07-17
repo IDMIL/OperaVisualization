@@ -1,12 +1,13 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager} from "./TimeManager";
 import {scene_bar_ranges} from "./data/sceneBarRanges";
 import {getRomanNumerals, globals} from "./globals";
 import {text} from "./data/text";
 import {act_starting_pages, bar_to_page} from "./data/barToPage";
+import {SectionManager, SectionRect} from "./SectionManager";
 
-export class TimelineManager extends TimeManagerListener {
-    constructor(tm : TimeManager) {
-        super();
+export class TimelineManager extends SectionManager {
+    constructor(tm : TimeManager, rect: SectionRect) {
+        super("timelines-section", rect);
         this.timeManager = tm;
 
         let actLengths = [];
@@ -17,7 +18,7 @@ export class TimelineManager extends TimeManagerListener {
             actLengths.push(l);
         }
 
-        let timelineSection = document.getElementById("timelines-section");
+        let timelineSection = this.element;
         if (timelineSection === null) {
             return;
         }
@@ -179,6 +180,8 @@ export class TimelineManager extends TimeManagerListener {
                 this.#getBarAtProportionOfCurrentScene(clickProportion),
                 'timeline-click');
         });
+
+        this.initResizeHandles();
     }
 
     async timeUpdated(_ : ScoreTime) {
