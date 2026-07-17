@@ -25,19 +25,28 @@ function clamp(value: number, min: number, max: number): number {
 export abstract class SectionManager extends TimeManagerListener {
     protected readonly element: HTMLElement | null;
     private readonly resizable: boolean;
+    private readonly autoHeight: boolean;
 
     // `resizable` lets a subclass opt out of the four draggable edges (e.g.
     // the title bar, which stays pinned to the top of the page like before).
-    protected constructor(sectionId: string, defaultRect: SectionRect, resizable: boolean = true) {
+    // `autoHeight` (only meaningful when !resizable) sizes the section to
+    // fit its content instead of a fixed pixel height, for chrome whose
+    // content can wrap onto more lines at smaller widths (e.g. the title
+    // bar's links row) — without it the bar would clip that extra content.
+    protected constructor(
+        sectionId: string, defaultRect: SectionRect, resizable: boolean = true, autoHeight: boolean = false
+    ) {
         super();
         this.resizable = resizable;
+        this.autoHeight = autoHeight;
         this.element = document.getElementById(sectionId);
         if (this.element === null) {
             return;
         }
-        if (this.resizable) {
-            this.element.classList.add("draggable-section");
-        }
+        // Pinned chrome (title bar, panel-visibility bar) always renders above
+        // movable panels — see .pinned-section — so a dragged/resized or
+        // content-grown movable panel can never cover it.
+        this.element.classList.add(this.resizable ? "draggable-section" : "pinned-section");
         this.applyRect(defaultRect);
     }
 
@@ -55,10 +64,49 @@ export abstract class SectionManager extends TimeManagerListener {
         const el = this.element;
         if (el === null) return;
         el.style.position = "fixed";
-        el.style.top = `${rect.top}px`;
-        el.style.left = `${rect.left}px`;
-        el.style.width = `${rect.width}px`;
-        el.style.height = `${rect.height}px`;
+
+        if (this.resizable) {
+            // Movable panels are pinned in place with fixed pixel offsets —
+            // by design they don't track viewport changes (see initResizeHandles).
+            el.style.top = `${rect.top}px`;
+            el.style.left = `${rect.left}px`;
+            el.style.right = "";
+            el.style.bottom = "";
+            el.style.width = `${rect.width}px`;
+            el.style.height = `${rect.height}px`;
+            return;
+        }
+
+        // Non-resizable sections are page chrome (title bar, panel-visibility
+        // bar) meant to stay attached to whichever edge(s) they were placed
+        // against. Anchor with CSS (left+right / top+bottom) instead of a
+        // fixed pixel width/position, so they track the viewport on resize
+        // instead of drifting off-screen like a stale px width would.
+        const touchesLeft = rect.left <= 0;
+        const touchesRight = rect.left + rect.width >= window.innerWidth;
+        const touchesTop = rect.top <= 0;
+        const touchesBottom = rect.top + rect.height >= window.innerHeight;
+
+        if (touchesLeft && touchesRight) {
+            el.style.left = "0";
+            el.style.right = "0";
+            el.style.width = "";
+        } else {
+            el.style.left = `${rect.left}px`;
+            el.style.right = "";
+            el.style.width = `${rect.width}px`;
+        }
+
+        const height = this.autoHeight ? "auto" : `${rect.height}px`;
+        if (touchesBottom && !touchesTop) {
+            el.style.bottom = "0";
+            el.style.top = "";
+            el.style.height = height;
+        } else {
+            el.style.top = `${rect.top}px`;
+            el.style.bottom = "";
+            el.style.height = height;
+        }
     }
 
     private currentRect(): SectionRect {

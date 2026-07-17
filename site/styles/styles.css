@@ -114,6 +114,13 @@ button {
     transition: background-color var(--transition), border-color var(--transition);
 }
 
+/* Pinned chrome (title bar, panel-visibility bar) always renders above
+   movable panels, so one dragged/resized/content-grown into its spot never
+   covers it. */
+.pinned-section {
+    z-index: 50;
+}
+
 /* ── Section resize handles ───────────────────────────
    Four independently draggable edges per section (added by SectionManager),
    always visible as a thin grip so it's clear every side can be dragged. */
@@ -252,8 +259,8 @@ button {
 
 /* ── Panel visibility bar ──────────────────────────────
    Pinned to the bottom of the page like the title bar is pinned to the top
-   (not draggable) — always reachable, so give it a high z-index in case a
-   movable panel gets dragged over it. */
+   (not draggable) — always reachable (see .pinned-section for the z-index
+   that keeps it above movable panels). */
 
 #panel-visibility-bar {
     background-color: var(--color-surface);
@@ -264,7 +271,6 @@ button {
     padding: 0 16px;
     overflow-x: auto;
     overflow-y: hidden;
-    z-index: 50;
     transition: background-color var(--transition), border-color var(--transition);
 }
 

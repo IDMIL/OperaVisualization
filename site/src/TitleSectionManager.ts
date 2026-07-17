@@ -40,7 +40,7 @@ const LANGUAGES: { code: LanguageCode; label: string; page: string }[] = [
 
 export class TitleSectionManager extends SectionManager {
     constructor(rect: SectionRect) {
-        super("title-section", rect, false);
+        super("title-section", rect, false, true);
         const titleSection = this.element;
         if (titleSection) {
             const options = LANGUAGES.map(l =>
