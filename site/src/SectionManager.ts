@@ -31,6 +31,31 @@ function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), Math.max(min, max));
 }
 
+interface VerticalBounds {
+    top: number;
+    bottom: number;
+}
+
+// Movable panels may be dragged/resized anywhere except behind the pinned
+// top/bottom chrome (title bar, panel-visibility bar) — those bars' current
+// rendered edges become the effective top/bottom of the viewport for
+// resizing purposes. Read fresh each drag move since the title bar's height
+// can itself change (see autoHeight).
+function getVerticalDragBounds(): VerticalBounds {
+    let top = 0;
+    let bottom = window.innerHeight;
+    for (const el of document.querySelectorAll<HTMLElement>(".pinned-section")) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 0) {
+            top = Math.max(top, rect.bottom);
+        }
+        if (rect.bottom >= window.innerHeight) {
+            bottom = Math.min(bottom, rect.top);
+        }
+    }
+    return {top, bottom};
+}
+
 // Base class for every major page section. Owns the section's on-screen
 // rectangle (position: fixed, in px) and gives it four independently
 // draggable edges plus four corners (each corner just combines its two
@@ -153,19 +178,42 @@ export abstract class SectionManager extends TimeManagerListener {
     // anchored at the opposite corner. Keep that anchor fixed and pick
     // whichever axis moved further (in equivalent units) as authoritative,
     // deriving the other one from the ratio.
-    private constrainToAspectRatio(rect: SectionRect, start: SectionRect, edges: Edge[], aspectRatio: number): void {
+    //
+    // Either way, deriving one dimension involves a *second* clamp against
+    // the section's position (the symmetric-growth or corner-anchor math
+    // above) — on top of the first clamp against its raw size. When the
+    // pinned top/bottom bars (or, on the horizontal axis, the viewport
+    // edges) squeeze that position clamp, the second clamp can shrink the
+    // derived dimension below what the first pass already locked the
+    // *other* (directly-dragged) dimension to — leaving a box whose
+    // width/height no longer actually match the aspect ratio. The
+    // matchWidthToHeight/matchHeightToWidth calls below re-derive that
+    // other dimension from whatever size was actually achievable, so the
+    // final box is always correctly proportioned (a no-op whenever the
+    // second clamp didn't end up tighter than the first).
+    private constrainToAspectRatio(
+        rect: SectionRect, start: SectionRect, edges: Edge[], aspectRatio: number, bounds: VerticalBounds
+    ): void {
+        const availableHeight = bounds.bottom - bounds.top;
+
         if (edges.length === 1) {
             const edge = edges[0];
             if (edge === "left" || edge === "right") {
-                const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, window.innerHeight);
-                const newTop = clamp(rect.top - (desiredHeight - rect.height) / 2, 0, window.innerHeight - MIN_HEIGHT);
+                const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, availableHeight);
+                const newTop = clamp(
+                    rect.top - (desiredHeight - rect.height) / 2, bounds.top, bounds.bottom - MIN_HEIGHT
+                );
+                const finalHeight = clamp(desiredHeight, MIN_HEIGHT, bounds.bottom - newTop);
                 rect.top = newTop;
-                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - newTop);
+                rect.height = finalHeight;
+                this.matchWidthToHeight(rect, edge === "left" ? "right" : "left", finalHeight, aspectRatio);
             } else {
                 const desiredWidth = clamp(rect.height * aspectRatio, MIN_WIDTH, window.innerWidth);
                 const newLeft = clamp(rect.left - (desiredWidth - rect.width) / 2, 0, window.innerWidth - MIN_WIDTH);
+                const finalWidth = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
                 rect.left = newLeft;
-                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
+                rect.width = finalWidth;
+                this.matchHeightToWidth(rect, edge === "top" ? "bottom" : "top", finalWidth, aspectRatio, bounds);
             }
             return;
         }
@@ -174,25 +222,63 @@ export abstract class SectionManager extends TimeManagerListener {
         const heightDeltaAsWidth = Math.abs(rect.height - start.height) * aspectRatio;
 
         if (widthDelta >= heightDeltaAsWidth) {
-            const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, window.innerHeight);
+            const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, availableHeight);
+            let finalHeight: number;
             if (edges.includes("top")) {
                 const bottomY = start.top + start.height;
-                const newTop = clamp(bottomY - desiredHeight, 0, window.innerHeight - MIN_HEIGHT);
+                const newTop = clamp(bottomY - desiredHeight, bounds.top, bounds.bottom - MIN_HEIGHT);
+                finalHeight = clamp(desiredHeight, MIN_HEIGHT, bounds.bottom - newTop);
                 rect.top = newTop;
-                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - newTop);
             } else {
-                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - rect.top);
+                finalHeight = clamp(desiredHeight, MIN_HEIGHT, bounds.bottom - rect.top);
             }
+            rect.height = finalHeight;
+            this.matchWidthToHeight(rect, edges.includes("left") ? "right" : "left", finalHeight, aspectRatio);
         } else {
             const desiredWidth = clamp(rect.height * aspectRatio, MIN_WIDTH, window.innerWidth);
+            let finalWidth: number;
             if (edges.includes("left")) {
                 const rightX = start.left + start.width;
                 const newLeft = clamp(rightX - desiredWidth, 0, window.innerWidth - MIN_WIDTH);
+                finalWidth = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
                 rect.left = newLeft;
-                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
             } else {
-                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - rect.left);
+                finalWidth = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - rect.left);
             }
+            rect.width = finalWidth;
+            this.matchHeightToWidth(rect, edges.includes("top") ? "bottom" : "top", finalWidth, aspectRatio, bounds);
+        }
+    }
+
+    // Re-derives width from a (possibly further-clamped) final height so the
+    // box matches the aspect ratio exactly, keeping `fixedEdge` — whichever
+    // side this resize's own formula treats as the anchor — in place. A
+    // no-op when `height` already matches the width already on `rect`.
+    private matchWidthToHeight(rect: SectionRect, fixedEdge: "left" | "right", height: number, aspectRatio: number): void {
+        const width = height * aspectRatio;
+        if (fixedEdge === "right") {
+            const rightX = rect.left + rect.width;
+            const newLeft = clamp(rightX - width, 0, window.innerWidth - MIN_WIDTH);
+            rect.left = newLeft;
+            rect.width = clamp(rightX - newLeft, MIN_WIDTH, window.innerWidth - newLeft);
+        } else {
+            rect.width = clamp(width, MIN_WIDTH, window.innerWidth - rect.left);
+        }
+    }
+
+    // Mirror of matchWidthToHeight for the vertical axis, respecting the
+    // pinned top/bottom bars via `bounds`.
+    private matchHeightToWidth(
+        rect: SectionRect, fixedEdge: "top" | "bottom", width: number, aspectRatio: number, bounds: VerticalBounds
+    ): void {
+        const height = width / aspectRatio;
+        if (fixedEdge === "bottom") {
+            const bottomY = rect.top + rect.height;
+            const newTop = clamp(bottomY - height, bounds.top, bounds.bottom - MIN_HEIGHT);
+            rect.top = newTop;
+            rect.height = clamp(bottomY - newTop, MIN_HEIGHT, bounds.bottom - newTop);
+        } else {
+            rect.height = clamp(height, MIN_HEIGHT, bounds.bottom - rect.top);
         }
     }
 
@@ -223,6 +309,7 @@ export abstract class SectionManager extends TimeManagerListener {
             const dx = moveEvent.clientX - startX;
             const dy = moveEvent.clientY - startY;
             const rect: SectionRect = {...start};
+            const bounds = getVerticalDragBounds();
 
             for (const edge of edges) {
                 switch (edge) {
@@ -237,13 +324,13 @@ export abstract class SectionManager extends TimeManagerListener {
                         break;
                     }
                     case "top": {
-                        const newTop = clamp(start.top + dy, 0, start.top + start.height - MIN_HEIGHT);
+                        const newTop = clamp(start.top + dy, bounds.top, start.top + start.height - MIN_HEIGHT);
                         rect.height = start.height + (start.top - newTop);
                         rect.top = newTop;
                         break;
                     }
                     case "bottom": {
-                        rect.height = clamp(start.height + dy, MIN_HEIGHT, window.innerHeight - start.top);
+                        rect.height = clamp(start.height + dy, MIN_HEIGHT, bounds.bottom - start.top);
                         break;
                     }
                 }
@@ -251,7 +338,7 @@ export abstract class SectionManager extends TimeManagerListener {
 
             const aspectRatio = this.getAspectRatio();
             if (aspectRatio !== null) {
-                this.constrainToAspectRatio(rect, start, edges, aspectRatio);
+                this.constrainToAspectRatio(rect, start, edges, aspectRatio, bounds);
             }
 
             this.applyRect(rect);
