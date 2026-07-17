@@ -44,6 +44,15 @@ export class ScoreManager extends SectionManager {
         }
     }
 
+    // Keeps the panel's own shape matching the currently displayed score
+    // page (rather than the page ending up letterboxed inside a
+    // mismatched box) whenever the user drags one of its edges.
+    protected getAspectRatio(): number | null {
+        const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
+        if (!img || !img.naturalWidth || !img.naturalHeight) return null;
+        return img.naturalWidth / img.naturalHeight;
+    }
+
     async preloadTime(time: ScoreTime) {
         this.preloadImage(bar_to_page[time.act - 1][time.bar].image);
     }

@@ -122,8 +122,9 @@ button {
 }
 
 /* ── Section resize handles ───────────────────────────
-   Four independently draggable edges per section (added by SectionManager),
-   always visible as a thin grip so it's clear every side can be dragged. */
+   Four independently draggable edges plus four corners per section (added
+   by SectionManager), always visible as a thin grip so it's clear every
+   side — and corner — can be dragged. */
 
 .section-resize-handle {
     position: absolute;
@@ -167,6 +168,41 @@ button {
 
 .section-resize-right {
     right: 0;
+}
+
+/* Corners sit above the edge strips (higher z-index) so the small overlap
+   region at each corner grabs the diagonal-resize handle, not the edge. */
+.section-resize-top-left,
+.section-resize-top-right,
+.section-resize-bottom-right,
+.section-resize-bottom-left {
+    width: 10px;
+    height: 10px;
+    z-index: 6;
+}
+
+.section-resize-top-left {
+    top: 0;
+    left: 0;
+    cursor: nwse-resize;
+}
+
+.section-resize-top-right {
+    top: 0;
+    right: 0;
+    cursor: nesw-resize;
+}
+
+.section-resize-bottom-right {
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+}
+
+.section-resize-bottom-left {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
 }
 
 .score-fullscreen .section-resize-handle {

@@ -8,8 +8,22 @@ export interface SectionRect {
 }
 
 type Edge = "top" | "right" | "bottom" | "left";
+type Handle = Edge | "top-left" | "top-right" | "bottom-right" | "bottom-left";
 
-const EDGES: Edge[] = ["top", "right", "bottom", "left"];
+// Each handle drags one or two edges at once — a corner combines its two
+// adjacent edges' independent formulas (e.g. "top-left" runs the "top" and
+// "left" cases together), which naturally anchors the resize at the
+// opposite corner since each formula already keeps its own far side fixed.
+const HANDLES: { name: Handle; edges: Edge[] }[] = [
+    {name: "top", edges: ["top"]},
+    {name: "right", edges: ["right"]},
+    {name: "bottom", edges: ["bottom"]},
+    {name: "left", edges: ["left"]},
+    {name: "top-left", edges: ["top", "left"]},
+    {name: "top-right", edges: ["top", "right"]},
+    {name: "bottom-right", edges: ["bottom", "right"]},
+    {name: "bottom-left", edges: ["bottom", "left"]},
+];
 const MIN_WIDTH = 160;
 const MIN_HEIGHT = 80;
 
@@ -19,7 +33,8 @@ function clamp(value: number, min: number, max: number): number {
 
 // Base class for every major page section. Owns the section's on-screen
 // rectangle (position: fixed, in px) and gives it four independently
-// draggable edges so the user can resize/reposition it freely, clamped to
+// draggable edges plus four corners (each corner just combines its two
+// adjacent edges) so the user can resize/reposition it freely, clamped to
 // the viewport. Subclasses look up their content root via `this.element`
 // instead of re-querying the DOM.
 export abstract class SectionManager extends TimeManagerListener {
@@ -48,6 +63,15 @@ export abstract class SectionManager extends TimeManagerListener {
         // content-grown movable panel can never cover it.
         this.element.classList.add(this.resizable ? "draggable-section" : "pinned-section");
         this.applyRect(defaultRect);
+    }
+
+    // Overridden by subclasses (e.g. the score viewer) whose content has a
+    // fixed aspect ratio that resizing should preserve. Returning a number
+    // makes every edge drag resize the perpendicular sides too, growing them
+    // symmetrically around the section's current center so the box's own
+    // shape always matches the content's ratio.
+    protected getAspectRatio(): number | null {
+        return null;
     }
 
     // Subclasses must call this once they've finished building their content
@@ -119,18 +143,71 @@ export abstract class SectionManager extends TimeManagerListener {
         };
     }
 
-    private attachResizeHandles(): void {
-        const el = this.element;
-        if (el === null) return;
-        for (const edge of EDGES) {
-            const handle = document.createElement("div");
-            handle.classList.add("section-resize-handle", `section-resize-${edge}`);
-            handle.addEventListener("mousedown", (e) => this.beginDrag(e, edge));
-            el.appendChild(handle);
+    // A single-edge drag already set rect's width (left/right) or height
+    // (top/bottom) directly; derive the other dimension from the aspect
+    // ratio and grow/shrink it symmetrically from both of ITS sides — e.g.
+    // dragging the right edge changes the width, then resizes the top and
+    // bottom sides together (equally) to fit the new height.
+    //
+    // A corner drag already set both dimensions directly (independently),
+    // anchored at the opposite corner. Keep that anchor fixed and pick
+    // whichever axis moved further (in equivalent units) as authoritative,
+    // deriving the other one from the ratio.
+    private constrainToAspectRatio(rect: SectionRect, start: SectionRect, edges: Edge[], aspectRatio: number): void {
+        if (edges.length === 1) {
+            const edge = edges[0];
+            if (edge === "left" || edge === "right") {
+                const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, window.innerHeight);
+                const newTop = clamp(rect.top - (desiredHeight - rect.height) / 2, 0, window.innerHeight - MIN_HEIGHT);
+                rect.top = newTop;
+                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - newTop);
+            } else {
+                const desiredWidth = clamp(rect.height * aspectRatio, MIN_WIDTH, window.innerWidth);
+                const newLeft = clamp(rect.left - (desiredWidth - rect.width) / 2, 0, window.innerWidth - MIN_WIDTH);
+                rect.left = newLeft;
+                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
+            }
+            return;
+        }
+
+        const widthDelta = Math.abs(rect.width - start.width);
+        const heightDeltaAsWidth = Math.abs(rect.height - start.height) * aspectRatio;
+
+        if (widthDelta >= heightDeltaAsWidth) {
+            const desiredHeight = clamp(rect.width / aspectRatio, MIN_HEIGHT, window.innerHeight);
+            if (edges.includes("top")) {
+                const bottomY = start.top + start.height;
+                const newTop = clamp(bottomY - desiredHeight, 0, window.innerHeight - MIN_HEIGHT);
+                rect.top = newTop;
+                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - newTop);
+            } else {
+                rect.height = clamp(desiredHeight, MIN_HEIGHT, window.innerHeight - rect.top);
+            }
+        } else {
+            const desiredWidth = clamp(rect.height * aspectRatio, MIN_WIDTH, window.innerWidth);
+            if (edges.includes("left")) {
+                const rightX = start.left + start.width;
+                const newLeft = clamp(rightX - desiredWidth, 0, window.innerWidth - MIN_WIDTH);
+                rect.left = newLeft;
+                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - newLeft);
+            } else {
+                rect.width = clamp(desiredWidth, MIN_WIDTH, window.innerWidth - rect.left);
+            }
         }
     }
 
-    private beginDrag(event: MouseEvent, edge: Edge): void {
+    private attachResizeHandles(): void {
+        const el = this.element;
+        if (el === null) return;
+        for (const handle of HANDLES) {
+            const div = document.createElement("div");
+            div.classList.add("section-resize-handle", `section-resize-${handle.name}`);
+            div.addEventListener("mousedown", (e) => this.beginDrag(e, handle.edges));
+            el.appendChild(div);
+        }
+    }
+
+    private beginDrag(event: MouseEvent, edges: Edge[]): void {
         event.preventDefault();
         event.stopPropagation();
 
@@ -147,27 +224,34 @@ export abstract class SectionManager extends TimeManagerListener {
             const dy = moveEvent.clientY - startY;
             const rect: SectionRect = {...start};
 
-            switch (edge) {
-                case "left": {
-                    const newLeft = clamp(start.left + dx, 0, start.left + start.width - MIN_WIDTH);
-                    rect.width = start.width + (start.left - newLeft);
-                    rect.left = newLeft;
-                    break;
+            for (const edge of edges) {
+                switch (edge) {
+                    case "left": {
+                        const newLeft = clamp(start.left + dx, 0, start.left + start.width - MIN_WIDTH);
+                        rect.width = start.width + (start.left - newLeft);
+                        rect.left = newLeft;
+                        break;
+                    }
+                    case "right": {
+                        rect.width = clamp(start.width + dx, MIN_WIDTH, window.innerWidth - start.left);
+                        break;
+                    }
+                    case "top": {
+                        const newTop = clamp(start.top + dy, 0, start.top + start.height - MIN_HEIGHT);
+                        rect.height = start.height + (start.top - newTop);
+                        rect.top = newTop;
+                        break;
+                    }
+                    case "bottom": {
+                        rect.height = clamp(start.height + dy, MIN_HEIGHT, window.innerHeight - start.top);
+                        break;
+                    }
                 }
-                case "right": {
-                    rect.width = clamp(start.width + dx, MIN_WIDTH, window.innerWidth - start.left);
-                    break;
-                }
-                case "top": {
-                    const newTop = clamp(start.top + dy, 0, start.top + start.height - MIN_HEIGHT);
-                    rect.height = start.height + (start.top - newTop);
-                    rect.top = newTop;
-                    break;
-                }
-                case "bottom": {
-                    rect.height = clamp(start.height + dy, MIN_HEIGHT, window.innerHeight - start.top);
-                    break;
-                }
+            }
+
+            const aspectRatio = this.getAspectRatio();
+            if (aspectRatio !== null) {
+                this.constrainToAspectRatio(rect, start, edges, aspectRatio);
             }
 
             this.applyRect(rect);
