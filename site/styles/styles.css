@@ -205,7 +205,32 @@ button {
     cursor: nesw-resize;
 }
 
-.score-fullscreen .section-resize-handle {
+/* Move handle: a small grip in the top-right corner, inset far enough from
+   the actual corner that it never fights the diagonal resize handle there.
+   Dragging it translates the whole section without changing its size. */
+.section-move-handle {
+    position: absolute;
+    top: 3px;
+    right: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    cursor: move;
+    background-color: var(--color-border);
+    background-image: radial-gradient(circle, var(--color-panel) 1px, transparent 1.3px);
+    background-size: 5px 5px;
+    background-position: 1px 1px;
+    transition: background-color var(--transition);
+    z-index: 7;
+}
+
+.section-move-handle:hover,
+.section-move-handle.dragging {
+    background-color: var(--color-accent);
+}
+
+.score-fullscreen .section-resize-handle,
+.score-fullscreen .section-move-handle {
     display: none;
 }
 
@@ -335,6 +360,21 @@ button {
     width: 13px;
     height: 13px;
     cursor: pointer;
+}
+
+/* Shown on hover over a .panel-visibility-toggle (see PanelVisibilityManager),
+   positioned to match the corresponding panel's current bounds. z-index is
+   above every panel — including other panels stacked on top of it and the
+   fullscreen score view — so the highlighted panel's outline is always
+   visible regardless of overlap. */
+#panel-highlight-overlay {
+    display: none;
+    position: fixed;
+    z-index: 500000;
+    pointer-events: none;
+    border: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Timelines ───────────────────────────────────────── */

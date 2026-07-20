@@ -291,6 +291,50 @@ export abstract class SectionManager extends TimeManagerListener {
             div.addEventListener("mousedown", (e) => this.beginDrag(e, handle.edges));
             el.appendChild(div);
         }
+
+        const moveHandle = document.createElement("div");
+        moveHandle.classList.add("section-move-handle");
+        moveHandle.title = "Move";
+        moveHandle.addEventListener("mousedown", (e) => this.beginMove(e));
+        el.appendChild(moveHandle);
+    }
+
+    // Drags the whole section by its top-right move handle, translating
+    // top/left together while leaving width/height untouched. Clamped the
+    // same way an edge drag is: horizontally to the viewport, vertically to
+    // whatever the pinned chrome currently allows (see getVerticalDragBounds).
+    private beginMove(event: MouseEvent): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const start = this.currentRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const handle = event.currentTarget as HTMLElement;
+
+        handle.classList.add("dragging");
+        document.body.style.userSelect = "none";
+
+        const onMouseMove = (moveEvent: MouseEvent) => {
+            const dx = moveEvent.clientX - startX;
+            const dy = moveEvent.clientY - startY;
+            const bounds = getVerticalDragBounds();
+
+            const newLeft = clamp(start.left + dx, 0, window.innerWidth - start.width);
+            const newTop = clamp(start.top + dy, bounds.top, bounds.bottom - start.height);
+
+            this.applyRect({...start, left: newLeft, top: newTop});
+        };
+
+        const onMouseUp = () => {
+            handle.classList.remove("dragging");
+            document.body.style.userSelect = "";
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
+        };
+
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
     }
 
     private beginDrag(event: MouseEvent, edges: Edge[]): void {
