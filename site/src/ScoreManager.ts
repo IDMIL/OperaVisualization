@@ -1,23 +1,25 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager} from "./TimeManager";
 import {bar_to_page, BarInfo} from "./data/barToPage";
+import {SectionManager, SectionRect} from "./SectionManager";
 
-export class ScoreManager extends TimeManagerListener {
+export class ScoreManager extends SectionManager {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
     private rebuildTimer: ReturnType<typeof setTimeout> | null = null;
 
-    constructor(tm : TimeManager) {
-        super();
+    constructor(tm : TimeManager, rect: SectionRect) {
+        super("score-viewer-section", rect);
         this.currentPage = undefined;
         this.currentAct = undefined;
         this.timeManager = tm;
 
-        const scoreViewer = document.getElementById("score-viewer-section");
+        const scoreViewer = this.element;
         if (scoreViewer) {
             scoreViewer.innerHTML = `
             <div id="image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
+            this.initResizeHandles();
         }
 
         // Recalculate overlay positions whenever the score image is resized.
@@ -32,6 +34,21 @@ export class ScoreManager extends TimeManagerListener {
                 // no page has loaded yet at construction time.
                 if (this.currentPage === undefined) return;
 
+                // In mobile layout, the panel's box is still at its static
+                // placeholder height the first time this fires (image wasn't
+                // loaded yet at construction) — switch it over to the live
+                // CSS aspect-ratio box now that getAspectRatio() has a real
+                // value. Cheap/idempotent on every later call too, EXCEPT
+                // while fullscreen: entering/exiting fullscreen also resizes
+                // the image (this observer fires either way), and
+                // refreshMobileRect's inline styles would beat the
+                // .score-fullscreen CSS rule (see ScoreTransportOverlay,
+                // which already deliberately clears those same inline
+                // properties for exactly this reason).
+                if (!this.element?.classList.contains('score-fullscreen')) {
+                    this.refreshMobileRect();
+                }
+
                 // Debounce: window resizes fire many times per second.
                 if (this.rebuildTimer !== null) clearTimeout(this.rebuildTimer);
                 this.rebuildTimer = setTimeout(() => {
@@ -40,6 +57,15 @@ export class ScoreManager extends TimeManagerListener {
                 }, 50);
             }).observe(img);
         }
+    }
+
+    // Keeps the panel's own shape matching the currently displayed score
+    // page (rather than the page ending up letterboxed inside a
+    // mismatched box) whenever the user drags one of its edges.
+    protected getAspectRatio(): number | null {
+        const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
+        if (!img || !img.naturalWidth || !img.naturalHeight) return null;
+        return img.naturalWidth / img.naturalHeight;
     }
 
     async preloadTime(time: ScoreTime) {

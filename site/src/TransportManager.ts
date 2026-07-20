@@ -1,7 +1,8 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager} from "./TimeManager";
 import {scene_bar_ranges} from "./data/sceneBarRanges";
 import {text} from "./data/text";
 import {getRomanNumerals, globals} from "./globals";
+import {SectionManager, SectionRect} from "./SectionManager";
 
 function getSceneNumber(scoreTime : ScoreTime) {
     const act = scoreTime.act;
@@ -19,12 +20,12 @@ function getSceneNumber(scoreTime : ScoreTime) {
 }
 
 
-export class TransportManager extends TimeManagerListener {
-    constructor(tm : TimeManager) {
-        super();
+export class TransportManager extends SectionManager {
+    constructor(tm : TimeManager, rect: SectionRect) {
+        super("transport-section", rect);
         this.timeManager = tm;
 
-        const transportSection = document.getElementById("transport-section");
+        const transportSection = this.element;
         if (transportSection === null) {
             return;
         }
@@ -72,6 +73,8 @@ export class TransportManager extends TimeManagerListener {
                 this.timeManager.advancePage(1, 'transport-click');
             }
         }
+
+        this.initResizeHandles();
     }
 
     async timeUpdated(scoreTime : ScoreTime) {

@@ -1,5 +1,6 @@
 import {text, LanguageCode} from "./data/text";
 import {globals} from "./globals";
+import {SectionManager, SectionRect} from "./SectionManager";
 
 function showCredits(showOrHide: boolean) {
     const credits = document.getElementById('credits-anchor');
@@ -37,9 +38,10 @@ const LANGUAGES: { code: LanguageCode; label: string; page: string }[] = [
     { code: 'pt', label: 'Português', page: 'pt.html' },
 ];
 
-export class TitleSectionManager {
-    constructor() {
-        const titleSection = document.getElementById("title-section");
+export class TitleSectionManager extends SectionManager {
+    constructor(rect: SectionRect) {
+        super("title-section", rect, false, true);
+        const titleSection = this.element;
         if (titleSection) {
             const options = LANGUAGES.map(l =>
                 `<option value="${l.page}"${l.code === globals.language ? ' selected' : ''}>${l.label}</option>`
@@ -79,5 +81,6 @@ export class TitleSectionManager {
                 window.location.href = (e.target as HTMLSelectElement).value;
             });
         }
+        this.initResizeHandles();
     }
 }

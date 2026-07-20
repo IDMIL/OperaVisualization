@@ -1,13 +1,14 @@
-import {ScoreTime, TimeManager, TimeManagerListener} from "./TimeManager";
+import {ScoreTime, TimeManager} from "./TimeManager";
 import {architecture} from "./data/architecture";
 import {globals} from "./globals";
+import {SectionManager, SectionRect} from "./SectionManager";
 
-export class ArchitectureManager extends TimeManagerListener {
-    constructor(tm: TimeManager) {
-        super();
+export class ArchitectureManager extends SectionManager {
+    constructor(tm: TimeManager, rect: SectionRect) {
+        super("architecture-list", rect);
         this.timeManager = tm;
 
-        const archList = document.getElementById("architecture-list");
+        const archList = this.element;
         if (archList === null) {
             return;
         }
@@ -19,6 +20,8 @@ export class ArchitectureManager extends TimeManagerListener {
 
         archList.appendChild(archListHeader);
         archList.appendChild(archListInner);
+
+        this.initResizeHandles();
 
         this.timeUpdated(this.timeManager.scoreTime);
     }

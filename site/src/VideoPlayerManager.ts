@@ -1,13 +1,14 @@
-import {ScoreTime, TimeManager, TimeManagerListener, UpdateSource} from "./TimeManager";
+import {ScoreTime, TimeManager, UpdateSource} from "./TimeManager";
 import {text} from "./data/text";
 import {globals} from "./globals";
 import {recordingTimestamps} from "./data/recording_timestamps";
+import {SectionManager, SectionRect} from "./SectionManager";
 
 declare global {
     interface Window { onYouTubeIframeAPIReady: () => void; YT: any; }
 }
 
-export class VideoPlayerManager extends TimeManagerListener {
+export class VideoPlayerManager extends SectionManager {
     timeManager: TimeManager;
 
     private videos: Array<{ id: string, name: string }> = [
@@ -16,11 +17,11 @@ export class VideoPlayerManager extends TimeManagerListener {
         { id: "ALrEeDWSBXQ", name: "Sung in English"}
     ];
 
-    constructor(tm : TimeManager) {
-        super();
+    constructor(tm : TimeManager, rect: SectionRect) {
+        super("video-player-section", rect);
         this.timeManager = tm;
 
-        const videoPlayer = document.getElementById("video-player-section");
+        const videoPlayer = this.element;
         if (videoPlayer) {
             const headerRow = document.createElement("div");
             headerRow.id = "video-player-header";
@@ -54,6 +55,8 @@ export class VideoPlayerManager extends TimeManagerListener {
             const playerDiv = document.createElement("div");
             playerDiv.id = "yt-player";
             videoPlayer.appendChild(playerDiv);
+
+            this.initResizeHandles();
         }
 
         const tag = document.createElement("script");

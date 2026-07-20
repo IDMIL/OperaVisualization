@@ -1,15 +1,16 @@
-import {ScoreTime, TimeManager, TimeManagerListener, UpdateSource} from "./TimeManager";
+import {ScoreTime, TimeManager, UpdateSource} from "./TimeManager";
 import {Annotation, AnnotationCode, annotations} from "./data/annotations";
 import {globals} from "./globals";
 import {AddAnnotationPanel} from "./AddAnnotationPanel";
 import {addInfoBox} from "./InfoBox";
 import {text} from "./data/text";
+import {SectionManager, SectionRect} from "./SectionManager";
 
 interface AnnotationSources {
     [source_name: string]: {description: string, annotations: Array<Annotation>}
 }
 
-export class AnnotationManager extends TimeManagerListener {
+export class AnnotationManager extends SectionManager {
     annotationCodes : { [code in AnnotationCode] : string; } = {
         'dy' : text.DYNAMICS[globals.language],
         'du': text.DURATION[globals.language],
@@ -36,12 +37,12 @@ export class AnnotationManager extends TimeManagerListener {
     private uploadButton!: HTMLButtonElement;
     scrollerDiv : HTMLElement | undefined;
 
-    constructor(timeManager : TimeManager) {
-        super();
+    constructor(timeManager : TimeManager, rect: SectionRect) {
+        super("annotations-section", rect);
 
         this.timeManager = timeManager;
 
-        let annotationsSection = document.getElementById('annotations-section');
+        let annotationsSection = this.element;
         if (annotationsSection === null) {
             return;
         }
@@ -186,6 +187,8 @@ export class AnnotationManager extends TimeManagerListener {
         this.setAnnotationVisibilityFromState();
 
         this.updateTransferButtons();
+
+        this.initResizeHandles();
     }
 
     insertAnnotationAtCorrectPosition(annotation: Annotation, source: string = 'User') {

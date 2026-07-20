@@ -89,30 +89,10 @@ button {
 
 /* ── Layout ─────────────────────────────────────────── */
 
-#layout-sections {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-area {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-}
-
-.main-area-left {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
-    border-right: 1px solid var(--color-border);
-    transition: border-color var(--transition);
-}
-
+/* Each major section is positioned independently (position: fixed, set
+   inline by SectionManager) and can overlap freely — there is no longer a
+   shared flex tree dictating where things go. */
 .section {
-    position: relative;
     padding: 0 12px;
 }
 
@@ -126,18 +106,195 @@ button {
     padding: 8px 0 4px;
 }
 
+.draggable-section {
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+/* Pinned chrome (title bar, panel-visibility bar) always renders above
+   movable panels, so one dragged/resized/content-grown into its spot never
+   covers it. */
+.pinned-section {
+    z-index: 50;
+}
+
+/* ── Section resize handles ───────────────────────────
+   Four independently draggable edges plus four corners per section (added
+   by SectionManager), always visible as a thin grip so it's clear every
+   side — and corner — can be dragged. */
+
+.section-resize-handle {
+    position: absolute;
+    background: var(--color-border);
+    transition: background var(--transition);
+    z-index: 5;
+}
+
+.section-resize-handle:hover,
+.section-resize-handle.dragging {
+    background: var(--color-accent);
+}
+
+.section-resize-top,
+.section-resize-bottom {
+    left: 0;
+    right: 0;
+    height: 4px;
+    cursor: row-resize;
+}
+
+.section-resize-top {
+    top: 0;
+}
+
+.section-resize-bottom {
+    bottom: 0;
+}
+
+.section-resize-left,
+.section-resize-right {
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    cursor: col-resize;
+}
+
+.section-resize-left {
+    left: 0;
+}
+
+.section-resize-right {
+    right: 0;
+}
+
+/* Corners sit above the edge strips (higher z-index) so the small overlap
+   region at each corner grabs the diagonal-resize handle, not the edge. */
+.section-resize-top-left,
+.section-resize-top-right,
+.section-resize-bottom-right,
+.section-resize-bottom-left {
+    width: 10px;
+    height: 10px;
+    z-index: 6;
+}
+
+.section-resize-top-left {
+    top: 0;
+    left: 0;
+    cursor: nwse-resize;
+}
+
+.section-resize-top-right {
+    top: 0;
+    right: 0;
+    cursor: nesw-resize;
+}
+
+.section-resize-bottom-right {
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+}
+
+.section-resize-bottom-left {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+}
+
+/* Move handle: a small grip in the top-right corner, inset far enough from
+   the actual corner that it never fights the diagonal resize handle there.
+   Dragging it translates the whole section without changing its size. */
+.section-move-handle {
+    position: absolute;
+    top: 3px;
+    right: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    cursor: move;
+    background-color: var(--color-border);
+    background-image: radial-gradient(circle, var(--color-panel) 1px, transparent 1.3px);
+    background-size: 5px 5px;
+    background-position: 1px 1px;
+    transition: background-color var(--transition);
+    z-index: 7;
+}
+
+.section-move-handle:hover,
+.section-move-handle.dragging {
+    background-color: var(--color-accent);
+}
+
+.score-fullscreen .section-resize-handle,
+.score-fullscreen .section-move-handle {
+    display: none;
+}
+
+/* ── Mobile panel layout ───────────────────────────────
+   Below the mobile breakpoint (see SectionManager.IS_MOBILE_LAYOUT), movable
+   panels stop being position:fixed boxes and become vertically-stacked flex
+   items instead (each set to position:relative + width:100% by
+   applyMobileRect) — the title bar and panel-visibility bar stay pinned same
+   as desktop (see .pinned-section), with #layout-sections' padding (set
+   inline in main.ts, since the title bar's height is dynamic) reserving room
+   for them above/below the stack. */
+.mobile-layout #layout-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* The panel being moved (see beginMobileMove) — lifted out of the flex flow
+   to travel with the pointer, so it needs its own elevated shadow to read as
+   "picked up" rather than just another stacked panel. */
+.draggable-section.mobile-dragging {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    cursor: grabbing;
+}
+
+/* Marks where the lifted panel will land (see beginMobileMove) — a fixed
+   75px regardless of the panel's own height, since its purpose is just to
+   show drop position, not preview the panel's actual size. */
+.mobile-move-placeholder {
+    box-sizing: border-box;
+    width: 100%;
+    height: 75px;
+    border: 2px dashed var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-highlight);
+}
+
+/* Bottom resize handle is inert when the panel's aspect ratio is locked (see
+   beginMobileResize) — pointer-events:none backs up the JS no-op guard. */
+.section-resize-handle.section-resize-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Prevents the browser's native scroll/pull-to-refresh gesture from
+   intercepting a touch-drag that starts on a handle, so Pointer Events (see
+   beginMobileResize/beginMobileMove) get every move consistently. */
+.section-move-handle,
+.section-resize-handle {
+    touch-action: none;
+}
+
 /* ── Header ─────────────────────────────────────────── */
 
 #title-section {
-    width: 100%;
     background-color: var(--color-header);
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 16px;
     justify-content: space-between;
     padding: 8px 16px;
-    min-height: 50px;
 }
 
 /* header is always blue — keep text white regardless of theme */
@@ -213,15 +370,72 @@ button {
     letter-spacing: normal;
 }
 
+/* ── Panel visibility bar ──────────────────────────────
+   Pinned to the bottom of the page like the title bar is pinned to the top
+   (not draggable) — always reachable (see .pinned-section for the z-index
+   that keeps it above movable panels). */
+
+#panel-visibility-bar {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+#panel-visibility-heading {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    flex-shrink: 0;
+}
+
+.panel-visibility-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-text);
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.panel-visibility-toggle input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+}
+
+/* Shown on hover over a .panel-visibility-toggle (see PanelVisibilityManager),
+   positioned to match the corresponding panel's current bounds. z-index is
+   above every panel — including other panels stacked on top of it and the
+   fullscreen score view — so the highlighted panel's outline is always
+   visible regardless of overlap. */
+#panel-highlight-overlay {
+    display: none;
+    position: fixed;
+    z-index: 500000;
+    pointer-events: none;
+    border: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
 /* ── Timelines ───────────────────────────────────────── */
 
 #timelines-section {
-    width: 100%;
     background-color: var(--color-navy);
-    flex-shrink: 0;
     padding: 6px 14px 8px;
-    margin-bottom: 0;
-    transition: background-color var(--transition);
+    overflow: hidden;
+    transition: background-color var(--transition), border-color var(--transition);
 }
 
 .timeline-container {
@@ -314,11 +528,8 @@ button {
 /* ── Score viewer ────────────────────────────────────── */
 
 #score-viewer-section {
-    height: 100%;
-    width: auto;
     padding: 0;
-    flex: 1;
-    flex-grow: 0;
+    overflow: hidden;
 }
 
 #image-holder {
@@ -557,6 +768,7 @@ button {
 
 #transport-section {
     padding: 8px 12px 4px;
+    overflow: auto;
 }
 
 #position-text {
@@ -627,11 +839,9 @@ button {
 /* ── Annotations ─────────────────────────────────────── */
 
 #architecture-list {
-    flex: 1 1 0;
-    min-width: 0;
-    min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #architecture-list-inner {
@@ -646,11 +856,10 @@ button {
 
 
 #annotations-section {
-    height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 0 0 340px;
-    min-width: 120px;
+    /* visible, not hidden: the info-box hover popup (see .info-box-popup)
+       intentionally pops out past this section's right edge. */
     overflow: visible;
 }
 
@@ -1083,18 +1292,7 @@ mark.search-highlight {
 
 /* ── Video / hidden ──────────────────────────────────── */
 
-#architecture-video-column {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 120px;
-    overflow: hidden;
-}
-
 #video-player-section {
-    flex: 1 1 0;
-    min-height: 200px;
-    min-width: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -1250,64 +1448,6 @@ mark.search-highlight {
     color: var(--color-heading);
 }
 
-/* ── Analysis tabs ───────────────────────────────────── */
-
-#analysis-tabs {
-    display: flex;
-    flex-direction: row;
-    min-height: 0;
-    gap: 0;
-    padding-bottom: var(--gap);
-}
-
-/* ── Column resizer ──────────────────────────────────── */
-
-#column-resizer {
-    flex: 0 0 9px;
-    cursor: col-resize;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    z-index: 1;
-}
-
-#column-resizer::after {
-    content: '';
-    width: 1px;
-    background: var(--color-border);
-    transition: background var(--transition), width var(--transition);
-}
-
-#column-resizer:hover::after,
-#column-resizer.dragging::after {
-    background: var(--color-accent);
-    width: 2px;
-}
-
-/* ── Row resizer ─────────────────────────────────────── */
-
-#row-resizer {
-    flex: 0 0 9px;
-    cursor: row-resize;
-    display: flex;
-    align-items: center;
-    z-index: 1;
-}
-
-#row-resizer::after {
-    content: '';
-    height: 1px;
-    width: 100%;
-    background: var(--color-border);
-    transition: background var(--transition), height var(--transition);
-}
-
-#row-resizer:hover::after,
-#row-resizer.dragging::after {
-    background: var(--color-accent);
-    height: 2px;
-}
-
 /* ── Responsive ──────────────────────────────────────── */
 
 /* ── Tutorial bubble ──────────────────────────────────── */
@@ -1412,31 +1552,6 @@ mark.search-highlight {
 }
 
 @media screen and (max-width: 800px) {
-    .main-area {
-        flex-direction: column;
-    }
-
-    #layout-sections {
-        position: relative;
-    }
-
-    #analysis-tabs {
-        flex-direction: column;
-        gap: var(--gap);
-    }
-
-    #column-resizer {
-        display: none;
-    }
-
-    #annotations-section {
-        flex: 1 1 auto;
-    }
-
-    #architecture-video-column {
-        flex: 1 1 auto;
-    }
-
     #annotations-scroller {
         max-height: 500px;
     }

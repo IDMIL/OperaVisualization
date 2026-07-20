@@ -8,6 +8,10 @@ export class ScoreTransportOverlay {
     private isFullscreen = false;
     private darkenEl: HTMLElement | null = null;
     private fullscreenBtn!: HTMLButtonElement;
+    // SectionManager sets top/left/width/height as inline styles, which would
+    // otherwise always beat the .score-fullscreen CSS rule (inset: 32px).
+    // Stash them while fullscreen and restore on exit.
+    private savedInlineRect: string | null = null;
     private zoom = 1;
     private panX = 0;
     private panY = 0;
@@ -66,6 +70,18 @@ export class ScoreTransportOverlay {
         (layoutSections ?? document.body).appendChild(darken);
         this.darkenEl = darken;
 
+        this.savedInlineRect = scoreSection.style.cssText;
+        scoreSection.style.top = '';
+        scoreSection.style.left = '';
+        scoreSection.style.width = '';
+        scoreSection.style.height = '';
+        // Mobile layout sets these two inline (see SectionManager.applyMobileRect)
+        // and, being inline, they'd otherwise beat the .score-fullscreen CSS
+        // rule's position:fixed/inset:32px. Restored along with everything
+        // else via the cssText stash below on exit.
+        scoreSection.style.position = '';
+        scoreSection.style.aspectRatio = '';
+
         scoreSection.classList.add('score-fullscreen');
         this.fullscreenBtn.innerHTML = COMPRESS_SVG;
         this.isFullscreen = true;
@@ -91,6 +107,11 @@ export class ScoreTransportOverlay {
         scoreSection.classList.remove('score-fullscreen');
         this.fullscreenBtn.innerHTML = EXPAND_SVG;
         this.isFullscreen = false;
+
+        if (this.savedInlineRect !== null) {
+            scoreSection.style.cssText = this.savedInlineRect;
+            this.savedInlineRect = null;
+        }
 
         scoreSection.style.cursor = '';
         scoreSection.removeEventListener('wheel', this.handleWheel);
