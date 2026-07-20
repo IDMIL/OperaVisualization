@@ -428,11 +428,15 @@ export abstract class SectionManager extends TimeManagerListener {
         handle.addEventListener("pointerup", onUp);
     }
 
-    // Reorders the panel among its siblings in the vertical stack by directly
-    // swapping DOM order — no transform-based "lift" and placeholder — as the
-    // pointer crosses each visible sibling's vertical midpoint. Simple and
-    // correct given the small (<10) panel count; hidden (toggled-off) panels
-    // are excluded so they don't act as invisible drop targets.
+    // Lifts the panel out of the flex flow so it can travel with the pointer
+    // (position:fixed, pinned to its pre-drag width/left — only its vertical
+    // position tracks the pointer, since this is a single-column vertical
+    // list) while a fixed-height dashed placeholder (see .mobile-move-placeholder,
+    // height set in CSS) marks where it will land, reordering among siblings
+    // exactly as the panel itself used to (compare each visible sibling's
+    // midpoint against the pointer). Dropping (pointerup/cancel) reinserts
+    // the panel where the placeholder ended up and restores its normal
+    // in-flow mobile styling via applyMobileRect.
     private beginMobileMove(event: PointerEvent): void {
         event.preventDefault();
         event.stopPropagation();
@@ -442,16 +446,33 @@ export abstract class SectionManager extends TimeManagerListener {
         const handle = event.currentTarget as HTMLElement;
         if (parent === null) return;
 
+        const startRect = el.getBoundingClientRect();
+        const startHeight = el.offsetHeight;
+        const grabOffsetY = event.clientY - startRect.top;
+
+        const placeholder = document.createElement("div");
+        placeholder.classList.add("mobile-move-placeholder");
+        parent.insertBefore(placeholder, el);
+
         handle.setPointerCapture(event.pointerId);
-        el.classList.add("dragging");
+        el.classList.add("mobile-dragging");
         document.body.style.userSelect = "none";
 
+        el.style.position = "fixed";
+        el.style.zIndex = "1000";
+        el.style.width = `${startRect.width}px`;
+        el.style.left = `${startRect.left}px`;
+        el.style.top = `${startRect.top}px`;
+
         const onMove = (moveEvent: PointerEvent) => {
+            el.style.top = `${moveEvent.clientY - grabOffsetY}px`;
+
             const pointerY = moveEvent.clientY;
             const siblings = Array.from(parent.children).filter(
                 (child): child is HTMLElement =>
                     child instanceof HTMLElement &&
                     child !== el &&
+                    child !== placeholder &&
                     child.classList.contains("draggable-section") &&
                     child.style.display !== "none"
             );
@@ -459,26 +480,33 @@ export abstract class SectionManager extends TimeManagerListener {
             for (const sibling of siblings) {
                 const rect = sibling.getBoundingClientRect();
                 const mid = rect.top + rect.height / 2;
-                const siblingIsAfter = Boolean(
-                    el.compareDocumentPosition(sibling) & Node.DOCUMENT_POSITION_FOLLOWING
+                const placeholderIsAfter = Boolean(
+                    placeholder.compareDocumentPosition(sibling) & Node.DOCUMENT_POSITION_FOLLOWING
                 );
-                if (siblingIsAfter && pointerY > mid) {
-                    parent.insertBefore(el, sibling.nextSibling);
-                } else if (!siblingIsAfter && pointerY < mid) {
-                    parent.insertBefore(el, sibling);
+                if (placeholderIsAfter && pointerY > mid) {
+                    parent.insertBefore(placeholder, sibling.nextSibling);
+                } else if (!placeholderIsAfter && pointerY < mid) {
+                    parent.insertBefore(placeholder, sibling);
                 }
             }
         };
 
-        const onUp = () => {
-            el.classList.remove("dragging");
+        const onEnd = () => {
+            el.classList.remove("mobile-dragging");
             document.body.style.userSelect = "";
             handle.removeEventListener("pointermove", onMove);
-            handle.removeEventListener("pointerup", onUp);
+            handle.removeEventListener("pointerup", onEnd);
+            handle.removeEventListener("pointercancel", onEnd);
+
+            parent.insertBefore(el, placeholder);
+            placeholder.remove();
+            el.style.zIndex = "";
+            this.applyMobileRect(startHeight);
         };
 
         handle.addEventListener("pointermove", onMove);
-        handle.addEventListener("pointerup", onUp);
+        handle.addEventListener("pointerup", onEnd);
+        handle.addEventListener("pointercancel", onEnd);
     }
 
     // Drags the whole section by its top-right move handle, translating

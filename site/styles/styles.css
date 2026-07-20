@@ -250,8 +250,24 @@ button {
     padding-right: 10px;
 }
 
-.draggable-section.dragging {
-    opacity: 0.85;
+/* The panel being moved (see beginMobileMove) — lifted out of the flex flow
+   to travel with the pointer, so it needs its own elevated shadow to read as
+   "picked up" rather than just another stacked panel. */
+.draggable-section.mobile-dragging {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    cursor: grabbing;
+}
+
+/* Marks where the lifted panel will land (see beginMobileMove) — a fixed
+   75px regardless of the panel's own height, since its purpose is just to
+   show drop position, not preview the panel's actual size. */
+.mobile-move-placeholder {
+    box-sizing: border-box;
+    width: 100%;
+    height: 75px;
+    border: 2px dashed var(--color-accent);
+    border-radius: var(--radius);
+    background: var(--color-highlight);
 }
 
 /* Bottom resize handle is inert when the panel's aspect ratio is locked (see
