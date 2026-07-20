@@ -34,6 +34,21 @@ export class ScoreManager extends SectionManager {
                 // no page has loaded yet at construction time.
                 if (this.currentPage === undefined) return;
 
+                // In mobile layout, the panel's box is still at its static
+                // placeholder height the first time this fires (image wasn't
+                // loaded yet at construction) — switch it over to the live
+                // CSS aspect-ratio box now that getAspectRatio() has a real
+                // value. Cheap/idempotent on every later call too, EXCEPT
+                // while fullscreen: entering/exiting fullscreen also resizes
+                // the image (this observer fires either way), and
+                // refreshMobileRect's inline styles would beat the
+                // .score-fullscreen CSS rule (see ScoreTransportOverlay,
+                // which already deliberately clears those same inline
+                // properties for exactly this reason).
+                if (!this.element?.classList.contains('score-fullscreen')) {
+                    this.refreshMobileRect();
+                }
+
                 // Debounce: window resizes fire many times per second.
                 if (this.rebuildTimer !== null) clearTimeout(this.rebuildTimer);
                 this.rebuildTimer = setTimeout(() => {

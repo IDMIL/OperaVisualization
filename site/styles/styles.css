@@ -234,6 +234,42 @@ button {
     display: none;
 }
 
+/* ── Mobile panel layout ───────────────────────────────
+   Below the mobile breakpoint (see SectionManager.IS_MOBILE_LAYOUT), movable
+   panels stop being position:fixed boxes and become vertically-stacked flex
+   items instead (each set to position:relative + width:100% by
+   applyMobileRect) — the title bar and panel-visibility bar stay pinned same
+   as desktop (see .pinned-section), with #layout-sections' padding (set
+   inline in main.ts, since the title bar's height is dynamic) reserving room
+   for them above/below the stack. */
+.mobile-layout #layout-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.draggable-section.dragging {
+    opacity: 0.85;
+}
+
+/* Bottom resize handle is inert when the panel's aspect ratio is locked (see
+   beginMobileResize) — pointer-events:none backs up the JS no-op guard. */
+.section-resize-handle.section-resize-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Prevents the browser's native scroll/pull-to-refresh gesture from
+   intercepting a touch-drag that starts on a handle, so Pointer Events (see
+   beginMobileResize/beginMobileMove) get every move consistently. */
+.section-move-handle,
+.section-resize-handle {
+    touch-action: none;
+}
+
 /* ── Header ─────────────────────────────────────────── */
 
 #title-section {

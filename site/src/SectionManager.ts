@@ -27,6 +27,11 @@ const HANDLES: { name: Handle; edges: Edge[] }[] = [
 const MIN_WIDTH = 160;
 const MIN_HEIGHT = 80;
 
+// Mobile/desktop layout is decided once, at load — no live re-layout on
+// resize or rotation (see SectionManager's mobile-mode notes below).
+export const MOBILE_BREAKPOINT = 700;
+export const IS_MOBILE_LAYOUT = window.innerWidth <= MOBILE_BREAKPOINT;
+
 function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), Math.max(min, max));
 }
@@ -66,6 +71,11 @@ export abstract class SectionManager extends TimeManagerListener {
     protected readonly element: HTMLElement | null;
     private readonly resizable: boolean;
     private readonly autoHeight: boolean;
+    // Mobile layout only replaces the free-form fixed-position behavior of
+    // resizable (movable) panels — pinned chrome (title bar, panel-visibility
+    // bar) keeps its normal pinned-to-edge behavior in both modes (see
+    // applyRect's non-resizable branch, used whenever `mobile` is false).
+    private readonly mobile: boolean;
 
     // `resizable` lets a subclass opt out of the four draggable edges (e.g.
     // the title bar, which stays pinned to the top of the page like before).
@@ -79,6 +89,7 @@ export abstract class SectionManager extends TimeManagerListener {
         super();
         this.resizable = resizable;
         this.autoHeight = autoHeight;
+        this.mobile = IS_MOBILE_LAYOUT && resizable;
         this.element = document.getElementById(sectionId);
         if (this.element === null) {
             return;
@@ -112,6 +123,12 @@ export abstract class SectionManager extends TimeManagerListener {
     private applyRect(rect: SectionRect): void {
         const el = this.element;
         if (el === null) return;
+
+        if (this.mobile) {
+            this.applyMobileRect(rect.height);
+            return;
+        }
+
         el.style.position = "fixed";
 
         if (this.resizable) {
@@ -156,6 +173,49 @@ export abstract class SectionManager extends TimeManagerListener {
             el.style.bottom = "";
             el.style.height = height;
         }
+    }
+
+    // Mobile layout: the panel becomes a normal flex item (100% wide, stacked
+    // vertically with its siblings — see .mobile-layout #layout-sections)
+    // instead of a position:fixed box. `position: relative` (not the default
+    // static) is required, not cosmetic — the resize/move handles are
+    // position:absolute children that need a positioned ancestor to anchor
+    // to, which on desktop comes for free from position:fixed.
+    private applyMobileRect(heightPx: number): void {
+        const el = this.element;
+        if (el === null) return;
+        el.style.position = "relative";
+        el.style.top = "";
+        el.style.left = "";
+        el.style.right = "";
+        el.style.bottom = "";
+        el.style.width = "100%";
+
+        const aspectRatio = this.getAspectRatio();
+        if (aspectRatio !== null) {
+            // Locked-aspect content (e.g. the score viewer) derives its
+            // height from the 100%-wide box via CSS instead of a stored px
+            // height — see beginMobileResize, which refuses to run in this case.
+            el.style.height = "";
+            el.style.aspectRatio = `${aspectRatio}`;
+        } else {
+            el.style.aspectRatio = "";
+            el.style.height = `${heightPx}px`;
+        }
+    }
+
+    // Re-applies the current mobile layout — a no-op on desktop/pinned
+    // chrome. Needed because applyMobileRect only runs once at construction
+    // (via applyRect(defaultRect)), which for a subclass whose aspect ratio
+    // becomes available asynchronously (see ScoreManager, whose image hasn't
+    // loaded yet at construction time) would otherwise leave the panel stuck
+    // at its static placeholder height instead of switching to the live CSS
+    // aspect-ratio box once getAspectRatio() stops returning null.
+    protected refreshMobileRect(): void {
+        if (!this.mobile) return;
+        const el = this.element;
+        if (el === null) return;
+        this.applyMobileRect(el.offsetHeight);
     }
 
     private currentRect(): SectionRect {
@@ -285,6 +345,12 @@ export abstract class SectionManager extends TimeManagerListener {
     private attachResizeHandles(): void {
         const el = this.element;
         if (el === null) return;
+
+        if (this.mobile) {
+            this.attachMobileHandles(el);
+            return;
+        }
+
         for (const handle of HANDLES) {
             const div = document.createElement("div");
             div.classList.add("section-resize-handle", `section-resize-${handle.name}`);
@@ -297,6 +363,122 @@ export abstract class SectionManager extends TimeManagerListener {
         moveHandle.title = "Move";
         moveHandle.addEventListener("mousedown", (e) => this.beginMove(e));
         el.appendChild(moveHandle);
+    }
+
+    // Mobile: only a bottom-edge height handle (disabled when the panel's
+    // aspect ratio is locked — see updateMobileResizeDisabled) plus the move
+    // handle, now wired to beginMobileMove (reorder) instead of beginMove
+    // (free XY drag). Pointer Events (not mouse events) so these work with
+    // touch on an actual phone — the desktop handles above stay mouse-only
+    // since they don't need touch support.
+    private attachMobileHandles(el: HTMLElement): void {
+        const bottomHandle = document.createElement("div");
+        bottomHandle.classList.add("section-resize-handle", "section-resize-bottom");
+        bottomHandle.addEventListener("pointerdown", (e) => this.beginMobileResize(e));
+        bottomHandle.addEventListener("pointerenter", () => this.updateMobileResizeDisabled(bottomHandle));
+        this.updateMobileResizeDisabled(bottomHandle);
+        el.appendChild(bottomHandle);
+
+        const moveHandle = document.createElement("div");
+        moveHandle.classList.add("section-move-handle");
+        moveHandle.title = "Move";
+        moveHandle.addEventListener("pointerdown", (e) => this.beginMobileMove(e));
+        el.appendChild(moveHandle);
+    }
+
+    // The score viewer's aspect ratio isn't known until its first image
+    // loads (see ScoreManager.getAspectRatio), so this is re-checked on
+    // pointerenter rather than only once at handle creation.
+    private updateMobileResizeDisabled(handle: HTMLElement): void {
+        handle.classList.toggle("section-resize-disabled", this.getAspectRatio() !== null);
+    }
+
+    // Bottom-edge-only height drag. No-ops entirely when the aspect ratio is
+    // locked (see getAspectRatio) — that's what "disables" the handle, backed
+    // by pointer-events:none in CSS as a second guard. No upper clamp and no
+    // pinned-chrome bounds check (unlike the desktop drag): the page just
+    // scrolls, there's no fixed viewport to collide with.
+    private beginMobileResize(event: PointerEvent): void {
+        if (this.getAspectRatio() !== null) return;
+        event.preventDefault();
+        event.stopPropagation();
+
+        const el = this.element as HTMLElement;
+        const handle = event.currentTarget as HTMLElement;
+        const startHeight = el.offsetHeight;
+        const startY = event.clientY;
+
+        handle.setPointerCapture(event.pointerId);
+        handle.classList.add("dragging");
+        document.body.style.userSelect = "none";
+
+        const onMove = (moveEvent: PointerEvent) => {
+            const dy = moveEvent.clientY - startY;
+            el.style.height = `${Math.max(MIN_HEIGHT, startHeight + dy)}px`;
+        };
+
+        const onUp = () => {
+            handle.classList.remove("dragging");
+            document.body.style.userSelect = "";
+            handle.removeEventListener("pointermove", onMove);
+            handle.removeEventListener("pointerup", onUp);
+        };
+
+        handle.addEventListener("pointermove", onMove);
+        handle.addEventListener("pointerup", onUp);
+    }
+
+    // Reorders the panel among its siblings in the vertical stack by directly
+    // swapping DOM order — no transform-based "lift" and placeholder — as the
+    // pointer crosses each visible sibling's vertical midpoint. Simple and
+    // correct given the small (<10) panel count; hidden (toggled-off) panels
+    // are excluded so they don't act as invisible drop targets.
+    private beginMobileMove(event: PointerEvent): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const el = this.element as HTMLElement;
+        const parent = el.parentElement;
+        const handle = event.currentTarget as HTMLElement;
+        if (parent === null) return;
+
+        handle.setPointerCapture(event.pointerId);
+        el.classList.add("dragging");
+        document.body.style.userSelect = "none";
+
+        const onMove = (moveEvent: PointerEvent) => {
+            const pointerY = moveEvent.clientY;
+            const siblings = Array.from(parent.children).filter(
+                (child): child is HTMLElement =>
+                    child instanceof HTMLElement &&
+                    child !== el &&
+                    child.classList.contains("draggable-section") &&
+                    child.style.display !== "none"
+            );
+
+            for (const sibling of siblings) {
+                const rect = sibling.getBoundingClientRect();
+                const mid = rect.top + rect.height / 2;
+                const siblingIsAfter = Boolean(
+                    el.compareDocumentPosition(sibling) & Node.DOCUMENT_POSITION_FOLLOWING
+                );
+                if (siblingIsAfter && pointerY > mid) {
+                    parent.insertBefore(el, sibling.nextSibling);
+                } else if (!siblingIsAfter && pointerY < mid) {
+                    parent.insertBefore(el, sibling);
+                }
+            }
+        };
+
+        const onUp = () => {
+            el.classList.remove("dragging");
+            document.body.style.userSelect = "";
+            handle.removeEventListener("pointermove", onMove);
+            handle.removeEventListener("pointerup", onUp);
+        };
+
+        handle.addEventListener("pointermove", onMove);
+        handle.addEventListener("pointerup", onUp);
     }
 
     // Drags the whole section by its top-right move handle, translating

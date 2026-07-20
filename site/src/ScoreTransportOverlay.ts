@@ -75,6 +75,12 @@ export class ScoreTransportOverlay {
         scoreSection.style.left = '';
         scoreSection.style.width = '';
         scoreSection.style.height = '';
+        // Mobile layout sets these two inline (see SectionManager.applyMobileRect)
+        // and, being inline, they'd otherwise beat the .score-fullscreen CSS
+        // rule's position:fixed/inset:32px. Restored along with everything
+        // else via the cssText stash below on exit.
+        scoreSection.style.position = '';
+        scoreSection.style.aspectRatio = '';
 
         scoreSection.classList.add('score-fullscreen');
         this.fullscreenBtn.innerHTML = COMPRESS_SVG;

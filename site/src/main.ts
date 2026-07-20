@@ -11,7 +11,7 @@ import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 import {Tutorial} from "./Tutorial";
-import {SectionRect} from "./SectionManager";
+import {SectionRect, IS_MOBILE_LAYOUT} from "./SectionManager";
 import {PanelVisibilityManager} from "./PanelVisibilityManager";
 
 // Only a fallback for positioning the title bar before it's measured (see
@@ -28,6 +28,34 @@ const GAP = 10;
 // correctly proportioned before any page image has loaded.
 const SCORE_ASPECT_RATIO = 1966 / 2790;
 
+// Mobile layout (see SectionManager.IS_MOBILE_LAYOUT): panels stack in a
+// vertical flexbox instead of being freely positioned, so only a starting
+// height matters here — top/left/width on the returned rects are ignored by
+// SectionManager.applyMobileRect. The score viewer isn't listed: its height
+// comes from its aspect ratio via CSS once its image loads (see
+// applyMobileRect), so its rect below only needs a starting height that
+// roughly matches that ratio to avoid a visible jump once the image loads.
+const MOBILE_DEFAULT_HEIGHTS: { [sectionId: string]: number } = {
+    "timelines-section": TIMELINES_HEIGHT,
+    "transport-section": 160,
+    "annotations-section": 420,
+    "architecture-list": 260,
+    "video-player-section": 220,
+};
+
+function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
+    const vw = window.innerWidth;
+    const rects: { [sectionId: string]: SectionRect } = {};
+    for (const sectionId in MOBILE_DEFAULT_HEIGHTS) {
+        rects[sectionId] = {top: 0, left: 0, width: vw, height: MOBILE_DEFAULT_HEIGHTS[sectionId]};
+    }
+    rects["score-viewer-section"] = {top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO)};
+    rects["panel-visibility-bar"] = {
+        top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
+    };
+    return rects;
+}
+
 // Default on-screen rectangle for each section. These are only a starting
 // point — every section's edges are independently draggable afterward, so
 // the exact numbers just need to produce a sane initial arrangement.
@@ -42,6 +70,10 @@ const SCORE_ASPECT_RATIO = 1966 / 2790;
 // rather than a constant, since at narrow widths its content wraps onto
 // extra lines and grows taller.
 function computeDefaultRects(headerHeight: number): { [sectionId: string]: SectionRect } {
+    if (IS_MOBILE_LAYOUT) {
+        return computeMobileDefaultRects();
+    }
+
     const vw = window.innerWidth;
     // Reserve space at the bottom for the fixed panel-visibility bar.
     const vh = window.innerHeight - VISIBILITY_BAR_HEIGHT;
@@ -92,6 +124,13 @@ function buildWindow(lang : LanguageCode ) {
   </div>
     `;
 
+    // Drives the vertical-flexbox panel stack (see .mobile-layout in
+    // styles.css) — layout mode is decided once here, at load, and doesn't
+    // change if the viewport is later resized or rotated (see IS_MOBILE_LAYOUT).
+    if (IS_MOBILE_LAYOUT) {
+        document.body.classList.add("mobile-layout");
+    }
+
     // Build the title bar first and measure its actual rendered height —
     // it's auto-sized and grows at narrow widths (its links row wraps onto
     // extra lines), so the rest of the layout needs the real number rather
@@ -99,6 +138,17 @@ function buildWindow(lang : LanguageCode ) {
     new TitleSectionManager({top: 0, left: 0, width: window.innerWidth, height: HEADER_HEIGHT_FALLBACK});
     const titleElement = document.getElementById("title-section");
     const headerHeight = titleElement ? titleElement.getBoundingClientRect().height : HEADER_HEIGHT_FALLBACK;
+
+    // The panel stack sits between the pinned title bar and panel-visibility
+    // bar, so it needs room reserved above/below it for them — headerHeight
+    // is dynamic (see above) so this can't be expressed as static CSS.
+    if (IS_MOBILE_LAYOUT) {
+        const layoutSections = document.getElementById("layout-sections");
+        if (layoutSections) {
+            layoutSections.style.paddingTop = `${headerHeight + GAP}px`;
+            layoutSections.style.paddingBottom = `${VISIBILITY_BAR_HEIGHT + GAP}px`;
+        }
+    }
 
     const rects = computeDefaultRects(headerHeight);
 
