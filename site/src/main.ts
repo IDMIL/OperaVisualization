@@ -13,6 +13,7 @@ import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 import {Tutorial} from "./Tutorial";
 import {SectionRect, IS_MOBILE_LAYOUT} from "./SectionManager";
 import {PanelVisibilityManager} from "./PanelVisibilityManager";
+import {LibrettoManager} from "./LibrettoManager";
 
 // Only a fallback for positioning the title bar before it's measured (see
 // buildWindow) — its actual rendered height is auto and grows at narrow
@@ -41,6 +42,7 @@ const MOBILE_DEFAULT_HEIGHTS: { [sectionId: string]: number } = {
     "annotations-section": 420,
     "architecture-list": 260,
     "video-player-section": 220,
+    "libretto-section": 420,
 };
 
 function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
@@ -101,6 +103,7 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
         "video-player-section": {
             top: videoTop, left: 0, width: leftColumnWidth, height: vh - videoTop - GAP
         },
+        "libretto-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
         "score-viewer-section": {top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight},
         "panel-visibility-bar": {
             top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
@@ -119,6 +122,7 @@ function buildWindow(lang : LanguageCode ) {
     <div class="section" id="annotations-section"></div>
     <div class="section" id="architecture-list"></div>
     <div class="section" id="video-player-section"></div>
+    <div class="section" id="libretto-section"></div>
     <div class="section" id="score-viewer-section"></div>
     <div class="section" id="panel-visibility-bar"></div>
   </div>
@@ -161,6 +165,7 @@ function buildWindow(lang : LanguageCode ) {
     let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
     let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);
     let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
+    let librettoManager = new LibrettoManager(rects["libretto-section"]);
     new PanelVisibilityManager(rects["panel-visibility-bar"]);
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);
@@ -170,6 +175,7 @@ function buildWindow(lang : LanguageCode ) {
     timeManager.listeners.push(currentPageAnnotations);
     timeManager.listeners.push(architectureManager);
     timeManager.listeners.push(videoPlayerManager);
+    timeManager.listeners.push(librettoManager);
 
     timeManager.notifyListeners("init");
 

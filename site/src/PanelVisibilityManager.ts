@@ -17,6 +17,7 @@ const TOGGLEABLE_PANELS: ToggleablePanel[] = [
     {id: "annotations-section", label: () => text.ANNOTATIONS[globals.language], visibleByDefault: true},
     {id: "architecture-list", label: () => text.ARCHITECTURE[globals.language], visibleByDefault: false},
     {id: "video-player-section", label: () => text.VIDEO_PLAYER[globals.language], visibleByDefault: false},
+    {id: "libretto-section", label: () => text.LIBRETTO[globals.language], visibleByDefault: false},
     {id: "score-viewer-section", label: () => text.SCORE_VIEWER[globals.language], visibleByDefault: true},
 ];
 
