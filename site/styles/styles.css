@@ -1314,6 +1314,14 @@ mark.search-highlight {
     transition: background-color var(--transition);
 }
 
+.libretto-line-clickable {
+    cursor: pointer;
+}
+
+.libretto-line-clickable:hover {
+    background: var(--color-highlight);
+}
+
 .current-libretto-line {
     background: var(--color-highlight);
     font-weight: 600;

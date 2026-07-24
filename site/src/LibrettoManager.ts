@@ -1,16 +1,19 @@
 import {text} from "./data/text";
 import {globals} from "./globals";
 import {SectionManager, SectionRect} from "./SectionManager";
-import {ScoreTime, UpdateSource} from "./TimeManager";
+import {ScoreTime, TimeManager, UpdateSource} from "./TimeManager";
 import {librettoLineTimings} from "./data/librettoTimings";
 import librettoHtml from "./data/libretto.html?raw";
 
 export class LibrettoManager extends SectionManager {
+    private timeManager: TimeManager;
     private lineElements: Map<number, HTMLElement> = new Map();
     private currentLineElement: HTMLElement | null = null;
 
-    constructor(rect: SectionRect) {
+    constructor(timeManager: TimeManager, rect: SectionRect) {
         super("libretto-section", rect);
+
+        this.timeManager = timeManager;
 
         const section = this.element;
         if (section === null) {
@@ -24,10 +27,20 @@ export class LibrettoManager extends SectionManager {
         inner.id = "libretto-inner";
         inner.innerHTML = librettoHtml;
 
+        const timingByLine = new Map(librettoLineTimings.map(t => [t.lineNo, t]));
+
         for (const span of inner.querySelectorAll<HTMLElement>(".libretto-line")) {
             const lineNo = parseInt(span.dataset.lineNo ?? "", 10);
             if (!isNaN(lineNo)) {
                 this.lineElements.set(lineNo, span);
+
+                const timing = timingByLine.get(lineNo);
+                if (timing !== undefined) {
+                    span.classList.add("libretto-line-clickable");
+                    span.addEventListener("click", () => {
+                        this.timeManager.goToTime(timing.act, timing.measure, "libretto-click");
+                    });
+                }
             }
         }
 
