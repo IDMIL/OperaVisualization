@@ -165,7 +165,7 @@ function buildWindow(lang : LanguageCode ) {
     let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
     let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);
     let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
-    let librettoManager = new LibrettoManager(rects["libretto-section"]);
+    let librettoManager = new LibrettoManager(timeManager, rects["libretto-section"]);
     new PanelVisibilityManager(rects["panel-visibility-bar"]);
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);

@@ -7,7 +7,7 @@ export type Bar = number;
 export type Beat = number;
 export type Scene = number;
 export type BarLength = number;
-export type UpdateSource = "timeline-click" | "annotation-click" | "transport-click" | "score-click" | "video-playhead" | "init";
+export type UpdateSource = "timeline-click" | "annotation-click" | "transport-click" | "score-click" | "libretto-click" | "video-playhead" | "init";
 
 export interface ScoreTime {
     act: Act,
