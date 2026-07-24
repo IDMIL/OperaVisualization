@@ -46,15 +46,21 @@ interface VerticalBounds {
 // rendered edges become the effective top/bottom of the viewport for
 // resizing purposes. Read fresh each drag move since the title bar's height
 // can itself change (see autoHeight).
+// Firefox's getBoundingClientRect() is more prone than Chromium's to returning
+// fractional values for position:fixed elements (e.g. 899.98 instead of 900),
+// so an exact edge comparison can miss a bar that's visually flush against the
+// viewport edge. This tolerance absorbs that subpixel rounding.
+const EDGE_EPSILON = 1;
+
 function getVerticalDragBounds(): VerticalBounds {
     let top = 0;
     let bottom = window.innerHeight;
     for (const el of document.querySelectorAll<HTMLElement>(".pinned-section")) {
         const rect = el.getBoundingClientRect();
-        if (rect.top <= 0) {
+        if (rect.top <= EDGE_EPSILON) {
             top = Math.max(top, rect.bottom);
         }
-        if (rect.bottom >= window.innerHeight) {
+        if (rect.bottom >= window.innerHeight - EDGE_EPSILON) {
             bottom = Math.min(bottom, rect.top);
         }
     }
