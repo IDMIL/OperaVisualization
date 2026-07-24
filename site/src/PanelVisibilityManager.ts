@@ -60,6 +60,16 @@ export class PanelVisibilityManager extends SectionManager {
             target.style.display = panel.visibleByDefault ? "" : "none";
             checkbox.addEventListener("change", () => {
                 target.style.display = checkbox.checked ? "" : "none";
+                if (checkbox.checked) {
+                    const rect = target.getBoundingClientRect();
+                    highlight.style.top = `${rect.top}px`;
+                    highlight.style.left = `${rect.left}px`;
+                    highlight.style.width = `${rect.width}px`;
+                    highlight.style.height = `${rect.height}px`;
+                    highlight.style.display = "block";
+                } else {
+                    highlight.style.display = "none";
+                }
             });
 
             toggleLabel.addEventListener("mouseenter", () => {
