@@ -615,6 +615,33 @@ button {
     border: none;
 }
 
+/* Positioning context for .timeline-measure-label, which is anchored to a
+   bar cell's pixel position (see TimelineManager#positionMeasureLabel)
+   rather than laid out in flow. */
+#scene-structure-timeline {
+    position: relative;
+}
+
+.timeline-measure-label {
+    position: absolute;
+    top: 0;
+    height: var(--timeline-height);
+    display: flex;
+    align-items: center;
+    padding-left: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-heading);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.timeline-measure-label.left {
+    padding-left: 0;
+    padding-right: 4px;
+    transform: translateX(-100%);
+}
+
 .timeline-button span {
     display: inline-block;
 }
