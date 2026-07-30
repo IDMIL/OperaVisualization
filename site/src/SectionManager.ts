@@ -32,6 +32,12 @@ const MIN_HEIGHT = 80;
 export const MOBILE_BREAKPOINT = 700;
 export const IS_MOBILE_LAYOUT = window.innerWidth <= MOBILE_BREAKPOINT;
 
+// Shared spacing constant between panels/chrome — used by main.ts's default
+// layout math and by TimelineManager, which re-derives #layout-sections'
+// mobile top padding when the timeline collapses/expands (its height then
+// no longer matches what that padding was originally computed from).
+export const GAP = 10;
+
 function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), Math.max(min, max));
 }

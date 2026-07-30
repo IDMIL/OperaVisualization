@@ -3,7 +3,7 @@ import {scene_bar_ranges} from "./data/sceneBarRanges";
 import {getRomanNumerals, globals} from "./globals";
 import {text} from "./data/text";
 import {act_starting_pages, bar_to_page} from "./data/barToPage";
-import {SectionManager, SectionRect} from "./SectionManager";
+import {SectionManager, SectionRect, IS_MOBILE_LAYOUT, GAP} from "./SectionManager";
 
 export class TimelineManager extends SectionManager {
     constructor(tm : TimeManager, rect: SectionRect) {
@@ -42,6 +42,20 @@ export class TimelineManager extends SectionManager {
         collapseButton.addEventListener("click", () => {
             const collapsed = timelineSection!.classList.toggle("collapsed");
             timelineSection!.style.height = collapsed ? "auto" : `${rect.height}px`;
+
+            // On mobile, the flex-stacked panels below (see buildWindow) are
+            // pushed down by #layout-sections' top padding, a one-time value
+            // computed from this panel's original height. That value is now
+            // stale — re-derive it from the timeline's actual (just-changed)
+            // bottom edge so the stack closes the gap instead of leaving a
+            // blank space where the collapsed rows used to be.
+            if (IS_MOBILE_LAYOUT) {
+                const layoutSections = document.getElementById("layout-sections");
+                if (layoutSections) {
+                    layoutSections.style.paddingTop =
+                        `${timelineSection!.getBoundingClientRect().bottom + GAP}px`;
+                }
+            }
         });
         timelineSection.appendChild(collapseButton);
 

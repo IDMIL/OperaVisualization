@@ -11,7 +11,7 @@ import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
 import {Tutorial} from "./Tutorial";
-import {SectionRect, IS_MOBILE_LAYOUT} from "./SectionManager";
+import {SectionRect, IS_MOBILE_LAYOUT, GAP} from "./SectionManager";
 import {PanelVisibilityManager} from "./PanelVisibilityManager";
 import {LibrettoManager} from "./LibrettoManager";
 
@@ -21,7 +21,6 @@ import {LibrettoManager} from "./LibrettoManager";
 const HEADER_HEIGHT_FALLBACK = 50;
 const TIMELINES_HEIGHT = 82;
 const VISIBILITY_BAR_HEIGHT = 40;
-const GAP = 10;
 
 // Matches the score page images' fixed pixel dimensions (see
 // ScoreManager.getAspectRatio, which reads the same ratio from the loaded
