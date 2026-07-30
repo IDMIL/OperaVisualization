@@ -584,19 +584,35 @@ button {
     border-color: rgba(0, 0, 0, 0.12);
 }
 
-#scene-structure-button {
-    border-radius: 0 0 var(--radius) var(--radius);
-    justify-content: left;
-    padding: 0;
-    display: inline-block;
-}
-
 #timeline-act-1 {
     border-radius: var(--radius) 0 0 0;
 }
 
 #timeline-act-3 {
     border-radius: 0 var(--radius) 0 0;
+}
+
+/* The measures row draws its border/radius on the row itself rather than
+   per-cell (see .timeline-structure-bar below) — that's what lets neighboring
+   cells sit flush with no divider between them. */
+#scene-structure-bars {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+}
+
+[data-theme="light"] #scene-structure-bars {
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* With scenes that have many measures, each bar's percentage width can be
+   narrower than its own padding — without min-width:0, flex items refuse to
+   shrink past that content size, so the row overflows past the width of the
+   acts/scenes rows above it. */
+.timeline-structure-bar {
+    min-width: 0;
+    padding: 0;
+    border: none;
 }
 
 .timeline-button span {
@@ -836,41 +852,6 @@ button {
 
 #score-viewer-section.score-fullscreen .score-overlay.annotation-highlight {
     opacity: 0.25 !important;
-}
-
-/* ── Timeline cursor ─────────────────────────────────── */
-
-#timeline-cursor {
-    border: 1px solid #f87171;
-    height: 100%;
-    bottom:var(--timeline-height);
-    position: relative;
-    width: 0;
-    pointer-events: none;
-}
-
-#timeline-current-bar-cursor {
-    border: 1px solid #f9a8d4;
-    height: 100%;
-    position: relative;
-    width: 0;
-    pointer-events: none;
-}
-
-#timeline-cursor-label {
-    width: 100px;
-    padding-left: 6px;
-    white-space: nowrap;
-    position: relative;
-    color: var(--color-heading);
-    font-size: 11px;
-    font-weight: 500;
-}
-
-#timeline-cursor.left #timeline-cursor-label {
-    left: -210px;
-    text-align: right;
-    width: 200px;
 }
 
 /* ── Transport ───────────────────────────────────────── */

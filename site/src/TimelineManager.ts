@@ -2,7 +2,6 @@ import {ScoreTime, TimeManager} from "./TimeManager";
 import {scene_bar_ranges} from "./data/sceneBarRanges";
 import {getRomanNumerals, globals} from "./globals";
 import {text} from "./data/text";
-import {act_starting_pages, bar_to_page} from "./data/barToPage";
 import {SectionManager, SectionRect, IS_MOBILE_LAYOUT, GAP} from "./SectionManager";
 
 export class TimelineManager extends SectionManager {
@@ -92,7 +91,9 @@ export class TimelineManager extends SectionManager {
         let sceneStructureHeading = document.createElement("h3");
         sceneStructureHeading.innerText = text.SCENE_STRUCTURE[globals.language];
         let sceneStructureTimeline = document.createElement("div");
+        sceneStructureTimeline.id = "scene-structure-bars";
         sceneStructureTimeline.classList.add("timeline");
+        this.sceneStructureTimeline = sceneStructureTimeline;
 
         sceneStructureSection.appendChild(sceneStructureHeading);
         sceneStructureSection.appendChild(sceneStructureTimeline);
@@ -144,76 +145,39 @@ export class TimelineManager extends SectionManager {
             actNumber++;
         }
 
-        let sceneStructureDiv = document.createElement("div");
-        sceneStructureDiv.classList.add("timeline-button");
-        sceneStructureDiv.id = "scene-structure-button";
-        sceneStructureDiv.style.width = "100%";
-        sceneStructureTimeline.appendChild(sceneStructureDiv);
-
-        let currentBarCursorDiv = document.createElement("div");
-        currentBarCursorDiv.id = "timeline-current-bar-cursor";
-        sceneStructureDiv.appendChild(currentBarCursorDiv);
-
-        let cursorDiv = document.createElement("div");
-        cursorDiv.id = "timeline-cursor";
-        sceneStructureDiv.appendChild(cursorDiv);
-        let cursorLabel = document.createElement("div");
-        cursorLabel.id = "timeline-cursor-label";
-        cursorDiv.appendChild(cursorLabel);
-
-        sceneStructureDiv.addEventListener("mouseenter", () => {
-            let timelineCursor = document.getElementById("timeline-cursor");
-            if (timelineCursor !== null) {
-                timelineCursor.style.display = "block";
-            }
-        });
-
-        sceneStructureDiv.addEventListener("mouseleave", () => {
-            let timelineCursor = document.getElementById("timeline-cursor");
-            if (timelineCursor !== null) {
-                timelineCursor.style.display = "none";
-            }
-        });
-
-
-        sceneStructureDiv.addEventListener("mousemove", (event) => {
-            let timelineCursor = document.getElementById("timeline-cursor");
-            if (timelineCursor !== null) {
-                const rect = sceneStructureDiv.getBoundingClientRect();
-                console.log(event.clientX, rect.x);
-                const numBars = this.timeManager.getLengthOfCurrentScene();
-                const proportion = (event.clientX - rect.x) / (rect.width);
-                const lo = Math.floor(proportion * numBars) / numBars;
-                const hi = (Math.floor(proportion * numBars) + 1) / numBars;
-                timelineCursor.style.left = rect.width * lo + "px";
-                timelineCursor.style.width = rect.width * (hi - lo) + "px";
-
-                const barNumber = this.#getBarAtProportionOfCurrentScene(proportion);
-                const pageNumber = bar_to_page[this.timeManager.getCurrentAct() - 1][barNumber].page + act_starting_pages[this.timeManager.getCurrentAct() - 1] - 1;
-                cursorLabel.innerText = text.BAR[globals.language] + " " + barNumber + ", " +
-                    text.PAGE[globals.language] + " " + pageNumber;
-                this.timeManager.preloadTime({act: this.timeManager.getCurrentAct(), bar: barNumber, barLength: 1})
-                if (proportion > 0.5) {
-                    timelineCursor.classList.add("left");
-                } else {
-                    timelineCursor.classList.remove("left");
-                }
-            }
-
-
-        });
-
-        sceneStructureDiv.addEventListener("click", (event) => {
-            const rect = sceneStructureDiv.getBoundingClientRect();
-            const clickProportion = (event.clientX - rect.x) / (rect.width);
-
-            this.timeManager.goToTime(
-                this.timeManager.getCurrentAct(),
-                this.#getBarAtProportionOfCurrentScene(clickProportion),
-                'timeline-click');
-        });
+        this.#renderSceneStructureBars();
 
         this.initResizeHandles();
+    }
+
+    // The scene-structure row is rebuilt whenever the current scene changes
+    // (see timeUpdated), since each scene has a different number of bars —
+    // one equal-width button per bar, matching the look of the act/scene
+    // rows above.
+    #renderSceneStructureBars() {
+        this.sceneStructureTimeline.innerHTML = "";
+
+        const act = this.timeManager.getCurrentAct();
+        const scene = this.timeManager.getCurrentScene();
+        const sceneRange = scene_bar_ranges[act - 1][scene - 1];
+        const numBars = sceneRange[1] + 1 - sceneRange[0];
+
+        for (let bar = sceneRange[0]; bar <= sceneRange[1]; bar++) {
+            let barDiv = document.createElement("div");
+            barDiv.id = "timeline-structure-bar-" + bar;
+            barDiv.classList.add("timeline-button", "timeline-structure-bar");
+            barDiv.style.width = (100 / numBars) + "%";
+            barDiv.onclick = () => {
+                this.timeManager.goToTime(act, bar, 'timeline-click');
+            }
+            barDiv.onmouseenter = () => {
+                this.timeManager.preloadTime({act, bar, barLength: 1});
+            }
+            this.sceneStructureTimeline.appendChild(barDiv);
+        }
+
+        this.#renderedStructureAct = act;
+        this.#renderedStructureScene = scene;
     }
 
     async timeUpdated(_ : ScoreTime) {
@@ -243,20 +207,22 @@ export class TimelineManager extends SectionManager {
             }
         }
 
-        const currentBarCursor = document.getElementById("timeline-current-bar-cursor");
-        let sceneStructure = document.getElementById("scene-structure-button");
-        if (sceneStructure !== null && currentBarCursor !== null) {
-            const rect = sceneStructure.getBoundingClientRect();
-            const p = rect.width * this.timeManager.getProportionOfCurrentScene();
-            currentBarCursor.style.left = p + "px";
-            currentBarCursor.style.width = rect.width / this.timeManager.getLengthOfCurrentScene() + "px";
+        if (act !== this.#renderedStructureAct || scene !== this.#renderedStructureScene) {
+            this.#renderSceneStructureBars();
+        }
+
+        const bar = this.timeManager.getCurrentBarWithinAct();
+        for (const child of this.sceneStructureTimeline.children) {
+            if (child.id === "timeline-structure-bar-" + bar) {
+                child.classList.add("current-scene");
+            } else {
+                child.classList.remove("current-scene");
+            }
         }
     }
 
-    #getBarAtProportionOfCurrentScene(proportion : number) {
-        const sceneRange = scene_bar_ranges[this.timeManager.getCurrentAct()-1][this.timeManager.getCurrentScene()-1];
-        return Math.floor(sceneRange[0] + proportion * (sceneRange[1] - sceneRange[0]));
-    }
-
     timeManager;
+    sceneStructureTimeline! : HTMLDivElement;
+    #renderedStructureAct : number | null = null;
+    #renderedStructureScene : number | null = null;
 }
