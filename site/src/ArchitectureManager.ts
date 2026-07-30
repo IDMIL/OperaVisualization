@@ -1,5 +1,6 @@
 import {ScoreTime, TimeManager} from "./TimeManager";
 import {architecture} from "./data/architecture";
+import {text} from "./data/text";
 import {globals} from "./globals";
 import {SectionManager, SectionRect} from "./SectionManager";
 
@@ -12,6 +13,10 @@ export class ArchitectureManager extends SectionManager {
         if (archList === null) {
             return;
         }
+
+        const title = document.createElement("h2");
+        title.innerText = text.ARCHITECTURE[globals.language];
+        archList.appendChild(title);
 
         const archListHeader = document.createElement("h3");
         archListHeader.id = "architecture-list-header";

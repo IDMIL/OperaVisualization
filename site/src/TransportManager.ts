@@ -30,6 +30,7 @@ export class TransportManager extends SectionManager {
             return;
         }
         transportSection.innerHTML = `
+      <h2>` + text.TRANSPORT[globals.language] + `</h2>
       <div id="position-text">
       <p class="level-name">` + text.ACT[globals.language] + `</p>
         <p id="transport-act-number">1</p>

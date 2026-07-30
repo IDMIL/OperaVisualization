@@ -1,6 +1,8 @@
 import {ScoreTime, TimeManager} from "./TimeManager";
 import {bar_to_page, BarInfo} from "./data/barToPage";
 import {SectionManager, SectionRect} from "./SectionManager";
+import {text} from "./data/text";
+import {globals} from "./globals";
 
 export class ScoreManager extends SectionManager {
     private currentPage: undefined | string;
@@ -19,6 +21,19 @@ export class ScoreManager extends SectionManager {
             <div id="image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
+
+            // Unlike the other panels, the score image fills the whole box
+            // (its aspect ratio drives resize constraints — see
+            // getAspectRatio), so a normal in-flow title would eat into that
+            // space and desync the box's ratio from the image's. Overlaid
+            // instead, the same way the transport controls are (see
+            // ScoreTransportOverlay), so the panel's rect stays exactly the
+            // image's rect.
+            const title = document.createElement("div");
+            title.id = "score-title-overlay";
+            title.innerText = text.SCORE_VIEWER[globals.language];
+            scoreViewer.appendChild(title);
+
             this.initResizeHandles();
         }
 

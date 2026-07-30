@@ -364,21 +364,49 @@ export abstract class SectionManager extends TimeManagerListener {
             el.appendChild(div);
         }
 
-        const moveHandle = document.createElement("div");
-        moveHandle.classList.add("section-move-handle");
-        moveHandle.title = "Move";
-        moveHandle.addEventListener("mousedown", (e) => this.beginMove(e));
-        el.appendChild(moveHandle);
+        // No dedicated move handle — the whole panel background is the drag
+        // surface. Only starts a move when the mousedown didn't land on
+        // something the panel's own content already treats as clickable (see
+        // isInteractiveTarget), so buttons/links/inputs/etc. keep working
+        // normally and only empty space initiates a drag.
+        el.addEventListener("mousedown", (e) => {
+            if (el.classList.contains("score-fullscreen")) return;
+            if (this.isInteractiveTarget(e.target)) return;
+            this.beginMove(e);
+        });
 
         this.attachCloseHandle(el);
     }
 
-    // Mobile: only a bottom-edge height handle (disabled when the panel's
-    // aspect ratio is locked — see updateMobileResizeDisabled) plus the move
-    // handle, now wired to beginMobileMove (reorder) instead of beginMove
-    // (free XY drag). Pointer Events (not mouse events) so these work with
-    // touch on an actual phone — the desktop handles above stay mouse-only
-    // since they don't need touch support.
+    // Elements that already handle their own clicks — form controls, links,
+    // buttons, and anything the codebase marks clickable via cursor:pointer
+    // (the convention used throughout this project's CSS for custom
+    // clickable divs, e.g. timeline buttons, libretto lines, annotation
+    // items) — should not also start a panel drag. Resize/close handles are
+    // separate elements with their own mousedown listeners that stop
+    // propagation before it reaches this one, so they don't need handling here.
+    private static readonly NATIVE_INTERACTIVE_TAGS = new Set([
+        "A", "BUTTON", "INPUT", "SELECT", "TEXTAREA", "LABEL", "OPTION", "SUMMARY",
+    ]);
+
+    private isInteractiveTarget(target: EventTarget | null): boolean {
+        if (!(target instanceof Element)) return false;
+        if (SectionManager.NATIVE_INTERACTIVE_TAGS.has(target.tagName)) return true;
+        if (target instanceof HTMLElement && target.isContentEditable) return true;
+        const role = target.getAttribute("role");
+        if (role === "button" || role === "link") return true;
+        return getComputedStyle(target).cursor === "pointer";
+    }
+
+    // Mobile keeps a dedicated move handle (unlike desktop's anywhere-not-
+    // clickable drag surface): touching anywhere in a panel to pick it up
+    // would fight with scrolling the panel's own content, so reordering stays
+    // opt-in via this small handle, wired to beginMobileMove (reorder) rather
+    // than beginMove (free XY drag). Plus a bottom-edge height handle
+    // (disabled when the panel's aspect ratio is locked — see
+    // updateMobileResizeDisabled). Pointer Events (not mouse events) so these
+    // work with touch on an actual phone — the desktop resize handles stay
+    // mouse-only since they don't need touch support.
     private attachMobileHandles(el: HTMLElement): void {
         const bottomHandle = document.createElement("div");
         bottomHandle.classList.add("section-resize-handle", "section-resize-bottom");
@@ -538,10 +566,11 @@ export abstract class SectionManager extends TimeManagerListener {
         handle.addEventListener("pointercancel", onEnd);
     }
 
-    // Drags the whole section by its top-right move handle, translating
-    // top/left together while leaving width/height untouched. Clamped the
-    // same way an edge drag is: horizontally to the viewport, vertically to
-    // whatever the pinned chrome currently allows (see getVerticalDragBounds).
+    // Drags the whole section from a mousedown anywhere on its non-interactive
+    // background (see isInteractiveTarget), translating top/left together
+    // while leaving width/height untouched. Clamped the same way an edge drag
+    // is: horizontally to the viewport, vertically to whatever the pinned
+    // chrome currently allows (see getVerticalDragBounds).
     private beginMove(event: MouseEvent): void {
         event.preventDefault();
         event.stopPropagation();

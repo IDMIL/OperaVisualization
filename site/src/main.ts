@@ -19,7 +19,7 @@ import {LibrettoManager} from "./LibrettoManager";
 // buildWindow) — its actual rendered height is auto and grows at narrow
 // widths, when its links row wraps onto multiple lines.
 const HEADER_HEIGHT_FALLBACK = 50;
-const TIMELINES_HEIGHT = 80;
+const TIMELINES_HEIGHT = 82;
 const VISIBILITY_BAR_HEIGHT = 40;
 const GAP = 10;
 
@@ -36,8 +36,10 @@ const SCORE_ASPECT_RATIO = 1966 / 2790;
 // comes from its aspect ratio via CSS once its image loads (see
 // applyMobileRect), so its rect below only needs a starting height that
 // roughly matches that ratio to avoid a visible jump once the image loads.
+// Timelines isn't listed either — like the title bar, it's pinned chrome
+// outside the flex stack (see buildWindow), not one of these freely
+// draggable/resizable panels.
 const MOBILE_DEFAULT_HEIGHTS: { [sectionId: string]: number } = {
-    "timelines-section": TIMELINES_HEIGHT,
     "transport-section": 160,
     "annotations-section": 420,
     "architecture-list": 260,
@@ -62,11 +64,12 @@ function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
 // point — every section's edges are independently draggable afterward, so
 // the exact numbers just need to produce a sane initial arrangement.
 //
-// Only the timeline, annotations, and score panels are visible on load (see
-// PanelVisibilityManager's initial checkbox state) — the timeline keeps its
-// usual spot under the title bar, and the rest of the vertical space is
-// split between annotations (left) and the score (right), with the score's
-// width driven by its aspect ratio and annotations taking whatever remains.
+// Only the annotations and score panels are visible on load (see
+// PanelVisibilityManager's initial checkbox state) — the timeline is pinned
+// chrome and always visible (see buildWindow), and the rest of the vertical
+// space below it is split between annotations (left) and the score (right),
+// with the score's width driven by its aspect ratio and annotations taking
+// whatever remains.
 //
 // `headerHeight` is the title bar's actual measured height (see buildWindow)
 // rather than a constant, since at narrow widths its content wraps onto
@@ -96,7 +99,6 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
     const videoTop = archVideoTop + archListHeight + GAP;
 
     return {
-        "timelines-section": {top: headerHeight, left: 0, width: vw, height: TIMELINES_HEIGHT},
         "transport-section": {top: contentTop, left: 0, width: leftColumnWidth, height: transportHeight},
         "annotations-section": {top: contentTop, left: 0, width: annotationsWidth, height: contentHeight},
         "architecture-list": {top: archVideoTop, left: 0, width: leftColumnWidth, height: archListHeight},
@@ -111,7 +113,7 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
     };
 }
 
-function buildWindow(lang : LanguageCode ) {
+async function buildWindow(lang : LanguageCode ) {
     globals.language = lang;
 
     document.body.innerHTML  = `
@@ -138,18 +140,33 @@ function buildWindow(lang : LanguageCode ) {
     // Build the title bar first and measure its actual rendered height —
     // it's auto-sized and grows at narrow widths (its links row wraps onto
     // extra lines), so the rest of the layout needs the real number rather
-    // than an assumed constant.
+    // than an assumed constant. Wait for the webfont first: at DOMContentLoaded
+    // it's usually still loading, so an immediate measurement would catch the
+    // title bar at its fallback-font height and bake that stale, too-short
+    // number into the timeline's pinned top offset (see timelineRect below),
+    // leaving it overlapping the title bar once Jost swaps in and the
+    // title bar's own height:auto grows to fit.
     new TitleSectionManager({top: 0, left: 0, width: window.innerWidth, height: HEADER_HEIGHT_FALLBACK});
+    await document.fonts.ready;
     const titleElement = document.getElementById("title-section");
     const headerHeight = titleElement ? titleElement.getBoundingClientRect().height : HEADER_HEIGHT_FALLBACK;
 
-    // The panel stack sits between the pinned title bar and panel-visibility
-    // bar, so it needs room reserved above/below it for them — headerHeight
-    // is dynamic (see above) so this can't be expressed as static CSS.
+    // The timeline is pinned chrome too (see TimelineManager), flush against
+    // the title bar's bottom edge in both layouts — not part of either
+    // computeDefaultRects/computeMobileDefaultRects, the same way the title
+    // bar's own rect above isn't.
+    const timelineRect: SectionRect = {
+        top: headerHeight, left: 0, width: window.innerWidth, height: TIMELINES_HEIGHT
+    };
+
+    // The panel stack sits between the pinned title/timeline chrome and the
+    // panel-visibility bar, so it needs room reserved above/below it for
+    // them — headerHeight is dynamic (see above) so this can't be expressed
+    // as static CSS.
     if (IS_MOBILE_LAYOUT) {
         const layoutSections = document.getElementById("layout-sections");
         if (layoutSections) {
-            layoutSections.style.paddingTop = `${headerHeight + GAP}px`;
+            layoutSections.style.paddingTop = `${headerHeight + TIMELINES_HEIGHT + GAP}px`;
             layoutSections.style.paddingBottom = `${VISIBILITY_BAR_HEIGHT + GAP}px`;
         }
     }
@@ -160,7 +177,7 @@ function buildWindow(lang : LanguageCode ) {
 
     let scoreManager = new ScoreManager(timeManager, rects["score-viewer-section"]);
     let transportManager = new TransportManager(timeManager, rects["transport-section"]);
-    let timelineManager = new TimelineManager(timeManager, rects["timelines-section"]);
+    let timelineManager = new TimelineManager(timeManager, timelineRect);
     let annotationManager = new AnnotationManager(timeManager, rects["annotations-section"]);
     let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
     let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);

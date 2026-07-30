@@ -169,6 +169,7 @@ export const text: { [key: string]: MultiLanguageString } = {
     },
     ANNOTATIONS:        { en: "Annotations",              fr: "Annotations",                      pt: "Anotações",            de: "Annotationen" },
     TIMELINES:          { en: "Temporal Structure",        fr: "Structure temporelle",             pt: "Estrutura Temporal",   de: "Zeitliche Struktur" },
+    COLLAPSE:           { en: "Collapse",                  fr: "Réduire",                          pt: "Recolher",             de: "Einklappen" },
     VIDEO_PLAYER:       { en: "Video Player",              fr: "Lecteur vidéo",                    pt: "Reprodutor de Vídeo",  de: "Videoplayer" },
     TRANSPORT:          { en: "Navigation",                fr: "Navigation",                       pt: "Navegação",            de: "Navigation" },
     ARCHITECTURE:       { en: "Architecture",              fr: "Architecture",                     pt: "Arquitetura",          de: "Architektur" },

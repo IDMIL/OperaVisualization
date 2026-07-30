@@ -30,7 +30,7 @@
     --btn-hover-bg: rgba(255, 255, 255, 0.07);
     --btn-hover-border: rgba(255, 255, 255, 0.3);
 
-    --timeline-height: 18px;
+    --timeline-height: 16px;
 }
 
 [data-theme="light"] {
@@ -205,12 +205,15 @@ button {
     cursor: nesw-resize;
 }
 
-/* Move handle: a small grip in the top-right corner, inset far enough from
-   the actual corner that it never fights the diagonal resize handle there.
-   Dragging it translates the whole section without changing its size. */
+/* Move handle: mobile only. A small grip in the top-right corner, inset far
+   enough from the actual corner that it never fights the diagonal resize
+   handle there. Reorders the panel among its siblings (see beginMobileMove);
+   on desktop panels are dragged directly from their own background instead
+   (see SectionManager.isInteractiveTarget), so this element is never created
+   there. */
 .section-move-handle {
     position: absolute;
-    top: 3px;
+    top: 9px;
     right: 14px;
     width: 14px;
     height: 14px;
@@ -229,14 +232,16 @@ button {
     background-color: var(--color-accent);
 }
 
-/* Close button: a small × next to the move handle. Clicking it fires
+/* Close button: a small ×, vertically centered on the panel's title (see
+   .section h2) and tucked right up against the top-right corner resize
+   handle without overlapping its 10px hit zone. Clicking it fires
    panel-close-request (see SectionManager.attachCloseHandle), which
    PanelVisibilityManager listens for to hide the panel and uncheck its
    toggle — the same end state as unchecking it directly. */
 .section-close-handle {
     position: absolute;
-    top: 3px;
-    right: 32px;
+    top: 9px;
+    right: 12px;
     width: 14px;
     height: 14px;
     border-radius: 3px;
@@ -250,6 +255,12 @@ button {
     background-color: var(--color-border);
     transition: background-color var(--transition), color var(--transition);
     z-index: 7;
+}
+
+/* Mobile keeps a move handle in that same corner (see .section-move-handle) —
+   pushed further left so the two don't overlap. */
+.mobile-layout .section-close-handle {
+    right: 32px;
 }
 
 .section-close-handle:hover {
@@ -463,9 +474,59 @@ button {
 
 #timelines-section {
     background-color: var(--color-navy);
-    padding: 6px 14px 8px;
+    padding: 3px 14px 5px;
     overflow: hidden;
     transition: background-color var(--transition), border-color var(--transition);
+}
+
+/* More compact than the shared .section h2 (see below) — this is a dense
+   toolbar-like strip, not a content panel, so its title doesn't need as
+   much breathing room. */
+#timelines-section h2 {
+    padding: 2px 0 2px;
+}
+
+/* Collapse toggle: a small triangle in the top-right corner (see
+   TimelineManager) — pointing down normally, left once collapsed. Hides
+   every .timeline-container row, leaving only the title and this button
+   (the panel's own height then collapses to fit just that row — see
+   TimelineManager's click handler). */
+#timeline-collapse-button {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-muted);
+    z-index: 7;
+}
+
+#timeline-collapse-button:hover {
+    color: var(--color-accent);
+}
+
+#timeline-collapse-button::before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 7px 5px 0 5px;
+    border-color: currentColor transparent transparent transparent;
+    transition: border-color var(--transition);
+}
+
+#timelines-section.collapsed #timeline-collapse-button::before {
+    border-width: 5px 7px 5px 0;
+    border-color: transparent currentColor transparent transparent;
+}
+
+#timelines-section.collapsed .timeline-container {
+    display: none;
 }
 
 .timeline-container {
@@ -473,7 +534,7 @@ button {
     gap: 6px;
     height: var(--timeline-height);
     align-items: stretch;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .timeline-container:last-child {
@@ -566,6 +627,24 @@ button {
     height: 100%;
     width: auto;
     position: relative;
+}
+
+/* Overlaid rather than in-flow (see ScoreManager) */
+#score-title-overlay {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    z-index: 8;
+    padding: 3px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.52);
+    /*backdrop-filter: blur(4px);*/
+    color: gray;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    pointer-events: none;
 }
 
 /* ── Current-page annotation overlay ────────────────── */

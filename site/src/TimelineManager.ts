@@ -7,7 +7,9 @@ import {SectionManager, SectionRect} from "./SectionManager";
 
 export class TimelineManager extends SectionManager {
     constructor(tm : TimeManager, rect: SectionRect) {
-        super("timelines-section", rect);
+        // Pinned chrome like the title bar (see TitleSectionManager) — always
+        // visible right below it, not draggable/resizable.
+        super("timelines-section", rect, false);
         this.timeManager = tm;
 
         let actLengths = [];
@@ -23,9 +25,25 @@ export class TimelineManager extends SectionManager {
             return;
         }
 
-        // const heading = document.createElement("h2");
-        // heading.innerText = text[globals.language].TIMELINES;
-        // timelineSection.appendChild(heading);
+        const heading = document.createElement("h2");
+        heading.innerText = text.TIMELINES[globals.language];
+        timelineSection.appendChild(heading);
+
+        // Collapsing hides every .timeline-container row (see the
+        // #timelines-section.collapsed CSS rule) — the heading above and
+        // this button are the only other direct children, so they're
+        // untouched by that rule. Shrinking to height:auto rather than a
+        // second hardcoded pixel height lets it size to exactly the
+        // (still-visible) title row; expanding restores the fixed height
+        // this panel was constructed with.
+        const collapseButton = document.createElement("div");
+        collapseButton.id = "timeline-collapse-button";
+        collapseButton.title = text.COLLAPSE[globals.language];
+        collapseButton.addEventListener("click", () => {
+            const collapsed = timelineSection!.classList.toggle("collapsed");
+            timelineSection!.style.height = collapsed ? "auto" : `${rect.height}px`;
+        });
+        timelineSection.appendChild(collapseButton);
 
 
         let actsSection = document.createElement("div");
