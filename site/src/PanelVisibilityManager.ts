@@ -72,6 +72,12 @@ export class PanelVisibilityManager extends SectionManager {
                 }
             });
 
+            target.addEventListener("panel-close-request", () => {
+                checkbox.checked = false;
+                target.style.display = "none";
+                highlight.style.display = "none";
+            });
+
             toggleLabel.addEventListener("mouseenter", () => {
                 const rect = target.getBoundingClientRect();
                 highlight.style.top = `${rect.top}px`;

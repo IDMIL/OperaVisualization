@@ -369,6 +369,8 @@ export abstract class SectionManager extends TimeManagerListener {
         moveHandle.title = "Move";
         moveHandle.addEventListener("mousedown", (e) => this.beginMove(e));
         el.appendChild(moveHandle);
+
+        this.attachCloseHandle(el);
     }
 
     // Mobile: only a bottom-edge height handle (disabled when the panel's
@@ -390,6 +392,27 @@ export abstract class SectionManager extends TimeManagerListener {
         moveHandle.title = "Move";
         moveHandle.addEventListener("pointerdown", (e) => this.beginMobileMove(e));
         el.appendChild(moveHandle);
+
+        this.attachCloseHandle(el);
+    }
+
+    // Small × button next to the move handle. Firing "panel-close-request" on
+    // the section element (rather than closing it directly here) keeps
+    // SectionManager ignorant of the panel-visibility bar — PanelVisibilityManager
+    // listens for the event on each target it manages and treats it exactly
+    // like unchecking that panel's toggle.
+    private attachCloseHandle(el: HTMLElement): void {
+        const closeHandle = document.createElement("div");
+        closeHandle.classList.add("section-close-handle");
+        closeHandle.title = "Close";
+        closeHandle.textContent = "×";
+        closeHandle.addEventListener("mousedown", (e) => e.stopPropagation());
+        closeHandle.addEventListener("pointerdown", (e) => e.stopPropagation());
+        closeHandle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            el.dispatchEvent(new CustomEvent("panel-close-request"));
+        });
+        el.appendChild(closeHandle);
     }
 
     // The score viewer's aspect ratio isn't known until its first image

@@ -229,8 +229,37 @@ button {
     background-color: var(--color-accent);
 }
 
+/* Close button: a small × next to the move handle. Clicking it fires
+   panel-close-request (see SectionManager.attachCloseHandle), which
+   PanelVisibilityManager listens for to hide the panel and uncheck its
+   toggle — the same end state as unchecking it directly. */
+.section-close-handle {
+    position: absolute;
+    top: 3px;
+    right: 32px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--color-muted);
+    background-color: var(--color-border);
+    transition: background-color var(--transition), color var(--transition);
+    z-index: 7;
+}
+
+.section-close-handle:hover {
+    background-color: var(--color-accent);
+    color: white;
+}
+
 .score-fullscreen .section-resize-handle,
-.score-fullscreen .section-move-handle {
+.score-fullscreen .section-move-handle,
+.score-fullscreen .section-close-handle {
     display: none;
 }
 
@@ -282,7 +311,8 @@ button {
    intercepting a touch-drag that starts on a handle, so Pointer Events (see
    beginMobileResize/beginMobileMove) get every move consistently. */
 .section-move-handle,
-.section-resize-handle {
+.section-resize-handle,
+.section-close-handle {
     touch-action: none;
 }
 
