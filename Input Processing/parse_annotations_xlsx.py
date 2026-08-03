@@ -180,6 +180,7 @@ def parse_annotations_sheet(ws, act_number, isGeneral):
         portuguese_annotation = translate(french_annotation, 'FR', 'PT-BR')
         german_annotation = translate(french_annotation, 'FR', 'DE')
         a['annotation'] = {'fr': french_annotation, 'en': english_annotation, 'pt': portuguese_annotation, 'de': german_annotation}
+        a['annotation_source'] = 'René Schmidt'
         a['act'] = act_number
         a['is_general'] = isGeneral
         a['page_range'] = current_page_range if isGeneral else [0, 0]
@@ -215,6 +216,24 @@ for f in listdir("../annotations"):
             all_annotations += parse_annotations_sheet(wb[sheet_name], act_number, isGeneral=True)
 
 all_annotations.sort(key=lambda a: a['act'] * 10000 + a['measure_range'][0])
+
+annotation_groups = []
+for a in all_annotations:
+    key = (a['act'], a['is_general'], tuple(a['page_range']), tuple(a['measure_range']))
+    if annotation_groups and annotation_groups[-1]['_key'] == key:
+        annotation_groups[-1]['annotations'].append({'code': a['code'], 'annotation': a['annotation'], 'annotation_source': a['annotation_source']})
+    else:
+        annotation_groups.append({
+            '_key': key,
+            'act': a['act'],
+            'is_general': a['is_general'],
+            'page_range': a['page_range'],
+            'measure_range': a['measure_range'],
+            'annotations': [{'code': a['code'], 'annotation': a['annotation'], 'annotation_source': a['annotation_source']}],
+        })
+for g in annotation_groups:
+    del g['_key']
+
 with open("../site/src/data/annotations.ts", 'w', encoding='utf8') as annotations_file:
     annotations_file.write("""import {LanguageCode} from "./text";
 
@@ -223,15 +242,20 @@ export type AnnotationCode = 'dy' | 'du' | 'for' | 'int' | 'mo' | 'tim' | 'graph
 export interface Annotation {
     code : Array<AnnotationCode>;
     annotation : {[language in LanguageCode] : string};
+    annotation_source : string;
+}
+
+export interface AnnotationGroup {
     act : number;
     is_general: boolean;
     page_range: [number, number];
     measure_range : [number, number];
+    annotations : Array<Annotation>;
 }
 
 
-export const annotations : Array<Annotation> =
+export const annotations : Array<AnnotationGroup> =
 """)
-    annotations_file.write(str(all_annotations)
+    annotations_file.write(str(annotation_groups)
                            .replace("'is_general': False", "'is_general': false")
                            .replace("'is_general': True", "'is_general': true"))

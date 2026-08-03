@@ -1,13 +1,36 @@
 import {ScoreTime, TimeManager, UpdateSource} from "./TimeManager";
-import {Annotation, AnnotationCode, annotations} from "./data/annotations";
+import {Annotation as AnnotationContent, AnnotationCode, AnnotationGroup, annotations as annotationGroupsData} from "./data/annotations";
 import {globals} from "./globals";
 import {AddAnnotationPanel} from "./AddAnnotationPanel";
 import {addInfoBox} from "./InfoBox";
 import {text} from "./data/text";
 import {SectionManager, SectionRect} from "./SectionManager";
+import {buildAnnotationBullet} from "./AnnotationBullet";
 
-interface AnnotationSources {
-    [source_name: string]: {description: string, annotations: Array<Annotation>}
+// Flat view of an annotation with its group's time-range context merged in,
+// used by UI code (the add/edit panel, the current-page view) that deals with
+// one annotation at a time.
+export interface Annotation extends AnnotationContent {
+    act: number;
+    is_general: boolean;
+    page_range: [number, number];
+    measure_range: [number, number];
+}
+
+function flattenAnnotationGroups(groups: Array<AnnotationGroup>): Array<Annotation> {
+    return groups.flatMap(group => group.annotations.map(a => ({
+        ...a,
+        act: group.act,
+        is_general: group.is_general,
+        page_range: group.page_range,
+        measure_range: group.measure_range,
+    })));
+}
+
+function sameTimeRange(a: AnnotationGroup, b: AnnotationGroup): boolean {
+    return a.act === b.act && a.is_general === b.is_general &&
+        a.page_range[0] === b.page_range[0] && a.page_range[1] === b.page_range[1] &&
+        a.measure_range[0] === b.measure_range[0] && a.measure_range[1] === b.measure_range[1];
 }
 
 export class AnnotationManager extends SectionManager {
@@ -21,16 +44,26 @@ export class AnnotationManager extends SectionManager {
         'graph' : text.GRAPHICAL[globals.language]
     }
 
-    private allAnnotations : AnnotationSources = {
-        "René Schmidt": {description:text.SCHMIDT_DESCRIPTION[globals.language], annotations: annotations},
-        "Serge Garant": {description:text.GARANT_DESCRIPTION[globals.language], annotations: []},
-        "George Perle": {description:text.PERLE_DESCRIPTION[globals.language], annotations: []},
-        "User": {description: text.USER_DESCRIPTION[globals.language], annotations: []}};
+    private sourceDescriptions : { [source_name: string]: string } = {
+        "René Schmidt": text.SCHMIDT_DESCRIPTION[globals.language],
+        "Serge Garant": text.GARANT_DESCRIPTION[globals.language],
+        "George Perle": text.PERLE_DESCRIPTION[globals.language],
+        "User": text.USER_DESCRIPTION[globals.language],
+    };
+
+    // Master store, in the same grouped-by-time-range shape as data/annotations.ts.
+    // User-created annotations are merged into it too, tagged via annotation_source.
+    private annotationGroups: Array<AnnotationGroup> =
+        annotationGroupsData.map(g => ({...g, annotations: [...g.annotations]}));
 
     soloedAnnotationCategories : Array<AnnotationCode> = [];
-    private annotationEntries: Array<{div: HTMLElement, annotation: Annotation}> = [];
+    // One bubble (rendered div) per group, holding a <ul> of one <li> per annotation.
+    private groupEntries: Array<{div: HTMLElement, group: AnnotationGroup, listEl: HTMLElement}> = [];
+    // Lets us find/remove the <li> for a given annotation without walking the DOM.
+    private annotationItemElements: Map<AnnotationContent, HTMLElement> = new Map();
+    private editingEntry: {group: AnnotationGroup, annotation: AnnotationContent} | null = null;
     private searchText: string = '';
-    private enabledSources: Set<string> = new Set(Object.keys(this.allAnnotations));
+    private enabledSources: Set<string> = new Set(Object.keys(this.sourceDescriptions));
     private timeManager: TimeManager;
     private addAnnotationPanel!: AddAnnotationPanel;
     private downloadButton!: HTMLButtonElement;
@@ -79,7 +112,7 @@ export class AnnotationManager extends SectionManager {
 
         let sourceFilterDiv = document.createElement('div');
         sourceFilterDiv.id = 'annotation-source-filters';
-        Object.keys(this.allAnnotations).forEach((source) => {
+        Object.keys(this.sourceDescriptions).forEach((source) => {
             const label = document.createElement('label');
             label.classList.add('annotation-source-label');
             const checkbox = document.createElement('input');
@@ -98,7 +131,7 @@ export class AnnotationManager extends SectionManager {
             label.appendChild(checkbox);
             let labelText = source === "User" ? text.USER[globals.language] : source;
             label.appendChild(document.createTextNode(labelText));
-            addInfoBox(label, this.allAnnotations[source].description);
+            addInfoBox(label, this.sourceDescriptions[source]);
             sourceFilterDiv.appendChild(label);
         });
         annotationsSection.appendChild(sourceFilterDiv);
@@ -148,23 +181,18 @@ export class AnnotationManager extends SectionManager {
         this.scrollerDiv.classList.add('scroller-area');
         annotationsSection.appendChild(this.scrollerDiv);
 
-        this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (annotation) => {
-            this.allAnnotations["User"].annotations.push(annotation);
-            this.insertAnnotationAtCorrectPosition(annotation, 'User');
+        this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (flatAnnotation) => {
+            const {group, annotation} = this.insertIntoGroups(flatAnnotation);
+            this.insertAnnotationAtCorrectPosition(group, annotation);
             this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
-        }, this.timeManager, (old, updated) => {
-            const index = this.annotationEntries.findIndex(e => e.annotation === old);
-            if (index !== -1) {
-                this.annotationEntries[index].div.remove();
-                this.annotationEntries.splice(index, 1);
+        }, this.timeManager, (_old, updatedFlatAnnotation) => {
+            if (this.editingEntry) {
+                this.removeAnnotationEntry(this.editingEntry.group, this.editingEntry.annotation);
+                this.editingEntry = null;
             }
-            const userIndex = this.allAnnotations["User"].annotations.indexOf(old);
-            if (userIndex !== -1) {
-                this.allAnnotations["User"].annotations.splice(userIndex, 1);
-            }
-            this.allAnnotations["User"].annotations.push(updated);
-            this.insertAnnotationAtCorrectPosition(updated, 'User');
+            const {group, annotation} = this.insertIntoGroups(updatedFlatAnnotation);
+            this.insertAnnotationAtCorrectPosition(group, annotation);
             this.setAnnotationVisibilityFromState();
             this.saveUserAnnotations();
         });
@@ -173,15 +201,18 @@ export class AnnotationManager extends SectionManager {
         const saved = localStorage.getItem('wozzeck-user-annotations');
         if (saved) {
             try {
-                this.allAnnotations["User"].annotations = JSON.parse(saved);
+                const savedUserAnnotations = JSON.parse(saved) as Array<Annotation>;
+                for (const flatAnnotation of savedUserAnnotations) {
+                    this.insertIntoGroups(flatAnnotation);
+                }
             } catch {
                 // ignore malformed stored data
             }
         }
 
-        for (const key in this.allAnnotations) {
-            for (const annotation of this.allAnnotations[key].annotations) {
-                this.insertAnnotationAtCorrectPosition(annotation, key);
+        for (const group of this.annotationGroups) {
+            for (const annotation of group.annotations) {
+                this.insertAnnotationAtCorrectPosition(group, annotation);
             }
         }
         this.setAnnotationVisibilityFromState();
@@ -191,93 +222,163 @@ export class AnnotationManager extends SectionManager {
         this.initResizeHandles();
     }
 
-    insertAnnotationAtCorrectPosition(annotation: Annotation, source: string = 'User') {
-        const div = this.buildAnnotationDiv(annotation);
-        div.dataset.source = source;
-        if (source === 'User') {
-            const editButton = document.createElement('button');
-            editButton.classList.add('annotation-edit-button');
-            editButton.textContent = '✎';
-            editButton.onclick = (event) => {
-                event.stopPropagation();
-                this.addAnnotationPanel.open(annotation);
-            };
-            div.appendChild(editButton);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.classList.add('annotation-delete-button');
-            deleteButton.textContent = '✕';
-            deleteButton.onclick = (event) => {
-                event.stopPropagation();
-                const index = this.annotationEntries.findIndex(e => e.annotation === annotation);
-                if (index !== -1) {
-                    this.annotationEntries[index].div.remove();
-                    this.annotationEntries.splice(index, 1);
-                }
-                const userIndex = this.allAnnotations["User"].annotations.indexOf(annotation);
-                if (userIndex !== -1) {
-                    this.allAnnotations["User"].annotations.splice(userIndex, 1);
-                }
-                this.saveUserAnnotations();
-            };
-            div.appendChild(deleteButton);
+    // Finds the group with the same time range as flatAnnotation, creating one
+    // if none exists yet, and adds the annotation content to it.
+    private insertIntoGroups(flatAnnotation: Annotation): {group: AnnotationGroup, annotation: AnnotationContent} {
+        const {act, is_general, page_range, measure_range, ...content} = flatAnnotation;
+        const wantedRange: AnnotationGroup = {act, is_general, page_range, measure_range, annotations: []};
+        let group = this.annotationGroups.find(g => sameTimeRange(g, wantedRange));
+        if (!group) {
+            group = {act, is_general, page_range, measure_range, annotations: []};
+            this.annotationGroups.push(group);
         }
-        const insertIndex = this.annotationEntries.findIndex(
-            e => e.annotation.act > annotation.act ||
-                (e.annotation.act === annotation.act &&
-                    e.annotation.measure_range[0] > annotation.measure_range[0])
-        );
-        if (insertIndex === -1 && this.scrollerDiv !== undefined) {
-            this.scrollerDiv.appendChild(div);
-            this.annotationEntries.push({div, annotation});
-        } else if (this.scrollerDiv !== undefined) {
-            this.scrollerDiv.insertBefore(div, this.annotationEntries[insertIndex].div);
-            this.annotationEntries.splice(insertIndex, 0, {div, annotation});
+        group.annotations.push(content);
+        return {group, annotation: content};
+    }
+
+    private removeAnnotationEntry(group: AnnotationGroup, annotation: AnnotationContent) {
+        const li = this.annotationItemElements.get(annotation);
+        if (li) {
+            li.remove();
+            this.annotationItemElements.delete(annotation);
+        }
+        const annotationIndex = group.annotations.indexOf(annotation);
+        if (annotationIndex !== -1) {
+            group.annotations.splice(annotationIndex, 1);
+        }
+        if (group.annotations.length === 0) {
+            const groupIndex = this.annotationGroups.indexOf(group);
+            if (groupIndex !== -1) {
+                this.annotationGroups.splice(groupIndex, 1);
+            }
+            const entryIndex = this.groupEntries.findIndex(e => e.group === group);
+            if (entryIndex !== -1) {
+                this.groupEntries[entryIndex].div.remove();
+                this.groupEntries.splice(entryIndex, 1);
+            }
         }
     }
 
-    private buildAnnotationDiv(annotation: Annotation): HTMLElement {
-        const annotationDiv = document.createElement("div");
-        annotationDiv.classList.add("annotation");
-        for (const code of annotation.code) {
-            annotationDiv.classList.add(code + "-annotation");
+    private toFlatAnnotation(group: AnnotationGroup, annotation: AnnotationContent): Annotation {
+        return {
+            ...annotation,
+            act: group.act,
+            is_general: group.is_general,
+            page_range: group.page_range,
+            measure_range: group.measure_range,
+        };
+    }
+
+    // Finds (or creates and correctly positions) the bubble for a group.
+    private ensureGroupBubble(group: AnnotationGroup): {div: HTMLElement, listEl: HTMLElement} {
+        const existing = this.groupEntries.find(e => e.group === group);
+        if (existing) {
+            return existing;
         }
-        if (annotation.code.length === 0) {
-            annotationDiv.classList.add('unclassified-annotation');
+
+        const div = this.buildGroupBubble(group);
+        const listEl = div.querySelector('.annotation-list') as HTMLElement;
+        const entry = {div, group, listEl};
+
+        const insertIndex = this.groupEntries.findIndex(
+            e => e.group.act > group.act ||
+                (e.group.act === group.act && e.group.measure_range[0] > group.measure_range[0])
+        );
+        if (insertIndex === -1 && this.scrollerDiv !== undefined) {
+            this.scrollerDiv.appendChild(div);
+            this.groupEntries.push(entry);
+        } else if (this.scrollerDiv !== undefined) {
+            this.scrollerDiv.insertBefore(div, this.groupEntries[insertIndex].div);
+            this.groupEntries.splice(insertIndex, 0, entry);
         }
+        return entry;
+    }
+
+    insertAnnotationAtCorrectPosition(group: AnnotationGroup, annotation: AnnotationContent) {
+        const {listEl} = this.ensureGroupBubble(group);
+        const item = this.buildAnnotationItem(group, annotation);
+        listEl.appendChild(item);
+        this.annotationItemElements.set(annotation, item);
+    }
+
+    private buildGroupBubble(group: AnnotationGroup): HTMLElement {
+        const groupDiv = document.createElement("div");
+        groupDiv.classList.add("annotation-group");
 
         const timeStampDiv = document.createElement("div");
         timeStampDiv.classList.add("annotation-time-stamp");
-        timeStampDiv.innerText = this.getStringForTimestamp(annotation);
-        annotationDiv.appendChild(timeStampDiv);
+        timeStampDiv.innerText = this.getStringForTimestamp(group);
+        groupDiv.appendChild(timeStampDiv);
+
+        const listEl = document.createElement("ul");
+        listEl.classList.add("annotation-list");
+        groupDiv.appendChild(listEl);
+
+        groupDiv.onclick = () => {
+            this.timeManager.goToTime(group.act, group.measure_range[0], "annotation-click");
+        };
+
+        return groupDiv;
+    }
+
+    private buildAnnotationItem(group: AnnotationGroup, annotation: AnnotationContent): HTMLElement {
+        const item = document.createElement("li");
+        item.classList.add("annotation-item");
+        item.dataset.source = annotation.annotation_source;
+        for (const code of annotation.code) {
+            item.classList.add(code + "-annotation");
+        }
+        if (annotation.code.length === 0) {
+            item.classList.add('unclassified-annotation');
+        }
+
+        item.appendChild(buildAnnotationBullet(annotation.code));
 
         const annotationTextDiv = document.createElement("div");
         annotationTextDiv.classList.add("annotation-text");
         annotationTextDiv.dataset.originalHtml = annotation.annotation[globals.language];
         annotationTextDiv.innerHTML = annotation.annotation[globals.language];
         annotationTextDiv.dataset.originalText = annotationTextDiv.textContent || '';
-        annotationDiv.appendChild(annotationTextDiv);
+        item.appendChild(annotationTextDiv);
 
-        annotationDiv.onclick = () => {
-            this.timeManager.goToTime(annotation.act, annotation.measure_range[0], "annotation-click");
-        };
+        if (annotation.annotation_source === 'User') {
+            const editButton = document.createElement('button');
+            editButton.classList.add('annotation-edit-button');
+            editButton.textContent = '✎';
+            editButton.onclick = (event) => {
+                event.stopPropagation();
+                this.editingEntry = {group, annotation};
+                this.addAnnotationPanel.open(this.toFlatAnnotation(group, annotation));
+            };
+            item.appendChild(editButton);
 
-        return annotationDiv;
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('annotation-delete-button');
+            deleteButton.textContent = '✕';
+            deleteButton.onclick = (event) => {
+                event.stopPropagation();
+                this.removeAnnotationEntry(group, annotation);
+                this.saveUserAnnotations();
+            };
+            item.appendChild(deleteButton);
+        }
+
+        return item;
     }
 
-    getStringForTimestamp(annotation : Annotation) {
+    getStringForTimestamp(group : AnnotationGroup) {
         const act_scene = text["ACT"][globals.language] + ' ' +
-            annotation.act + ', ' + text["SCENE"][globals.language] + ' ' +
-            this.timeManager.getScene(annotation.act, annotation.measure_range[0]);
+            group.act + ', ' + text["SCENE"][globals.language] + ' ' +
+            this.timeManager.getScene(group.act, group.measure_range[0]);
 
-        if (annotation.is_general) {
+        if (group.is_general) {
             const pages = text["PAGE"][globals.language] + ' ' + (
-            (annotation.page_range[0] === annotation.page_range[1])
-                ? annotation.page_range[0] : [annotation.page_range[0]] + '–' + annotation.page_range[1]);
+            (group.page_range[0] === group.page_range[1])
+                ? group.page_range[0] : [group.page_range[0]] + '–' + group.page_range[1]);
             return act_scene + ', ' + pages;
         }
 
-        const mr = annotation.measure_range;
+        const mr = group.measure_range;
         const measure = (mr[0] === mr[1]) ?
             (text["BAR"][globals.language] + ' ' + mr[0]) :
             (text["BARS"][globals.language] + ' ' + mr[0] + '–' + mr[1]);
@@ -303,48 +404,57 @@ export class AnnotationManager extends SectionManager {
         const scroller = document.getElementById('annotations-scroller');
         if (!scroller) return;
 
-        for (const annotationDiv of scroller.children) {
-            const textEl = annotationDiv.querySelector('.annotation-text') as HTMLElement | null;
-            const originalText = textEl?.dataset.originalText ?? '';
-            const matchesSearch = searchLower === '' || originalText.toLowerCase().includes(searchLower);
+        for (const groupDiv of scroller.children) {
+            let anyItemVisible = false;
 
-            let matchesCategory: boolean;
-            if (this.soloedAnnotationCategories.length === 0) {
-                matchesCategory = true;
-            } else if (annotationDiv.classList.contains('unclassified-annotation')) {
-                matchesCategory = false;
-            } else {
-                matchesCategory = this.soloedAnnotationCategories.some(
-                    code => annotationDiv.classList.contains(code + '-annotation')
-                );
-            }
+            for (const item of groupDiv.querySelectorAll('.annotation-item')) {
+                const textEl = item.querySelector('.annotation-text') as HTMLElement | null;
+                const originalText = textEl?.dataset.originalText ?? '';
+                const matchesSearch = searchLower === '' || originalText.toLowerCase().includes(searchLower);
 
-            const source = (annotationDiv as HTMLElement).dataset.source ?? '';
-            const matchesSource = !source || this.enabledSources.has(source);
-
-            if (matchesSearch && matchesCategory && matchesSource) {
-                annotationDiv.classList.remove('annotation-hidden');
-            } else {
-                annotationDiv.classList.add('annotation-hidden');
-            }
-
-            if (textEl) {
-                const originalHtml = textEl.dataset.originalHtml ?? originalText;
-                if (searchLower !== '' && matchesSearch) {
-                    textEl.innerHTML = this.highlightText(originalHtml, this.searchText);
+                let matchesCategory: boolean;
+                if (this.soloedAnnotationCategories.length === 0) {
+                    matchesCategory = true;
+                } else if (item.classList.contains('unclassified-annotation')) {
+                    matchesCategory = false;
                 } else {
-                    textEl.innerHTML = originalHtml;
+                    matchesCategory = this.soloedAnnotationCategories.some(
+                        code => item.classList.contains(code + '-annotation')
+                    );
+                }
+
+                const source = (item as HTMLElement).dataset.source ?? '';
+                const matchesSource = !source || this.enabledSources.has(source);
+
+                if (matchesSearch && matchesCategory && matchesSource) {
+                    item.classList.remove('annotation-hidden');
+                    anyItemVisible = true;
+                } else {
+                    item.classList.add('annotation-hidden');
+                }
+
+                if (textEl) {
+                    const originalHtml = textEl.dataset.originalHtml ?? originalText;
+                    if (searchLower !== '' && matchesSearch) {
+                        textEl.innerHTML = this.highlightText(originalHtml, this.searchText);
+                    } else {
+                        textEl.innerHTML = originalHtml;
+                    }
                 }
             }
+
+            groupDiv.classList.toggle('annotation-hidden', !anyItemVisible);
         }
     }
 
     getAllAnnotations(): Annotation[] {
-        return Object.values(this.allAnnotations).flatMap(source => source.annotations);
+        return flattenAnnotationGroups(this.annotationGroups);
     }
 
     private downloadUserAnnotations() {
-        const data = JSON.stringify(this.allAnnotations["User"], null, 2);
+        const userAnnotations = flattenAnnotationGroups(this.annotationGroups)
+            .filter(a => a.annotation_source === 'User');
+        const data = JSON.stringify(userAnnotations, null, 2);
         const blob = new Blob([data], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -361,9 +471,9 @@ export class AnnotationManager extends SectionManager {
         reader.onload = (e) => {
             try {
                 const imported = JSON.parse(e.target?.result as string) as Annotation[];
-                for (const annotation of imported) {
-                    this.allAnnotations["User"].annotations.push(annotation);
-                    this.insertAnnotationAtCorrectPosition(annotation, 'User');
+                for (const flatAnnotation of imported) {
+                    const {group, annotation} = this.insertIntoGroups({...flatAnnotation, annotation_source: 'User'});
+                    this.insertAnnotationAtCorrectPosition(group, annotation);
                 }
                 this.setAnnotationVisibilityFromState();
                 this.saveUserAnnotations();
@@ -376,13 +486,17 @@ export class AnnotationManager extends SectionManager {
     }
 
     private updateTransferButtons() {
-        const hasUserAnnotations = this.allAnnotations["User"].annotations.length > 0;
+        const hasUserAnnotations = this.annotationGroups.some(
+            g => g.annotations.some(a => a.annotation_source === 'User')
+        );
         this.downloadButton.disabled = !hasUserAnnotations;
         this.uploadButton.disabled = !hasUserAnnotations;
     }
 
     private saveUserAnnotations() {
-        localStorage.setItem('wozzeck-user-annotations', JSON.stringify(this.allAnnotations["User"]));
+        const userAnnotations = flattenAnnotationGroups(this.annotationGroups)
+            .filter(a => a.annotation_source === 'User');
+        localStorage.setItem('wozzeck-user-annotations', JSON.stringify(userAnnotations));
         this.updateTransferButtons();
     }
 
@@ -397,15 +511,15 @@ export class AnnotationManager extends SectionManager {
     }
 
     async timeUpdated(scoreTime : ScoreTime, updateSource : UpdateSource) {
-        let firstAnnotationSeen = false;
-        for (const {div, annotation} of this.annotationEntries) {
-            if (annotation.act === scoreTime.act &&
-                annotation.measure_range[0] <= scoreTime.bar &&
-                annotation.measure_range[1] >= scoreTime.bar) {
+        let firstGroupSeen = false;
+        for (const {div, group} of this.groupEntries) {
+            if (group.act === scoreTime.act &&
+                group.measure_range[0] <= scoreTime.bar &&
+                group.measure_range[1] >= scoreTime.bar) {
                 div.classList.add("current-annotation");
-                if (!firstAnnotationSeen && updateSource !== "annotation-click") {
+                if (!firstGroupSeen && updateSource !== "annotation-click") {
                     div.scrollIntoView({behavior: 'smooth'});
-                    firstAnnotationSeen = true;
+                    firstGroupSeen = true;
                 }
             } else {
                 div.classList.remove("current-annotation");

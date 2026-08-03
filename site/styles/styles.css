@@ -718,7 +718,9 @@ button {
 }
 
 .page-annotation {
-    border-left: 3px solid var(--color-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
     border-radius: var(--radius);
     padding: 4px 8px;
     cursor: default;
@@ -742,14 +744,6 @@ button {
     color: var(--color-text);
     font-family: var(--font-serif);
 }
-
-/* re-use the same left-border colours as the sidebar annotations */
-.page-annotation.dy-annotation { border-left-color: var(--dynamiques-color); }
-.page-annotation.du-annotation { border-left-color: var(--duree-color); }
-.page-annotation.for-annotation { border-left-color: var(--formes-color); }
-.page-annotation.int-annotation { border-left-color: var(--intonation-color); }
-.page-annotation.mo-annotation  { border-left-color: var(--motifs-color); }
-.page-annotation.tim-annotation { border-left-color: var(--timbre-color); }
 
 .score-page-image {
     max-height: 100%;
@@ -1301,10 +1295,9 @@ button {
     transition: border-color var(--transition);
 }
 
-.annotation {
+.annotation-group {
     position: relative;
     background: var(--color-surface);
-    border-left: 3px solid;
     border-radius: var(--radius);
     margin-bottom: 6px;
     padding: 7px 10px;
@@ -1312,10 +1305,72 @@ button {
     transition: background-color var(--transition), transform var(--transition);
 }
 
+.annotation-group:hover {
+    transform: translateX(2px);
+}
+
+.current-annotation {
+    background: var(--color-highlight);
+}
+
+.annotation-time-stamp {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    margin-bottom: 3px;
+}
+
+.annotation-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.annotation-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.annotation-bullet {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+.annotation-bullet-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-muted);
+}
+
+.annotation-text {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--color-text);
+    font-family: var(--font-serif);
+}
+
+.dy-annotation-dot  { background-color: var(--dynamiques-color); }
+.du-annotation-dot  { background-color: var(--duree-color); }
+.for-annotation-dot { background-color: var(--formes-color); }
+.int-annotation-dot { background-color: var(--intonation-color); }
+.mo-annotation-dot  { background-color: var(--motifs-color); }
+.tim-annotation-dot { background-color: var(--timbre-color); }
+.graph-annotation-dot { background-color: var(--graph-color); }
+
 .annotation-edit-button,
 .annotation-delete-button {
     position: absolute;
-    top: 4px;
+    top: 0;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -1335,8 +1390,8 @@ button {
     right: 6px;
 }
 
-.annotation:hover .annotation-edit-button,
-.annotation:hover .annotation-delete-button {
+.annotation-item:hover .annotation-edit-button,
+.annotation-item:hover .annotation-delete-button {
     opacity: 1;
 }
 
@@ -1347,37 +1402,6 @@ button {
 .annotation-delete-button:hover {
     color: #e05252;
 }
-
-.annotation:hover {
-    transform: translateX(2px);
-}
-
-.current-annotation {
-    background: var(--color-highlight);
-}
-
-.annotation-time-stamp {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-muted);
-    margin-bottom: 3px;
-}
-
-.annotation-text {
-    font-size: 12px;
-    line-height: 1.45;
-    color: var(--color-text);
-    font-family: var(--font-serif);
-}
-
-.dy-annotation { border-left-color: var(--dynamiques-color); }
-.du-annotation { border-left-color: var(--duree-color); }
-.for-annotation { border-left-color: var(--formes-color); }
-.int-annotation { border-left-color: var(--intonation-color); }
-.mo-annotation { border-left-color: var(--motifs-color); }
-.tim-annotation { border-left-color: var(--timbre-color); }
 
 .annotation-hidden {
     display: none;
