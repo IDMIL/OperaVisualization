@@ -3,6 +3,7 @@
     --radius: 6px;
     --transition: 150ms ease;
     --font: "Jost", sans-serif;
+    --font-serif: "Arvo", serif;
 
     /* annotation category colors — same in both themes */
     --dynamiques-color: #ffc000;
@@ -739,6 +740,7 @@ button {
     font-size: 11px;
     line-height: 1.4;
     color: var(--color-text);
+    font-family: var(--font-serif);
 }
 
 /* re-use the same left-border colours as the sidebar annotations */
@@ -1367,6 +1369,7 @@ button {
     font-size: 12px;
     line-height: 1.45;
     color: var(--color-text);
+    font-family: var(--font-serif);
 }
 
 .dy-annotation { border-left-color: var(--dynamiques-color); }
@@ -1425,6 +1428,18 @@ mark.search-highlight {
     flex: 1 1 0;
     min-height: 0;
     overflow-y: auto;
+    color: var(--color-text);
+    font-family: var(--font-serif);
+}
+
+#libretto-inner i {
+    color: var(--color-text);
+    opacity: 0.6;
+}
+
+.libretto-character {
+    display: inline-block;
+    margin-left: 2em;
 }
 
 .libretto-line {
