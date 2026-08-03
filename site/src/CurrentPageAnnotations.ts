@@ -3,6 +3,7 @@ import {AnnotationCode} from "./data/annotations";
 import type {Annotation} from "./AnnotationManager";
 import {bar_to_page} from "./data/barToPage";
 import {globals} from "./globals";
+import {buildAnnotationBullet} from "./AnnotationBullet";
 
 // Maps each annotation code to the CSS custom-property that defines its colour.
 // Reading from the computed style keeps the colour values in one place (styles.css).
@@ -153,12 +154,6 @@ export class CurrentPageAnnotations extends TimeManagerListener {
         for (const annotation of annotations) {
             const div = document.createElement('div');
             div.classList.add('page-annotation');
-            for (const code of annotation.code) {
-                div.classList.add(`${code}-annotation`);
-            }
-            if (annotation.code.length === 0) {
-                div.classList.add('unclassified-annotation');
-            }
 
             // Store measure range as data attributes so the bar-hover handler
             // can determine which annotations to highlight without holding a
@@ -170,6 +165,8 @@ export class CurrentPageAnnotations extends TimeManagerListener {
                 this.highlightBarsForAnnotation(annotation.measure_range, annotation.code));
             div.addEventListener('mouseleave', () =>
                 this.clearBarHighlights());
+
+            div.appendChild(buildAnnotationBullet(annotation.code));
 
             const text = document.createElement('div');
             text.classList.add('page-annotation-text');
