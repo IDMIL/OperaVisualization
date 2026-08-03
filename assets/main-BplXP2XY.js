@@ -151,7 +151,7 @@
 ERSTE SZENE<br>
 <i>Zimmer des Hauptmanns. Frühmorgens. Hauptmann auf einem Stuhl vor einem Spiegel. Wozzeck rasiert den Hauptmann.</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="9">Langsam, Wozzeck, langsam! Eins nach dem Andern!<br></span>
 <i>unwillig</i><br>
 <span class="libretto-line" data-line-no="11">Er macht mir ganz schwindlich.<br></span>
@@ -162,31 +162,31 @@ HAUPTMANN<br>
 <i>wieder streng</i><br>
 <span class="libretto-line" data-line-no="17">Teil' Er sich ein, Wozzeck!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="20">Jawohl, Herr Hauptmann!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>geheimnisvoll</i><br>
 <span class="libretto-line" data-line-no="24">Es wird mir ganz angst um die Weit, wenn ich an die Ewigkeit denk'. »Ewig«, das ist ewig! Das sieht Er ein. Nun ist es aber wieder nicht ewig, sondern ein Augenblick, ja, ein Augenblick! - Wozzeck, es schaudert mich, wenn ich denke, dass sich die Welt in einem Tag herumdreht: drum kann ich auch kein Mühlrad mehr sehn, oder ich werde melancholisch!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="27">Jawohl, Herr Hauptmann!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="30">Wozzeck, Er sieht immer so verhetzt aus! Ein guter Mensch tut das nicht. Ein guter Mensch, der sein gutes Gewissen hat, tut alles langsam ... Red' Er doch was, Wozzeck. Was ist heut für ein Wetter?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="33">Sehr schlimm, Herr Hauptmann! Wind!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="36">Ich spür's schon, 's ist so was Geschwindes draussen; so ein Wind macht mir den Effekt, wie eine Maus.<br></span>
 <i>pfiffig</i><br>
 <span class="libretto-line" data-line-no="38">Ich glaub', wir haben so was aus Süd-Nord?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="41">Jawohl, Herr Hauptmann!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>lacht lärmend</i><br>
 <span class="libretto-line" data-line-no="45">Süd-Nord!<br></span>
 <i>lacht noch lärmender</i><br>
@@ -200,24 +200,24 @@ HAUPTMANN<br>
 <i>mit Pathos</i><br>
 <span class="libretto-line" data-line-no="55">Er hat ein Kind ohne den Segen der Kirche ...<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="58">Jawo ...<br></span>
 <i>unterbricht sich</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="62">… wie unser hochwürdiger Herr Garnisonsprediger sagt: »Ohne den Segen der Kirche« - das Wort ist nicht von mir.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="65">Herr Hauptmann, der liebe Gott wird den armen Wurm nicht d'rum ansehn, ob das Amen darüber gesagt ist, eh' er gemacht wurde. Der Herr sprach: »Lasset die Kleinen zu mir kommen!«<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>wütend aufspringend</i><br>
 <span class="libretto-line" data-line-no="69">Was sagt Er da?! Was ist das für eine kuriose Antwort? Er macht mich ganz konfusl Wenn ich sage: »Er«, so mein' ich »Ihn«, »Ihn« …<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="72">Wir arme Leut! Sehn Sie, Herr Hauptmann, Geld, Geld! Wer kein Geld hat! Da setz' einmal einer Seinesgleichen auf die moralische Art in die Welt! Man hat auch sein Fleisch und Blut! Ja, wenn ich ein Herr wär', und hätt' einen Hut und eine Uhr und ein Augenglas und könnt' vornehm reden, ich wollte schon tugendhaft sein! Es muss was Schönes sein um die Tugend, Herr Hauptmann. Aber ich bin ein armer Kerl! Unsereins ist doch einmal unselig in dieser und der andern Welt! Ich glaub', wenn wir in den Himmel kämen, so müssten wir donnern helfen!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>etwas fassungslos</i><br>
 <span class="libretto-line" data-line-no="76">Schon gut, schon gut!<br></span>
 <i>beschwichtigend</i><br>
@@ -237,10 +237,10 @@ ZWEITE SZENE <br>
 <br>
 <i>Freies Feld, die Stadt in der Ferne. Spätnachmittag. Wozzeck und Andres schneiden Stöcke im Gebüsch.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="95">Du, der Platz ist verflucht!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="98">Ach was<br></span>
 <i>singt vor sich hin</i><br>
 <span class="libretto-line" data-line-no="100">Das ist die schöne Jägerei,<br></span>
@@ -248,10 +248,10 @@ ANDRES<br>
 <span class="libretto-line" data-line-no="102">Da möcht ich Jäger sein,<br></span>
 <span class="libretto-line" data-line-no="103">Da möcht ich hin.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="106">Der Platz ist verflucht! Siehst Du den lichten Streif da über das Gras hin, wo die Schwämme so nachwachsen? Da rollt Abends ein Kopf. Hob ihn einmal Einer auf, meint', es wär' ein Igel. Drei Tage und drei Nächte drauf, und er lag auf den Hobelspänen.<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="109">Es wird finster, das macht Dir angst. Ei was!<br></span>
 <i>hört mit der Arbeit auf, stellt sich in Positur und singt</i><br>
 <span class="libretto-line" data-line-no="111">Läuft dort ein Has vorbei,<br></span>
@@ -259,10 +259,10 @@ ANDRES<br>
 <span class="libretto-line" data-line-no="113">Jäger bin ich auch schon gewesen,<br></span>
 <span class="libretto-line" data-line-no="114">Schiessen kann ich aber nit!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="117">Still, Andres! Das waren die Freimaurer! Ich hab's! Die Freimaurer! Still! Still!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="120">Sassen dort zwei Hasen,<br></span>
 <span class="libretto-line" data-line-no="121">Frassen ab das grüne Gras.<br></span>
 <i>unterbricht den Gesang. Beide lauschen angestrengt. Dann selbst etwas beunruhigt; wie um Wozzeck und sich zu beruhigen</i><br>
@@ -270,7 +270,7 @@ ANDRES<br>
 <span class="libretto-line" data-line-no="124">Frassen ab das grüne Gras<br></span>
 <span class="libretto-line" data-line-no="125">Bis auf den Rasen…<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>stampft auf</i><br>
 <span class="libretto-line" data-line-no="129">Hohl! Alles hohl! Ein Schlund! Es schwankt!<br></span>
 <i>er taumelt</i><br>
@@ -278,31 +278,31 @@ WOZZECK<br>
 <i>in höchster Angst</i><br>
 <span class="libretto-line" data-line-no="133">Fort, fort!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <i>hält Wozzeck zurück</i><br>
 <span class="libretto-line" data-line-no="137">He, bist Du toll?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>bleibt stehn</i><br>
 <span class="libretto-line" data-line-no="141">'s ist kurios still. Und schwül. Man möchte den Atem anhalten…<br></span>
 <i>starrt in die Gegend</i><br>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="145">Was?<br></span>
 <br>
 <i>Die Sonne ist im Begriff unterzugehen. Der letzte scharfe Strahl taucht den Horizont in das grellste Sonnenlicht, dem die wie tiefste Dunkelheit wirkende Dämmerung folgt.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="150">Ein Feuer! Ein Feuer! Das fährt von der Erde in den Himmel und ein Getös' herunter wie Posaunen. Wie's heranklirrt!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <i>mit geheuchelter Gleichgültigkeit</i><br>
 <span class="libretto-line" data-line-no="154">Die Sonn' ist unter, drinnen trommeln sie.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="157">Still, alles still, als wäre die Welt tot.<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="160">Nacht! Wir müssen heim!<br></span>
 <br>
 <i>Beide gehen langsam ab.</i><br>
@@ -314,39 +314,39 @@ und beginnende Militärmusik hinter der Szene</b><br>
 DRITTE SZENE<br>
 <i>Mariens Stube. Abends. Die Militärmusik nähert sich. Marie mit ihrem Kinde am Arm beim Fenster.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="172">Tschin Bum, Tschin Bum, Bum, Bum, Bum! Hörst Bub? Da kommen sie!<br></span>
 <br>
 <i>Die Militärmusik, mit dem Tambourmajor an der Spitze, gelangt in die Strasse vor Mariens Fenster.</i><br>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <i>auf der Strasse, sieht zum Fenster herein und spricht mit Marie</i><br>
 <span class="libretto-line" data-line-no="178">Was ein Mann! Wie ein Baum!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>spricht zum Fenster hinaus</i><br>
 <span class="libretto-line" data-line-no="182">Er steht auf seinen Füssen wie ein Löw'.<br></span>
 <br>
 <i>Der Tambourmajor grüsst herein. Marie winkt freundlich hinaus.</i><br>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="187">Ei was freundliche Augen, Frau Nachbarin! So was is man an ihr nit gewohnt!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>singt vor sich hin</i><br>
 <span class="libretto-line" data-line-no="191">Soldaten, Soldaten<br></span>
 <span class="libretto-line" data-line-no="192">sind schöne Burschen!<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="195">Ihre Augen glänzen ja!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="198">Und wenn! Was geht Sie's an? Trag' Sie ihre Augen zum Juden und lass Sie sie putzen: vielleicht glänzen sie auch noch, dass man sie für zwei Knöpf' verkaufen könnt'.<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="201">Was Sie, Sie »Frau Jungfer«! Ich bin eine honette Person, aber Sie, das weiss Jeder, Sie guckt sieben Paar lederne Hosen durch!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>schreit sie an</i><br>
 <span class="libretto-line" data-line-no="205">Luder!<br></span>
 <i>schlägt das Fenster zu. Die Militärmusik ist plötzlich, als Folge des zugeschlagenen Fensters, unhörbar geworden. Marie ist allein mit dem Kind.</i><br>
@@ -372,60 +372,60 @@ MARIE<br>
 <br>
 <i>Marie in Gedanken versunken. Es klopft am Fenster. Marie fährt zusammen.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="230">Wer da?<br></span>
 <i>aufspringend</i><br>
 <span class="libretto-line" data-line-no="232">Bist Du's, Franz?<br></span>
 <i>das Fenster öffnend</i><br>
 <span class="libretto-line" data-line-no="234">Komm herein!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="237">Kann nit! Muss in die Kasern'!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="240">Hast Stecken geschnitten für den Major?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="243">Ja, Marie. Ach ...<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="246">Was hast Du, Franz? Du siehst so verstört?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="249">Pst, still! Ich hab's heraus! Es war ein Gebild am Himmel, und Alles in Glut! Ich bin Vielem auf der Spur!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="252">Mann!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="255">Und jetzt Alles finster, finster… Marie, es war wieder was,<br></span>
 <i>er überlegt</i><br>
 <span class="libretto-line" data-line-no="257">vielleicht…<br></span>
 <i>geheimnisvoll</i><br>
 <span class="libretto-line" data-line-no="259">Steht nicht geschrieben: »Und sieh, es ging der Rauch auf vom Land, wie ein Rauch vom Ofen.«<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="262">Franz!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="265">Es ist hinter mir hergegangen bis vor die Stadt.<br></span>
 <i>in höchster Exaltation</i><br>
 <span class="libretto-line" data-line-no="267">Was soll das werden?!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>ganz ratlos, versucht ihn zu beruhigen</i><br>
 <span class="libretto-line" data-line-no="271">Franz! Franz!<br></span>
 <i>hält ihm den Buben hin</i><br>
 <span class="libretto-line" data-line-no="273">Dein Bub!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>geistesabwesend</i><br>
 <span class="libretto-line" data-line-no="277">Mein Bub...<br></span>
 <i>ohne ihn anzusehn</i><br>
 <span class="libretto-line" data-line-no="279">Mein Bub… jetzt muss ich fort.<br></span>
 <i>hastig ab</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>geht vom Fenster weg, allein mit dem Kind, betrachtet es schmerzlich</i><br>
 <span class="libretto-line" data-line-no="284">Der Mann! So vergeistert! Er hat sein Kind nicht angesehn! Er schnappt noch über mit den Gedanken! Was bist so still, Bub. Fürch'st Dich? Es wird so dunkel, man meint, man wird blind; sonst scheint doch die Lantern' herein!<br></span>
 <i>ausbrechend</i><br>
@@ -438,19 +438,19 @@ VIERTE SZENE<br>
 <br>
 <i>Studierstube des Doktors. Sonniger Nachmittag. Wozzeck tritt ein. Der Doktor eilt hastig Wozzeck entgegen.</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="296">Was erleb' ich, Wozzeck? Ein Mann ein Wort? Ei, ei, ei!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="299">Was denn, Herr Doktor?<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="302">Ich hab's geseh'n, Wozzeck, Er hat wieder gehustet, auf der Strasse gehustet, gebellt wie ein Hund! Geh' ich Ihm dafür alle Tage drei Groschen? Wozzeck! Das ist schlecht! Die Welt ist schlecht, sehr schlecht! Oh!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="305">Aber Herr Doktor, wenn einem die Natur kommt!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>auffahrend</i><br>
 <span class="libretto-line" data-line-no="309">Die Natur kommt! Die Natur kommt! Aberglaube, abscheulicher Aberglaube! Hab' ich nicht nachgewiesen, dass das Zwerchfell dem Willen unterworfen ist?<br></span>
 <i>wieder auffahrend</i><br>
@@ -468,48 +468,48 @@ DOKTOR<br>
 <i>wieder heftig</i><br>
 <span class="libretto-line" data-line-no="323">Aber, aber, Wozzeck, Er hätte doch nicht husten sollen!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>den Doktor beschwichtigend</i><br>
 <span class="libretto-line" data-line-no="327">Seh'n Sie, Herr Doktor, manchmal hat man so 'nen Charakter, so 'ne Struktur; aber mit der Natur ist's was ander's.<br></span>
 <i>knackt mit den Fingern</i><br>
 <span class="libretto-line" data-line-no="329">Seh'n Sie, mit der Natur… das ist so… wie soll ich denn sagen… zum Beispiel: Wenn die Natur…<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="332">Wozzeck, Er philosophiert wieder! Was? Wenn die Natur…<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="335">wenn die Natur aus ist, wenn die Welt so finster wird, dass man mit den Händen an ihr herumtappen muss, dass man meint, sie verrinnt wie Spinnengewebe. Ach, wenn was is und doch nicht is! Ach, Ach, Marie! Wenn Alles dunkel is, und<br></span>
 <i>macht mit ausgestreckten Armen ein paar grosse Schritte durchs Zimmer</i><br>
 <span class="libretto-line" data-line-no="337">nur noch ein roter Schein im Westen, wie von einer Esse: an was soll man sich da halten?<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="340">Kerl, Er tastet mit seinen Füssen herum, wie mit Spinnenfüssen.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>bleibt nahe beim Doktor stehen, vertraulich</i><br>
 <span class="libretto-line" data-line-no="344">Herr Doktor. Wenn die Sonne im Mittag steht, und es ist, als ging' die Welt in Feuer auf, hat schon eine fürchterliche Stimme zu mir geredet.<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="347">Wozzeck, Er hat eine Aberratio ...<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>unterbricht den Doktor</i><br>
 <span class="libretto-line" data-line-no="351">Die Schwämme! Haben Sie schon die Ringe von den Schwämmen am Boden gesehn? Linienkreise… Figuren… Wer das lesen könnte!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="354">Wozzeck, Er kommt ins Narrenhaus. Er hat eine schöne fixe Idee, eine köstliche Aberratio mentalis partialis, zweite Spezies! Sehr schön ausgebildet! Wozzeck, Er kriegt noch mehr Zulage! Tut Er noch Alles wie sonst?: Rasiert seinen Hauptmann? Fängt fleissig Molche? Isst seine Bohnen?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="357">Immer ordentlich, Herr Doktor; denn das Menagegeld kriegt das Weib: Darum tu' ich's ja!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="360">Er ist ein intressanter Fall, halt' Er sich nur brav! Wozzeck, Er kriegt noch einen Groschen mehr Zulage. Was muss Er aber tun? Was muss Er tun? Was?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>ohne sich um den Doktor zu kümmern</i><br>
 <span class="libretto-line" data-line-no="364">Ach, Marie!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="367">Bohnen essen, dann Schöpsenfleisch essen, nicht husten, seinen Hauptmann rasieren, dazwischen die fixe Idee pflegen!<br></span>
 <i>immer mehr in Ekstase geratend</i><br>
 <span class="libretto-line" data-line-no="369">Oh! meine Theorie! Oh mein Ruhm! Ich werde unsterblich! Unsterblich! Unsterblich!<br></span>
@@ -524,42 +524,42 @@ DOKTOR<br>
 FÜNFTE SZENE<br>
 <i>Strasse vor Mariens Tür. Abenddämmerung.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>steht bewundernd vor dem Tambourmajor</i><br>
 <span class="libretto-line" data-line-no="383">Geh einmal vor Dich hin .<br></span>
 <i>Tambourmajor in Positur, macht einige Marschschritte</i><br>
 <span class="libretto-line" data-line-no="385">Über die Brust wie ein Stier und ein Bart wie ein Löwe. So ist Keiner! Ich bin stolz vor allen Weibern!<br></span>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <span class="libretto-line" data-line-no="388">Wenn ich erst am Sonntag den grossen Federbusch hab', und die weissen Handschuh! Donnerwetter! Der Prinz sagt immer: »Mensch! Er ist ein Kerl!«<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>spöttisch</i><br>
 <span class="libretto-line" data-line-no="392">Ach was!<br></span>
 <i>tritt vor ihn hin. Bewundernd</i><br>
 <span class="libretto-line" data-line-no="394">Mann!<br></span>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <span class="libretto-line" data-line-no="397">Und Du bist auch ein Weibsbild! Sapperment! Wir wollen eine Zucht von Tambourmajors anlegen. Was?!<br></span>
 <i>er umfasst sie</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="401">Lass mich!<br></span>
 <i>will sich losreissen. Sie ringen miteinander</i><br>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <span class="libretto-line" data-line-no="405">WildesTier!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>reisst sich los</i><br>
 <span class="libretto-line" data-line-no="409">Rühr mich nicht an!<br></span>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <i>richtet sich in ganzer Grösse auf und tritt nahe an Marie heran; eindringlich</i><br>
 <span class="libretto-line" data-line-no="413">Sieht Dir der Teufel aus den Augen?!<br></span>
 <i>er umfasst sie wieder, diesmal mit fast drohender Entschlossenheit</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="417">Meinetwegen, es ist Alles eins!<br></span>
 <i>sie stürzt in seine Arme und verschwindet mit ihm in der offenen Haustür</i><br>
  <br>
@@ -568,7 +568,7 @@ MARIE<br>
 ERSTE SZENE<br>
 <i>Mariens Stube. Vormittag, Sonnenschein. Marie, ihr Kind auf dem Schoss, hält ein Stückchen Spiegel in der Hand und besieht sich darin.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="426">Was die Steine glänzen? Was sind's für weiche? Was hat er gesagt?<br></span>
 <i>überlegt; zu ihrem Buben, der sich bewegt hat</i><br>
 <span class="libretto-line" data-line-no="428">Schlaf, Bub! Drück die Augen zu ...<br></span>
@@ -594,28 +594,28 @@ MARIE<br>
 <br>
 <i>blinkt wieder mit dem Spiegel. - Wozzeck tritt herein, hinter Marie. Marie, die regungslos, wie das eingeschüchterte Kind, die Wirkung ihres Spiels mit dem Spiegel abwartet, sieht Wozzeck anfangs nicht. Plötzlich fährt sie auf, mit den Händen nach den Ohren.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="452">Was hast da?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="455">Nix!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="458">Unter Deinen Fingern glänzt's ja.<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="461">Ein Ohrringlein… hab's gefunden…<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>schaut das Ohrringlein prüfend an</i><br>
 <span class="libretto-line" data-line-no="465">Ich hab so was noch nicht gefunden,<br></span>
 <i>etwas drohend</i><br>
 <span class="libretto-line" data-line-no="467">zwei auf einmal.<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="470">Bin ich ein schlecht Mensch?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>beschwichtigend</i><br>
 <span class="libretto-line" data-line-no="474">'s ist gut, Marie! 's ist gut<br></span>
 <i>wendet sich zum Buben</i><br>
@@ -625,14 +625,14 @@ WOZZECK<br>
 <i>zählt es ihr in die Hand</i><br>
 <span class="libretto-line" data-line-no="480">die Löhnung und was vom Hauptmann und vom Doktor.<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="483">Gott vergelts, Franz.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="486">Ich muss fort, Marie ... Adies!<br></span>
 <i>ab</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>allein</i><br>
 <span class="libretto-line" data-line-no="491">Ich bin doch ein schlecht Mensch. Ich könnt mich erstechen. Ach! was Welt! Geht doch Alles zum Teufel: Mann und Weib und Kind!<br></span>
 <br>
@@ -641,43 +641,43 @@ MARIE<br>
 ZWEITE SZENE<br>
 <i>Strasse in der Stadt. Tag. Der Hauptmann und der Doktor begegnen sich.</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>schon aus der Entfernung</i><br>
 <span class="libretto-line" data-line-no="500">Wohin so eilig, geehrtester Herr Sargnagel?<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>sehr pressiert</i><br>
 <span class="libretto-line" data-line-no="504">Wohin so langsam, geehrtester Herr Exercizengel?<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="507">Nehmen Sie sich Zeit<br></span>
 <i>will den Doktor, der rasch weitergeht, einholen</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="511">Pressiert!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="514">Laufen Sie nicht so! Uff!<br></span>
 <i>schöpft tief und geräuschvoll Atem</i><br>
 <span class="libretto-line" data-line-no="516">Laufen Sie nicht! Ein guter Mensch geht nicht so schnell. Ein guter Mensch…<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="519">Pressiert, pressiert!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="522">Ein guter… Sie hetzen sich ja hinter dem Tod d'rein!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>im Gehen etwas einhaltend, so dass ihn der Hauptmann einholt, ärgerlich</i><br>
 <span class="libretto-line" data-line-no="526">Ich kann meine Zeit nicht stehlen.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="529">Ein guter Mensch ...<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="532">Pressiert, pressiert, pressiert!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>erwischt den Doktor einigemale am Rock</i><br>
 <span class="libretto-line" data-line-no="536">Aber rennen Sie nicht so, Herr Sargnagel! Sie schleifen ja Ihre Beine auf dem Pflaster ab.<br></span>
 <i>hält den Doktor endlich fest; zwischen den einzelnen Worten tief keuchend</i><br>
@@ -686,7 +686,7 @@ HAUPTMANN<br>
 <span class="libretto-line" data-line-no="540">rette<br></span>
 <i>tiefer Atemzug</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>langsam weitergehend, entschliesst sich, dem Hauptmann Gehör zu schenken</i><br>
 <span class="libretto-line" data-line-no="545">Frau, in vier Wochen tot!<br></span>
 <i>bleibt wieder stehen, geheimnisvoll</i><br>
@@ -694,16 +694,16 @@ DOKTOR<br>
 <i>will weitergehen</i><br>
 <span class="libretto-line" data-line-no="549">In vier Wochen ...<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="552">Doktor, erschrecken Sie mich nicht! Es sind schon Leute am Schreck gestorben, am puren hellen Schreck!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="555">In vier Wochen! Gibt ein intressantes Präparat.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="558">Oh, oh, oh!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>ganz stehenbleibend, kaltblütig den Hauptmann prüfend</i><br>
 <span class="libretto-line" data-line-no="562">Und Sie selbst! Hm! Aufgedunsen, fett, dicker Hals, apoplektische Konstitution! Ja, Herr Hauptmann,<br></span>
 <i>geheimnisvoll</i><br>
@@ -711,16 +711,16 @@ DOKTOR<br>
 <i>wieder sehr geheimnisvoll</i><br>
 <span class="libretto-line" data-line-no="566">oder im besten Fall nur unten!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>stöhnend</i><br>
 <span class="libretto-line" data-line-no="570">Um Gottes…<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>überströmend, begeistert</i><br>
 <span class="libretto-line" data-line-no="574">Ja! Das sind so ungefähr Ihre Aussichten auf die nächsten vier Wochen! Übrigens kann ich Sie versichern, dass Sie einen von den interessanten Fällen abgeben werden, und wenn Gott will, dass ihre Zunge zum Teil gelähmt wird, so machen wir die unsterblichsten Experimente.<br></span>
 <i>will mit rascher Wendung enteilen, Hauptmann langt schnell nach dem Doktor und hält ihn fest.</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="578">Halt, Doktor! Ich lasse Sie nicht! Sargnagel! Totenfreund! In vier Wochen?<br></span>
 <i>schon ganz atemlos</i><br>
 <span class="libretto-line" data-line-no="580">Es sind schon Leute am puren Schreck ... Doktor!<br></span>
@@ -731,7 +731,7 @@ HAUPTMANN<br>
 <br>
 <i>Wozzeck geht rasch verbei, salutiert. Der Doktor, der peinlich berührt ist und abzulenken sucht, sieht Wozzeck</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="589">He, Wozzeck!<br></span>
 <i>Wozzeck bleibt stehen</i><br>
 <span class="libretto-line" data-line-no="591">Was hetzt Er sich so an uns vorbei?<br></span>
@@ -740,26 +740,26 @@ DOKTOR<br>
 <br>
 <i>Wozzeck bleibt schliesslich stehen und kommt langsam zurück.</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>wieder gefasst, zu Wozzeck</i><br>
 <span class="libretto-line" data-line-no="599">Er läuft ja wie ein offenes Rasiermesser durch die Weit, man schneidet sich an Ihm!<br></span>
 <i>betrachtet Wozzeck näher, der stumm und ernst dasteht. Wendet sich daher - etwas beschämt - zum Doktor. Mit Anspielung auf dessen Vollbart</i><br>
 <span class="libretto-line" data-line-no="601">Er läuft, als hätt' er die Vollbärte aller Universitäten zu rasieren, und würde gehängt, so lang noch ein letztes Haar…<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="604">Ja richtig,<br></span>
 <i>pfeift</i><br>
 <span class="libretto-line" data-line-no="606">die langen Bärte ... was wollte ich doch sagen?<br></span>
 <i>nachsinnend, hie und da in Gedanken pfeifend</i><br>
 <span class="libretto-line" data-line-no="608">die langen Bärte ...<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>zitierend</i><br>
 <span class="libretto-line" data-line-no="612">»Ein langer Bart unter dem Kinn« ... hm! … schon Plinius spricht davon.<br></span>
 <i>Hauptmann kommt durch die Anspielung des Doktors darauf und schlägt sich auf die Stirn</i><br>
 <span class="libretto-line" data-line-no="614">Man muss ihn den Soldaten abgewöhnen…<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>sehr bedeutsam</i><br>
 <span class="libretto-line" data-line-no="618">Ha! Ich hab's ... die langen Bärte! Was ist's, Wozzeck?<br></span>
 <br>
@@ -767,70 +767,70 @@ HAUPTMANN<br>
 <br>
 <span class="libretto-line" data-line-no="622">Hat Er nicht ein Haar aus einem Bart in seiner Schüssel gefunden? Haha! Er versteht mich doch? Ein Haar von einem Menschen, vom Bart eines Sappeurs, oder eines Unteroffiziers, oder eines Tambourmajors.<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="625">He, Wozzeck? Aber Er hat doch ein braves Weib?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="628">Was wollen Sie damit sagen, Herr Doktor, und Sie, Herr Hauptmann?!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="631">Was der Kerl für ein Gesicht macht! Nun! Wenn auch nicht grad in der Suppe, aber wenn Er sich eilt und um die Ecke läuft, so kann Er vielleicht noch auf einem Paar Lippen eins finden! Ein Haar nämlich! Übrigens, ein Paar Lippen! Oh, ich habe auch einmal die Liebe gefühlt! - Aber, Kerl, Er ist ja kreideweiss!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="634">Herr Hauptmann, ich bin ein armer Teufel! Hab' sonst nichts auf dieser Welt! Herr Hauptmann, wenn Sie Spass machen ...<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>auffahrend</i><br>
 <span class="libretto-line" data-line-no="638">Spass? Ich? Dass Dich der …<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="641">Herr Hauptmann, die Erd' ist Manchem höllenheiss ...<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="644">Spass, Kerl? will Er sich erschiessen?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="647">... die Hölle ist kalt dagegen.<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="650">Den Puls, Wozzeck!<br></span>
 <i>ergreift Wozzecks Puls</i><br>
 <span class="libretto-line" data-line-no="652">Klein … hart … arhythmisch.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="655">Er sticht mich ja mit seinen Augen!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="658">Herr Hauptmann ...<br></span>
 <i>entreisst seine Hand dem Doktor</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="662">Ich mein's gut mit Ihm, weil Er ein guter Mensch ist ...<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>vor sich hin, aber mit Steigerung</i><br>
 <span class="libretto-line" data-line-no="666">Es ist viel möglich ...<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>betrachtet Wozzeck prüfend</i><br>
 <span class="libretto-line" data-line-no="670">GesichtsmuskeIn starr, gespannt, Augen stier.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>gerührt</i><br>
 <span class="libretto-line" data-line-no="674">... Wozzeck, ein guter Mensch ...<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="677">Der Mensch ... es ist viel möglich ... Gott im Himmel! Man könnte Lust bekommen, sich aufzuhängen! Dann wüsste man, woran man ist!<br></span>
 <i>stürzt, ohne zu grüssen, davon</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <i>blickt Wozzeck betreten nach</i><br>
 <span class="libretto-line" data-line-no="682">Wie der Kerl läuft und sein Schatten hinterdrein!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="685">Er ist ein Phänomen, dieser Wozzeck!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="688">Mir wird ganz schwindlich vor dem Menschen! Und wie verzweifelt! Das hab' ich nicht gern! Ein guter Mensch ist dankbar gegen Gott; ein guter Mensch hat auch keine Courage!<br></span>
 <i>mit Beziehung auf Wozzeck</i><br>
 <span class="libretto-line" data-line-no="690">Nur ein Hundsfott hat Courage!<br></span>
@@ -844,62 +844,62 @@ HAUPTMANN<br>
 DRITTE SZENE<br>
 <i>Strasse vor Mariens Wohnungstür. Trüber Tag. Marie steht vor ihrer Tür. Wozzeck kommt auf dem Gehsteig rasch auf sie zu.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="702">Guten Tag, Franz.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>sieht sie starr an und schüttelt den Kopf</i><br>
 <span class="libretto-line" data-line-no="706">Ich seh' nichts, ich seh' nichts. O, man müsst's seh'n, man müsst's greifen können mit den Fäusten!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="709">Was hast, Franz?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="712">Bist Du's noch, Marie?! Eine Sünde, so dick und breit. Das müsst' stinken, dass man die Engel zum Himmel hinausräuchern könnt'. Aber Du hast einen roten Mund, einen roten Mund ... keine Blase drauf?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="715">Du bist hirnwütig, Franz, ich fürcht' mich ...<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="718">Du bist schön »wie die Sünde«. Aber kann die Todsünde so schön sein, Marie?<br></span>
 <i>zeigt plötzlich auf eine Stelle vor der Tür, auffahrend</i><br>
 <span class="libretto-line" data-line-no="720">Da! Hat er da gestanden,<br></span>
 <i>in Positur</i><br>
 <span class="libretto-line" data-line-no="722">so, so?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="725">Ich kann den Leuten die Gasse nicht verbieten.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="728">Teufel! Hat er da gestanden?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="731">Dieweil der Tag lang und die Weit alt ist, können viele Menschen an einem Platze stehn, einer nach dem andern.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="734">Ich hab ihn gesehn!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="737">Man kann viel sehn, wenn man zwei Augen hat und wenn man nicht blind ist und wenn die Sonne scheint.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>der sich immer weniger beherrschen kann, ausbrechend</i><br>
 <span class="libretto-line" data-line-no="741">Du bei ihm!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="744">Und wenn auch!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>geht auf sie los, schreien</i><br>
 <span class="libretto-line" data-line-no="748">Mensch!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="751">Rühr' mich nicht an!<br></span>
 <i>Wozzeck lässt langsam die erhobene Hand sinken</i><br>
 <span class="libretto-line" data-line-no="753">Lieber ein Messer in den Leib, als eine Hand auf mich. Mein Vater hat's nicht gewagt, wie ich zehn Jahr alt war ...<br></span>
 <i>ins Haus ab</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>sieht ihr starr nach</i><br>
 <span class="libretto-line" data-line-no="758">»Lieber ein Messer« ...<br></span>
 <i>scheu flüsternd</i><br>
@@ -912,39 +912,39 @@ WOZZECK<br>
 VIERTE SZENE<br>
 <i>Wirtshausgarten. Spät abends. Die Wirtshausmusik auf der Bühne beendet soeben den Ländler des Orchester-Vorspiels. Burschen, Soldaten und Mägde auf dem Tanzboden, teils tanzend, teil zusehend.</i><br>
 <br>
-ERSTER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ERSTER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="770">Ich hab' ein Hemdlein an, das ist nicht mein,<br></span>
 <br>
-ZWEITER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ZWEITER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="773">Das ist nicht mein ...<br></span>
 <br>
-ERSTER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ERSTER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="776">Und meine Seele stinkt nach Branntewein.<br></span>
 <br>
 <i>Die Burschen, Soldaten und Mägde verlassen gemächlich den Tanzboden und sammeln sich in Gruppen. Eine Gruppe um die zwei betrunkenen Handwerksburschen.</i><br>
 <br>
-ERSTER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ERSTER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="781">Meine Seele, meine unsterbliche Seele, stinket nach Branntewein! Sie stinket, und ich weiss nicht, warum? Warum ist die Welt so traurig? Selbst das Geld geht in Verwesung über!<br></span>
 <br>
-ZWEITER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ZWEITER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="784">Vergiss mein nicht! Bruder! Freundschaft!<br></span>
 <i>umarmt ihn</i><br>
 <span class="libretto-line" data-line-no="786">Warum ist die Welt so schön! Ich wollt', unsre Nasen wären zwei Bouteillen, und wir könnten sie uns einander in den Hals giessen. Die ganze Welt ist rosenrot! Branntwein, das ist mein Leben!<br></span>
 <br>
-ERSTER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ERSTER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="789">Meine Seele, meine unsterbliche Seele stinket. Oh! Das ist traurig, traurig, traurig, trau-<br></span>
 <i>schläft ein</i><br>
 <br>
 <i>Burschen, Soldaten und Mägde begeben sich wieder auf den Tanzboden und beginnen zu tanzen. Unter ihnen Marie und der Tambourmajor. Wozzeck tritt hastig auf, sieht Marie, die mit dem Tarnbourmajor vorbeitanzt.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="795">Er! Sie! Teufel!<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>im Vorbeitanzen</i><br>
 <span class="libretto-line" data-line-no="799">Immerzu, immerzu!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="802">Immer zu, immer zu!«<br></span>
 <i>sinkt auf eine Bank in der Nähe des Tanzbodens. Vor sich hin</i><br>
 <span class="libretto-line" data-line-no="804">Dreht Euch! Wälzt Euch! Warum löscht Gott die Sonne nicht aus? ... Alles wälzt sich in Unzucht übereinander: Mann und Weib, Mensch und Vieh!<br></span>
@@ -953,17 +953,17 @@ WOZZECK<br>
 <i>fährt heftig auf</i><br>
 <span class="libretto-line" data-line-no="808">Wie er an ihr herumgreift! An ihrem Leib! Und sie lacht dazu!<br></span>
 <br>
-MARIE, TAMBOURMAJOR<br>
+<span class="libretto-character">MARIE, TAMBOURMAJOR</span><br>
 <span class="libretto-line" data-line-no="811">Immer zu! Immer zu! <br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>gerät in immer grössere Aufregung</i><br>
 <span class="libretto-line" data-line-no="815">Verdammt!<br></span>
 <i>kann schliesslich nicht mehr an sich halten und will auf den Tanzboden stürzen</i><br>
 <span class="libretto-line" data-line-no="817">Ich ...<br></span>
 <i>unterlässt es aber, da der Tanz beendet ist. Er setzt sich wieder.</i><br>
 <br>
-BURSCHEN, SOLDATEN<br>
+<span class="libretto-character">BURSCHEN, SOLDATEN</span><br>
 <span class="libretto-line" data-line-no="821">Ein Jäger aus der Pfalz<br></span>
 <span class="libretto-line" data-line-no="822">Ritt einst durch einen grünen Wald!<br></span>
 <span class="libretto-line" data-line-no="823">Halli, Hallo, Halli, Hallo!<br></span>
@@ -971,7 +971,7 @@ BURSCHEN, SOLDATEN<br>
 <span class="libretto-line" data-line-no="825">Allhie auf grüner<br></span>
 <span class="libretto-line" data-line-no="826">Haid! Halli, Hallo! Halli, Hallo!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <i>die Gitarre ergreifend, spielt sich als Dirigent des Chores auf und gibt ein Ritardando, so dass er in den verklingenden Akkord des Chores einsetzen kann, leiernd</i><br>
 <span class="libretto-line" data-line-no="830">O Tochter, liebe Tochter,<br></span>
 <span class="libretto-line" data-line-no="831">Was hast Du gedenkt,<br></span>
@@ -979,45 +979,45 @@ ANDRES<br>
 <span class="libretto-line" data-line-no="833">Und die Fuhrknecht hast gehängt?<br></span>
 <span class="libretto-line" data-line-no="834">Hallo!<br></span>
 <br>
-BURSCHEN,SOLDATEN<br>
+<span class="libretto-character">BURSCHEN,SOLDATEN</span><br>
 <span class="libretto-line" data-line-no="837">Ja lustig ist die Jägerei,<br></span>
 <span class="libretto-line" data-line-no="838">Allhie auf grüner Haid!<br></span>
 <span class="libretto-line" data-line-no="839">Halli, Hallo! Halli, Hallo!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="842">Hallo!<br></span>
 <i>gibt die Gitarre dem Spieler von der Wirtshausmusik zurück und wendet sich zum Wozzeck</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="846">Wieviel Uhr?<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="849">Elf Uhr!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="852">So? Ich meint', es müsst später sein! Die Zeit wird Einem lang bei der Kurzweil ...<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="855">Was sitzest Du da vor der Tür?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="858">Ich sitz' gut da. Es sind manche Leut' nah an der Tür und wissen's nicht, bis man sie zur Tür hinausträgt, die Füss' voran!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="861">Du sitzest hart.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="864">Gut sitz' ich, und im kühlen Grab, da lieg' ich dann noch besser ...<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="867">Bist besoffen?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="870">Nein, leider, bring's nit z'sam,<br></span>
 <br>
 <i>Andres, gelangweilt und mit den Gedanken schon mehr beim Tanz, wendet sich pfeifend von Wozzeck ab. Der erste Handwerksbursche, der inzwischen aufgewacht ist, steigt auf einen Tisch und beginnt, von der Wirtshausmusik auf der Bühne melodramatisch begleitet, zu predigen.</i><br>
 <br>
-ERSTER HANDWERKSBURSCHE<br>
+<span class="libretto-character">ERSTER HANDWERKSBURSCHE</span><br>
 <span class="libretto-line" data-line-no="875">Jedoch, wenn ein Wanderer, der gelehnt steht an dem Strom der Zeit, oder aber sich die göttliche Weisheit vergegenwärtigt und fraget: Warum ist der Mensch?<br></span>
 <i>mit Pathos</i><br>
 <span class="libretto-line" data-line-no="877">Aber wahrlich, geliebte Zuhörer, ich sage Euch:<br></span>
@@ -1026,34 +1026,34 @@ ERSTER HANDWERKSBURSCHE<br>
 <br>
 <i>Allgemeines Gejohle! Der Redner wird umringt und von einem Teil der Burschen abgeführt. Die Übrigen begeben sich singend teils zum Tanzboden, teils zu den Tischen im Hintergrund.</i><br>
 <br>
-BURSCHEN, SOLDATEN<br>
+<span class="libretto-character">BURSCHEN, SOLDATEN</span><br>
 <span class="libretto-line" data-line-no="884">Ja lustig ist die Jägerei,<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="887">O Tochter, liebe Tochter!<br></span>
 <br>
 <i>Der Narr taucht plötzlich auf und nähert sich Wozzeck, der, teilnahmslos an den Vorgängen, auf der Bank vorn gesessen hat. Der Narr drängt sich an Wozzeck heran. Die Instrumentalisten der Wirtshausmusik beginnen ihre Instrumente zu stimmen.</i><br>
 <br>
-DER NARR<br>
+<span class="libretto-character">DER NARR</span><br>
 <span class="libretto-line" data-line-no="892">Lustig, lustig ... <br></span>
 <br>
 <i>Wozzeck beachtet den Narren anfangs nicht.</i><br>
 <br>
-DER NARR<br>
+<span class="libretto-character">DER NARR</span><br>
 <span class="libretto-line" data-line-no="897">... aber es riecht …<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="900">Narr, was willst Du?<br></span>
 <br>
-DAR NARR<br>
+<span class="libretto-character">DAR NARR</span><br>
 <span class="libretto-line" data-line-no="903">Ich riech, ich riech Blut!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="906">Blut? ... Blut, Blut!<br></span>
 <br>
 <i>Die Burschen, Mägde und Soldaten, unter ihnen Marie und der Tambourrnajor, beginnen wieder zu tanzen.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="911">Mir wird rot vor den Augen. Mir ist, als wälzten sie sich alle übereinander ...<br></span>
 <br>
 <b>Verwandlung - Orchester-Nachspiel</b><br>
@@ -1061,7 +1061,7 @@ WOZZECK<br>
 FÜNFTE SZENE<br>
 <i>Wachstube in der Kaserne. Nachts. Wortloster Chor der schlafenden Soldaten, anfangs bei geschlossenem Vorhang. Andres liegt mit Wozzeck auf einer Pritsche und schläft.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>stöhnt im Schlaf</i><br>
 <span class="libretto-line" data-line-no="920">Oh! oh!<br></span>
 <i>auffahrend</i><br>
@@ -1069,33 +1069,33 @@ WOZZECK<br>
 <br>
 <i>Bei den Worten Wozzecks werden die schlafenden Soldaten unruhig, ohne aber aufzuwachen.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="927">Wenn ich die Augen zumach', dann seh' ich sie doch immer, und ich hör' die Geigen immerzu, immerzu. Und dann spricht's aus der Wand heraus ... Hörst Du nix, Andres? Wie das geigt und springt?<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="930">Lass sie tanzen!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="933">Und dazwischen blitzt es immer vor den Augen wie ein Messer, wie ein breites Messer!<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="936">Schlaf, Narr!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="939">Mein Herr und Gott,<br></span>
 <i>betet</i><br>
 <span class="libretto-line" data-line-no="941">»und führe uns nicht in Versuchung, Amen!«<br></span>
 <br>
 <i>Wortloser Gesang der schlafenden Soldaten</i><br>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <i>poltert, stark angeheitert, herein</i><br>
 <span class="libretto-line" data-line-no="947">Ich bin ein Mann! Ich hab' ein Weibsbild, ich sag' Ihm, ein Weibsbild! Zur Zucht von Tarnbourmajors! Ein Busen und Schenkel! und alles fest. Die Augen wie glühende Kohlen. Kurzum ein Weibsbild, ich sag' Ihm ...<br></span>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="950">He! Wer ist es denn?<br></span>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <span class="libretto-line" data-line-no="953">Frag' Er den Wozzeck da!<br></span>
 <i>zieht eine Schnapsflasche aus der Tasche, trinkt daraus und hält sie dem Wozzeck hin</i><br>
 <span class="libretto-line" data-line-no="955">Da, Kerl, sauf'! Ich wollt', die Welt wär Schnaps, Schnaps, der Mann muss saufen!<br></span>
@@ -1103,7 +1103,7 @@ TAMBOURMAJOR<br>
 <span class="libretto-line" data-line-no="957">Sauf', Kerl, sauf'!<br></span>
 <i>Wozzeck blickt weg und pfeift.</i><br>
 <br>
-TAMBOURMAJOR<br>
+<span class="libretto-character">TAMBOURMAJOR</span><br>
 <i>schreiend</i><br>
 <span class="libretto-line" data-line-no="962">Kerl, soll ich Dir die Zung' aus dem Hals zieh'n und sie Dir um den Leib wickeln?<br></span>
 <i>Sie ringen miteinander. Wozzeck unterliegt. Der Tambourmajor würgt den am Boden liegenden Wozzeck</i><br>
@@ -1118,16 +1118,16 @@ TAMBOURMAJOR<br>
 <span class="libretto-line" data-line-no="972">Was bin ich für ein Mann!<br></span>
 <i>wendet sich zum Fortgehen und poltert zur Tür hinaus. Wozzeck hat sich indessen langsam erhoben und auf seine Pritsche gesetzt.</i><br>
 <br>
-EIN SOLDAT<br>
+<span class="libretto-character">EIN SOLDAT</span><br>
 <i>auf Wozzeck deutend</i><br>
 <span class="libretto-line" data-line-no="977">Der hat sein Fett!<br></span>
 <i>legt sich um und schläft ein</i><br>
 <br>
-ANDRES<br>
+<span class="libretto-character">ANDRES</span><br>
 <span class="libretto-line" data-line-no="981">Er blut' . . .<br></span>
 <i>legt sich um und schläft ein</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="985">Einer nach dem Andern!<br></span>
 <i>Wozzeck bleibt sitzen und starrt vor sich hin. Die anderen Soldaten, die sich währened des Ringkampfes etwas aufgerichtet hatten, haben sich nach dem Abgang des Tambourmajors niedergelegt und schlafen nunmehr alle wieder.</i><br>
 <br>
@@ -1136,7 +1136,7 @@ WOZZECK<br>
 ERSTE SZENE <br>
 <i>Mariens Stube. Es ist Nacht. Kerzenlicht. Marie sitzt am Tisch, blättert in der Bibel; das Kind in der Nähe. Sie liest in der Bibel</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="994">Und ist kein Betrug in seinem Munde erfunden worden« ... Herr-Gott! Herr-Gott! Sieh' mich nicht an!<br></span>
 <i>blättert weiter</i><br>
 <span class="libretto-line" data-line-no="996">»Aber die Pharisäer brachten ein Weib zu ihm, so im Ehebruch lebte. Jesus aber sprach: "So verdamme ich dich auch nicht, geh' hin, und sündige hinfort nicht mehr." « Herr-Gott!<br></span>
@@ -1158,31 +1158,31 @@ MARIE<br>
 ZWEITE SZENE<br>
 <i>Waldweg am Teich. Es dunkelt. Marie kommt mit Wozzeck von rechts.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1016">Dort links geht's in die Stadt. 's ist noch weit. Komm schneller!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1019">Du sollst dableiben, Marie. Komm, setz' Dich.<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1022">Aber ich muss fort.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1025">Komm.<br></span>
 <i>sie setzen sich</i><br>
 <span class="libretto-line" data-line-no="1027">Bist weit gegangen, Marie. Sollst Dir die Füsse nicht mehr wund laufen. 's ist still hier! Und so dunkel. - Weisst noch, Marie, wie lang' es jetzt ist, dass wir uns kennen?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1030">Zu Pfingsten drei Jahre.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1033">Und was meinst, wie lang' es noch dauern wird?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <i>springt auf</i><br>
 <span class="libretto-line" data-line-no="1037">Ich muss fort.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1040">Fürchst Dich, Marie? Und bist doch fromm?<br></span>
 <i>lacht</i><br>
 <span class="libretto-line" data-line-no="1042">Und gut! Und treu!<br></span>
@@ -1191,42 +1191,42 @@ WOZZECK<br>
 <i>küsst sie</i><br>
 <span class="libretto-line" data-line-no="1046">Den Himmel gäb' ich drum und die Seligkeit, wenn ich Dich noch oft so küssen dürft! Aber ich darf nicht! Was zitterst?<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1049">Der Nachttau fällt.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>flüstert vor sich hin</i><br>
 <span class="libretto-line" data-line-no="1053">Wer kalt ist, den friert nicht mehr! Dich wird beim Morgentau nicht frieren.<br></span>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1056">Was sagst Du da?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1059">Nix.<br></span>
 <br>
 <i>Langes Schweigen. Der Mond geht auf.</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1064">Wie der Mond rot aufgeht!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1067">Wie ein blutig Eisen!<br></span>
 <i>zieht ein Messer</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1071">Was zitterst?<br></span>
 <i>springt auf</i><br>
 <span class="libretto-line" data-line-no="1073">Was willst?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1076">Ich nicht, Marie! Und kein Andrer auch nicht!<br></span>
 <i>packt sie an und stösst ihr das Messer in den Hals</i><br>
 <br>
-MARIE<br>
+<span class="libretto-character">MARIE</span><br>
 <span class="libretto-line" data-line-no="1080">Hilfe!<br></span>
 <i>sinkt nieder. Wozzeck beugt sich über sie. Marie stirbt.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1084">Tot!<br></span>
 <i>richtet sich scheu auf und stürzt geräuschlos davon</i><br>
 <br>
@@ -1236,7 +1236,7 @@ WOZZECK<br>
 DRITTE SZENE<br>
 <i>Eine Schenke. Nacht. Schwaches Licht. Dirnen, unter ihnen Margret, und Burschen tanzen eine wilde Schnellpolka. Wozzeck sitzt an einem der Tische.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1094">Tanzt Alle; tanzt nur zu, springt, schwitzt und stinkt, es holt Euch doch noch einmal der Teufel!<br></span>
 <i>stürzt ein Glas Wein hinunter; den Klavierspieler überschreiend</i><br>
 <span class="libretto-line" data-line-no="1096">Es ritten drei Reiter wohl an den Rhein,<br></span>
@@ -1253,62 +1253,62 @@ WOZZECK<br>
 <i>drückt sie an sich; lässt sie los</i><br>
 <span class="libretto-line" data-line-no="1108">Wart nur, wirst auch kalt werden! Kannst nicht singen?<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <i>vom Klavierspieler auf der Bühne begleitet, singt</i><br>
 <span class="libretto-line" data-line-no="1112">In's Schwabenland, da mag ich nit,<br></span>
 <span class="libretto-line" data-line-no="1113">Und lange Kleider trag ich nit,<br></span>
 <span class="libretto-line" data-line-no="1114">Denn lange Kleider, spitze Schuh,<br></span>
 <span class="libretto-line" data-line-no="1115">Die kommen keiner Dienstmagd zu.<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <i>auffahrend</i><br>
 <span class="libretto-line" data-line-no="1119">Nein! keine Schuh, man kann auch blossfüssig in die Höll' geh'n! Ich möcht heut raufen, raufen ...<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="1122">Aber was hast Du an der Hand?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1125">Ich? Ich?<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="1128">Rot! Blut!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1131">Blut? Blut?<br></span>
 <br>
 <i>Es stellen sich Leute um sie.</i><br>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="1136">Freilich ... Blut!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1139">Ich glaub', ich hab' mich geschnitten, da an der rechten Hand ...<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="1142">Wie kommt's denn zum Ellenbogen?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1145">Ich hab's daran abgewischt.<br></span>
 <br>
-BURSCHEN<br>
+<span class="libretto-character">BURSCHEN</span><br>
 <span class="libretto-line" data-line-no="1148">Mit der rechten Hand am rechten Arm?<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1151">Was wollt Ihr? Was geht's Euch an?<br></span>
 <br>
-MARGRET<br>
+<span class="libretto-character">MARGRET</span><br>
 <span class="libretto-line" data-line-no="1154">Puh! Puh! Da stinkt's nach Menschenblut!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1157">Bin ich ein Mörder?<br></span>
 <br>
-BURSCHEN<br>
+<span class="libretto-character">BURSCHEN</span><br>
 <span class="libretto-line" data-line-no="1160">Blut, Blut, Blut, Blut!<br></span>
 <br>
-DIRNEN<br>
+<span class="libretto-character">DIRNEN</span><br>
 <span class="libretto-line" data-line-no="1163">Freilich, da stinkt's nach Menschenblut!<br></span>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1166">Platz! oder es geht wer zum Teufel!<br></span>
 <i>stürzt hinaus</i><br>
 <br>
@@ -1317,7 +1317,7 @@ WOZZECK<br>
 VIERTE SZENE<br>
 <i>Waldweg am Teich. Mondnacht wie vorher. Wozzeck kommt schnell herangewankt. Bleibt suchend stehen.</i><br>
 <br>
-WOZZECK<br>
+<span class="libretto-character">WOZZECK</span><br>
 <span class="libretto-line" data-line-no="1175">Das Messer? Wo ist das Messer? Ich hab's dagelassen ... Näher, noch näher. Mir graut's! Da regt sich was. Still! Alles still und tot ... Mörder! Mörder! Ha! Da ruft's. Nein, ich selbst.<br></span>
 <i>wankt suchend ein paar Schritte weiter und stösst auf die Leiche</i><br>
 <span class="libretto-line" data-line-no="1177">Marie! Marie! Was hast Du für eine rote Schnur um den Hals? Hast Dir das rote Halsband verdient, wie die Ohrringlein, mit Deiner Sünde! Was hängen Dir die schwarzen Haare so wild? Mörder! Mörder! Sie werden nach mir suchen ... Das Messer verrät mich!<br></span>
@@ -1335,36 +1335,36 @@ WOZZECK<br>
 <br>
 <i>Der Doktor tritt auf, der Hauptmann folgt ihm.</i><br>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="1193">Halt!<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>bleibt stehen</i><br>
 <span class="libretto-line" data-line-no="1197">Hören Sie? Dort!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="1200">Jesus! Das war ein Ton.<br></span>
 <i>bleibt ebenfalls stehen</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>auf den Teich zeigend</i><br>
 <span class="libretto-line" data-line-no="1205">Ja, dort!.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="1208">Es ist das Wasser im Teich. Das Wasser ruft. Es ist schon lange Niemand ertrunken. Kommen Sie, Doktor! Es ist nicht gut zu hören.<br></span>
 <i>will den Doktor mit sich ziehen</i><br>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <i>bleibt aber stehen und lauscht</i><br>
 <span class="libretto-line" data-line-no="1213">Das stöhnt als stürbe ein Mensch. Da ertrinkt jemand!<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="1216">Unheimlich! Der Mond rot und die Nebel grau. Hören Sie? jetzt wieder das Ächzen.<br></span>
 <br>
-DOKTOR<br>
+<span class="libretto-character">DOKTOR</span><br>
 <span class="libretto-line" data-line-no="1219">Stiller.... jetzt ganz still.<br></span>
 <br>
-HAUPTMANN<br>
+<span class="libretto-character">HAUPTMANN</span><br>
 <span class="libretto-line" data-line-no="1222">Kommen Sie! Kommen Sie schnell.<br></span>
 <i>zieht den Doktor mit sich</i><br>
 <br>
@@ -1374,41 +1374,41 @@ HAUPTMANN<br>
 FÜNFTE SZENE<br>
 <i>Strasse vor Mariens Tür. Heller Morgen. Sonnenschein. Kinder spielen und lärmen. Mariens Knabe auf einem Steckenpferd reitend.</i><br>
 <br>
-DIE SPIELENDEN KINDER<br>
+<span class="libretto-character">DIE SPIELENDEN KINDER</span><br>
 <span class="libretto-line" data-line-no="1232">Ringel, Ringel, Rosenkranz, Ringelreih'n!<br></span>
 <span class="libretto-line" data-line-no="1233">Ringel, Ringel, Rosenkranz, Rin ...<br></span>
 <br>
 <i>unterbrechen Gesang und Spiel, andere Kinder stürmen herein</i><br>
 <br>
-EINS VON IHNEN<br>
+<span class="libretto-character">EINS VON IHNEN</span><br>
 <span class="libretto-line" data-line-no="1238">Du Käthe! . . . Die Marie ...<br></span>
 <br>
-ZWEITES KIND<br>
+<span class="libretto-character">ZWEITES KIND</span><br>
 <span class="libretto-line" data-line-no="1241">Was is?<br></span>
 <br>
-ERSTES KIND<br>
+<span class="libretto-character">ERSTES KIND</span><br>
 <span class="libretto-line" data-line-no="1244">Weisst' es nit? Sie sind schon Alle 'naus.<br></span>
 <br>
-DRITTES KIND<br>
+<span class="libretto-character">DRITTES KIND</span><br>
 <i>zu Mariens Knaben</i><br>
 <span class="libretto-line" data-line-no="1248">Du! Dein Mutter ist tot!<br></span>
 <br>
-MARIENS KNABE<br>
+<span class="libretto-character">MARIENS KNABE</span><br>
 <i>immer reitend</i><br>
 <span class="libretto-line" data-line-no="1252">Hopp, hopp! Hopp, hopp! Hopp, hopp!<br></span>
 <br>
-ZWEITES KIND<br>
+<span class="libretto-character">ZWEITES KIND</span><br>
 <span class="libretto-line" data-line-no="1255">Wo is sie denn?<br></span>
 <br>
-ERSTES KIND<br>
+<span class="libretto-character">ERSTES KIND</span><br>
 <span class="libretto-line" data-line-no="1258">Drauss' liegt sie, am Weg, neben dem Teich.<br></span>
 <br>
-DRITTES<br>
+<span class="libretto-character">DRITTES</span><br>
 <span class="libretto-line" data-line-no="1261">Kommt, anschaun!<br></span>
 <br>
 <i>Alle Kinder laufen davon.</i><br>
 <br>
-MARIENS KNABE<br>
+<span class="libretto-character">MARIENS KNABE</span><br>
 <i>reitet</i><br>
 <span class="libretto-line" data-line-no="1267">Hopp, hopp! Hopp, hopp! Hopp, hopp!<br></span>
 <br>
