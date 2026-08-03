@@ -1,4 +1,5 @@
-import {Annotation, AnnotationCode} from "./data/annotations";
+import {AnnotationCode} from "./data/annotations";
+import type {Annotation} from "./AnnotationManager";
 import {TimeManager} from "./TimeManager";
 import {globals} from "./globals";
 
@@ -176,6 +177,7 @@ export class AddAnnotationPanel {
             act,
             code: codes,
             annotation: {'fr': text, 'en': text, 'de': text, "pt": text},
+            annotation_source: 'User',
             is_general: false,
             page_range: [0, 0],
             measure_range: [bar, bar],

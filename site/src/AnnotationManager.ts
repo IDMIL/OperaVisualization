@@ -1,10 +1,29 @@
 import {ScoreTime, TimeManager, UpdateSource} from "./TimeManager";
-import {Annotation, AnnotationCode, annotations} from "./data/annotations";
+import {Annotation as AnnotationContent, AnnotationCode, AnnotationGroup, annotations as annotationGroups} from "./data/annotations";
 import {globals} from "./globals";
 import {AddAnnotationPanel} from "./AddAnnotationPanel";
 import {addInfoBox} from "./InfoBox";
 import {text} from "./data/text";
 import {SectionManager, SectionRect} from "./SectionManager";
+
+// Flat view of an annotation with its group's time-range context merged in,
+// used throughout the UI which displays/edits one annotation at a time.
+export interface Annotation extends AnnotationContent {
+    act: number;
+    is_general: boolean;
+    page_range: [number, number];
+    measure_range: [number, number];
+}
+
+function flattenAnnotationGroups(groups: Array<AnnotationGroup>): Array<Annotation> {
+    return groups.flatMap(group => group.annotations.map(a => ({
+        ...a,
+        act: group.act,
+        is_general: group.is_general,
+        page_range: group.page_range,
+        measure_range: group.measure_range,
+    })));
+}
 
 interface AnnotationSources {
     [source_name: string]: {description: string, annotations: Array<Annotation>}
@@ -22,7 +41,7 @@ export class AnnotationManager extends SectionManager {
     }
 
     private allAnnotations : AnnotationSources = {
-        "René Schmidt": {description:text.SCHMIDT_DESCRIPTION[globals.language], annotations: annotations},
+        "René Schmidt": {description:text.SCHMIDT_DESCRIPTION[globals.language], annotations: flattenAnnotationGroups(annotationGroups)},
         "Serge Garant": {description:text.GARANT_DESCRIPTION[globals.language], annotations: []},
         "George Perle": {description:text.PERLE_DESCRIPTION[globals.language], annotations: []},
         "User": {description: text.USER_DESCRIPTION[globals.language], annotations: []}};

@@ -1,5 +1,6 @@
 import {ScoreTime, TimeManagerListener, UpdateSource} from "./TimeManager";
-import {Annotation, AnnotationCode} from "./data/annotations";
+import {AnnotationCode} from "./data/annotations";
+import type {Annotation} from "./AnnotationManager";
 import {bar_to_page} from "./data/barToPage";
 import {globals} from "./globals";
 
