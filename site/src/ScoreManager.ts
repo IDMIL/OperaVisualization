@@ -4,6 +4,13 @@ import {SectionManager, SectionRect} from "./SectionManager";
 import {text} from "./data/text";
 import {globals} from "./globals";
 
+// Height (px) reserved for the in-flow header row above the score image —
+// see #score-header in styles.css. Exported so main.ts's default-rect math
+// can size the panel to fit both the header and a full-width image (see
+// getAspectRatio below, which folds this same constant into the ratio used
+// while resizing).
+export const SCORE_HEADER_HEIGHT = 28;
+
 export class ScoreManager extends SectionManager {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
@@ -18,21 +25,15 @@ export class ScoreManager extends SectionManager {
         const scoreViewer = this.element;
         if (scoreViewer) {
             scoreViewer.innerHTML = `
+            <div id="score-header">
+              <div id="score-title"></div>
+            </div>
             <div id="image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
 
-            // Unlike the other panels, the score image fills the whole box
-            // (its aspect ratio drives resize constraints — see
-            // getAspectRatio), so a normal in-flow title would eat into that
-            // space and desync the box's ratio from the image's. Overlaid
-            // instead, the same way the transport controls are (see
-            // ScoreTransportOverlay), so the panel's rect stays exactly the
-            // image's rect.
-            const title = document.createElement("div");
-            title.id = "score-title-overlay";
-            title.innerText = text.SCORE_VIEWER[globals.language];
-            scoreViewer.appendChild(title);
+            const title = document.getElementById("score-title");
+            if (title) title.innerText = text.SCORE_VIEWER[globals.language];
 
             this.initResizeHandles();
         }
@@ -76,11 +77,19 @@ export class ScoreManager extends SectionManager {
 
     // Keeps the panel's own shape matching the currently displayed score
     // page (rather than the page ending up letterboxed inside a
-    // mismatched box) whenever the user drags one of its edges.
+    // mismatched box) whenever the user drags one of its edges. The box is
+    // taller than the image alone by SCORE_HEADER_HEIGHT (see #score-header),
+    // so the ratio returned here is the image's ratio adjusted for that fixed
+    // offset at the panel's current width — not a true constant, but close
+    // enough moment-to-moment since it's re-read on every drag step (see
+    // SectionManager.beginDrag) and width changes gradually during a drag.
     protected getAspectRatio(): number | null {
         const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
         if (!img || !img.naturalWidth || !img.naturalHeight) return null;
-        return img.naturalWidth / img.naturalHeight;
+        const imageRatio = img.naturalWidth / img.naturalHeight;
+        const width = this.element?.offsetWidth;
+        if (!width) return imageRatio;
+        return width / (width / imageRatio + SCORE_HEADER_HEIGHT);
     }
 
     async preloadTime(time: ScoreTime) {

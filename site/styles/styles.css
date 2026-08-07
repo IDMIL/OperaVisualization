@@ -623,6 +623,10 @@ button {
     position: relative;
 }
 
+/* Sits on top of .timeline-structure-bar, whose background stays light in
+   both themes (see .timeline-button) — color is hardcoded to match that
+   row's text instead of following --color-heading, which flips light/dark
+   per theme and would go unreadable here in dark mode. */
 .timeline-measure-label {
     position: absolute;
     top: 0;
@@ -632,7 +636,7 @@ button {
     padding-left: 4px;
     font-size: 10px;
     font-weight: 600;
-    color: var(--color-heading);
+    color: #1a1a2e;
     white-space: nowrap;
     pointer-events: none;
 }
@@ -660,35 +664,54 @@ button {
     border-color: transparent;
 }
 
+/* Other measures on the score page currently shown, minus the current
+   measure itself (that's .current-scene, above) — a lighter tint of the
+   same accent so it reads as "related to" rather than "is" the current
+   measure. Text stays the row's normal dark color (see .timeline-button). */
+.current-page-bar {
+    background-color: color-mix(in srgb, var(--color-accent) 35%, white);
+    border-color: transparent;
+}
+
 /* ── Score viewer ────────────────────────────────────── */
 
 #score-viewer-section {
     padding: 0;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* In-flow row above the image, tall enough to hold the section's
+   top-right close button (see .section-close-handle, top:9px/14px tall)
+   without it sitting over the score page — see ScoreManager. */
+#score-header {
+    flex: 0 0 28px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+}
+
+/* Hidden in fullscreen along with the other chrome (resize/move/close
+   handles) — see .score-fullscreen rules below. */
+#score-viewer-section.score-fullscreen #score-header {
+    display: none;
 }
 
 #image-holder {
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     width: auto;
     position: relative;
 }
 
-/* Overlaid rather than in-flow (see ScoreManager) */
-#score-title-overlay {
-    position: absolute;
-    top: 8px;
-    left: 12px;
-    z-index: 8;
-    padding: 3px 10px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.52);
-    /*backdrop-filter: blur(4px);*/
-    color: gray;
+#score-title {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    pointer-events: none;
+    color: var(--color-muted);
 }
 
 /* ── Current-page annotation overlay ────────────────── */
@@ -1143,6 +1166,40 @@ button {
 }
 
 /* ── Add Annotation Panel ────────────────────────────── */
+
+/* Floats beside the annotations panel (see AddAnnotationPanel.position)
+   instead of covering its list — positioned/sized in JS since its anchor
+   can move (the annotations panel is itself draggable/resizable), but the
+   chrome itself matches .draggable-section for visual consistency. */
+#add-annotation-panel {
+    position: fixed;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+    padding: 0 12px 12px;
+}
+
+/* The ID selector above outranks the UA stylesheet's [hidden] { display:
+   none }, so it needs restating here (higher specificity still) or the
+   panel would stay visible while hidden. */
+#add-annotation-panel[hidden] {
+    display: none;
+}
+
+#add-annotation-heading {
+    margin-top: 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    padding: 8px 0 4px;
+}
 
 #add-annotation-form {
     display: flex;

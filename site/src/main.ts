@@ -1,6 +1,6 @@
 import { LanguageCode } from "./data/text";
 import {TimeManager} from "./TimeManager";
-import {ScoreManager} from "./ScoreManager";
+import {ScoreManager, SCORE_HEADER_HEIGHT} from "./ScoreManager";
 import {TransportManager} from "./TransportManager";
 import {TimelineManager} from "./TimelineManager";
 import {AnnotationManager} from "./AnnotationManager";
@@ -52,7 +52,9 @@ function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
     for (const sectionId in MOBILE_DEFAULT_HEIGHTS) {
         rects[sectionId] = {top: 0, left: 0, width: vw, height: MOBILE_DEFAULT_HEIGHTS[sectionId]};
     }
-    rects["score-viewer-section"] = {top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO)};
+    rects["score-viewer-section"] = {
+        top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
+    };
     rects["panel-visibility-bar"] = {
         top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
     };
@@ -85,6 +87,8 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
     const contentTop = headerHeight + TIMELINES_HEIGHT + GAP;
     const contentHeight = vh - contentTop - GAP;
 
+    // Sized off contentHeight (not the score panel's own taller height below)
+    // since that's the image's portion of the box — see SCORE_HEADER_HEIGHT.
     const scoreWidth = Math.round(contentHeight * SCORE_ASPECT_RATIO);
     const scoreLeft = vw - scoreWidth;
     const annotationsWidth = scoreLeft - GAP;
@@ -105,7 +109,9 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
             top: videoTop, left: 0, width: leftColumnWidth, height: vh - videoTop - GAP
         },
         "libretto-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
-        "score-viewer-section": {top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight},
+        "score-viewer-section": {
+            top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight + SCORE_HEADER_HEIGHT
+        },
         "panel-visibility-bar": {
             top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
         },

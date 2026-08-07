@@ -15,12 +15,12 @@ export class Tutorial {
                 'en': "Use the act, scene, and scene-structure timelines to navigate throughout the score.",
                 'fr': "Utilisez les chronologies par acte, par scène et par structure de scène pour parcourir la partition.",
                 'de': "Verwenden Sie die Zeitleisten für Akte, Szene und Szenenstruktur, um sich in der Partitur zurechtzufinden.",
-                'pt': "Utilize as linhas do tempo de ato, cena e estrutura da cena para navegar pela partitura. "}},
+                'pt': "Para navegar pela partitura, utilize a cronologia por ato, por cena e por compasso. "}},
         {targetId: "annotations-section", side: "right", description: {
                 'en': "Read and search for annotations.",
-                'fr': "Lisez et recherchez des annotations.",
+                    'fr': "Lisez et recherchez des annotations.",
                 'de': "Lesen und suchen Sie nach Annotationen.",
-                'pt': "Leia e pesquise por anotações."
+                'pt': "Aqui você poderá ler, pesquisar e acrescentar suas próprias anotações."
             }}
     ]
 

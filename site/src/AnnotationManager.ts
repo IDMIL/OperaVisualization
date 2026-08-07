@@ -181,7 +181,7 @@ export class AnnotationManager extends SectionManager {
         this.scrollerDiv.classList.add('scroller-area');
         annotationsSection.appendChild(this.scrollerDiv);
 
-        this.addAnnotationPanel = new AddAnnotationPanel(this.scrollerDiv, this.annotationCodes, (flatAnnotation) => {
+        this.addAnnotationPanel = new AddAnnotationPanel(annotationsSection, this.annotationCodes, (flatAnnotation) => {
             const {group, annotation} = this.insertIntoGroups(flatAnnotation);
             this.insertAnnotationAtCorrectPosition(group, annotation);
             this.setAnnotationVisibilityFromState();

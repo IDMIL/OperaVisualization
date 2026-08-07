@@ -5,7 +5,12 @@ import {globals} from "./globals";
 
 export class AddAnnotationPanel {
     private panel: HTMLElement;
-    private scroller: HTMLElement;
+    // Panel this form floats alongside (the annotations section) — used only
+    // to anchor its position, never hidden or otherwise touched, so the
+    // annotation list stays visible behind/beside the form instead of being
+    // covered by it.
+    private readonly anchor: HTMLElement;
+    private heading!: HTMLElement;
 
     private readonly annotationCodes: { [code in AnnotationCode]: string };
     private readonly onAdd: (annotation: Annotation) => void;
@@ -15,13 +20,13 @@ export class AddAnnotationPanel {
     private submitButton!: HTMLButtonElement;
 
     constructor(
-        scroller: HTMLElement,
+        anchor: HTMLElement,
         annotationCodes: { [code in AnnotationCode]: string },
         onAdd: (annotation: Annotation) => void,
         timeManager: TimeManager,
         onEdit: (old: Annotation, updated: Annotation) => void,
     ) {
-        this.scroller = scroller;
+        this.anchor = anchor;
         this.annotationCodes = annotationCodes;
         this.onAdd = onAdd;
         this.timeManager = timeManager;
@@ -29,12 +34,44 @@ export class AddAnnotationPanel {
 
         this.panel = document.createElement('div');
         this.panel.id = 'add-annotation-panel';
-        this.panel.classList.add('scroller-area');
         this.panel.hidden = true;
+
+        this.heading = document.createElement('h2');
+        this.heading.id = 'add-annotation-heading';
+        this.panel.appendChild(this.heading);
 
         this.panel.appendChild(this.buildForm());
 
-        scroller.parentElement!.appendChild(this.panel);
+        document.body.appendChild(this.panel);
+
+        // Re-anchor on viewport resize so the floating form doesn't drift
+        // away from the panel it belongs to.
+        window.addEventListener('resize', () => {
+            if (!this.panel.hidden) this.position();
+        });
+    }
+
+    // Floats the form next to its anchor panel (to the right if there's
+    // room, otherwise to the left) rather than on top of it, so the
+    // annotation list underneath stays visible instead of being covered.
+    private position() {
+        const anchorRect = this.anchor.getBoundingClientRect();
+        const gap = 10;
+        const panelWidth = Math.min(340, window.innerWidth - 2 * gap);
+
+        let left = anchorRect.right + gap;
+        if (left + panelWidth > window.innerWidth) {
+            left = anchorRect.left - panelWidth - gap;
+        }
+        left = Math.min(Math.max(left, gap), window.innerWidth - panelWidth - gap);
+
+        const minVisibleHeight = 200;
+        const top = Math.min(Math.max(anchorRect.top, gap), window.innerHeight - minVisibleHeight - gap);
+
+        this.panel.style.left = `${left}px`;
+        this.panel.style.top = `${top}px`;
+        this.panel.style.width = `${panelWidth}px`;
+        this.panel.style.maxHeight = `${window.innerHeight - top - gap}px`;
     }
 
     private buildForm(): HTMLElement {
@@ -207,6 +244,7 @@ export class AddAnnotationPanel {
             (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value =
                 annotationToEdit.annotation[globals.language];
             this.submitButton.textContent = 'Save';
+            this.heading.textContent = 'Edit Annotation';
         } else {
             (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
                 String(this.timeManager.getCurrentAct());
@@ -219,14 +257,14 @@ export class AddAnnotationPanel {
             }
             (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value = '';
             this.submitButton.textContent = 'Add';
+            this.heading.textContent = 'Add Annotation';
         }
 
-        this.scroller.hidden = true;
         this.panel.hidden = false;
+        this.position();
     }
 
     close() {
         this.panel.hidden = true;
-        this.scroller.hidden = false;
     }
 }

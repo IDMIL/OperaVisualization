@@ -3,6 +3,7 @@ import {scene_bar_ranges} from "./data/sceneBarRanges";
 import {getRomanNumerals, globals} from "./globals";
 import {text} from "./data/text";
 import {SectionManager, SectionRect, IS_MOBILE_LAYOUT, GAP} from "./SectionManager";
+import {bar_to_page} from "./data/barToPage";
 
 export class TimelineManager extends SectionManager {
     constructor(tm : TimeManager, rect: SectionRect) {
@@ -194,6 +195,7 @@ export class TimelineManager extends SectionManager {
         for (let bar = sceneRange[0]; bar <= sceneRange[1]; bar++) {
             let barDiv = document.createElement("div");
             barDiv.id = "timeline-structure-bar-" + bar;
+            barDiv.dataset.bar = String(bar);
             barDiv.classList.add("timeline-button", "timeline-structure-bar");
             barDiv.style.width = (100 / numBars) + "%";
             barDiv.onclick = () => {
@@ -247,13 +249,20 @@ export class TimelineManager extends SectionManager {
             this.#renderSceneStructureBars();
         }
 
+        // Bars sharing the current page's image are highlighted a lighter
+        // blue (see .current-page-bar) — the same page-membership check
+        // ScoreManager uses to decide which bars to overlay on the score
+        // image itself.
         const bar = this.timeManager.getCurrentBarWithinAct();
+        const currentImage = bar_to_page[act - 1][bar]?.image;
         for (const child of this.sceneStructureTimeline.children) {
-            if (child.id === "timeline-structure-bar-" + bar) {
-                child.classList.add("current-scene");
-            } else {
-                child.classList.remove("current-scene");
-            }
+            const barDiv = child as HTMLElement;
+            const isCurrent = barDiv.id === "timeline-structure-bar-" + bar;
+            barDiv.classList.toggle("current-scene", isCurrent);
+
+            const onCurrentPage = !isCurrent && currentImage !== undefined
+                && bar_to_page[act - 1][Number(barDiv.dataset.bar)]?.image === currentImage;
+            barDiv.classList.toggle("current-page-bar", onCurrentPage);
         }
 
         this.#updateCurrentMeasureLabel();
