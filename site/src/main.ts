@@ -10,6 +10,7 @@ import {TitleSectionManager} from "./TitleSectionManager";
 import {ScoreTransportOverlay} from "./ScoreTransportOverlay";
 import {VideoPlayerManager} from "./VideoPlayerManager";
 import {CurrentPageAnnotations} from "./CurrentPageAnnotations";
+import {ScoreDrawingOverlay} from "./ScoreDrawingOverlay";
 import {Tutorial} from "./Tutorial";
 import {SectionRect, IS_MOBILE_LAYOUT, GAP} from "./SectionManager";
 import {PanelVisibilityManager} from "./PanelVisibilityManager";
@@ -185,6 +186,8 @@ async function buildWindow(lang : LanguageCode ) {
     let timelineManager = new TimelineManager(timeManager, timelineRect);
     let annotationManager = new AnnotationManager(timeManager, rects["annotations-section"]);
     let currentPageAnnotations = new CurrentPageAnnotations(() => annotationManager.getAllAnnotations());
+    let scoreDrawingOverlay = new ScoreDrawingOverlay(() => annotationManager.getAllAnnotations());
+    annotationManager.setOnAnnotationsChanged(() => scoreDrawingOverlay.refresh());
     let architectureManager = new ArchitectureManager(timeManager, rects["architecture-list"]);
     let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
     let librettoManager = new LibrettoManager(timeManager, rects["libretto-section"]);
@@ -195,6 +198,7 @@ async function buildWindow(lang : LanguageCode ) {
     timeManager.listeners.push(timelineManager);
     timeManager.listeners.push(annotationManager);
     timeManager.listeners.push(currentPageAnnotations);
+    timeManager.listeners.push(scoreDrawingOverlay);
     timeManager.listeners.push(architectureManager);
     timeManager.listeners.push(videoPlayerManager);
     timeManager.listeners.push(librettoManager);

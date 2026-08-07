@@ -68,6 +68,10 @@ export class AnnotationManager extends SectionManager {
     private addAnnotationPanel!: AddAnnotationPanel;
     private downloadButton!: HTMLButtonElement;
     private uploadButton!: HTMLButtonElement;
+    // Notified whenever annotation data changes (add/edit/delete/upload) —
+    // lets ScoreDrawingOverlay pick up a graphical annotation on the
+    // currently displayed page right away, instead of only on navigation.
+    private onAnnotationsChanged: () => void = () => {};
     scrollerDiv : HTMLElement | undefined;
 
     constructor(timeManager : TimeManager, rect: SectionRect) {
@@ -498,6 +502,11 @@ export class AnnotationManager extends SectionManager {
             .filter(a => a.annotation_source === 'User');
         localStorage.setItem('wozzeck-user-annotations', JSON.stringify(userAnnotations));
         this.updateTransferButtons();
+        this.onAnnotationsChanged();
+    }
+
+    setOnAnnotationsChanged(callback: () => void) {
+        this.onAnnotationsChanged = callback;
     }
 
     private highlightText(html: string, query: string): string {

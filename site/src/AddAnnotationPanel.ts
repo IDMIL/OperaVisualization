@@ -2,6 +2,11 @@ import {AnnotationCode} from "./data/annotations";
 import type {Annotation} from "./AnnotationManager";
 import {TimeManager} from "./TimeManager";
 import {globals} from "./globals";
+import {bar_to_page} from "./data/barToPage";
+import {positionFloatingPanel} from "./floatingPanel";
+import {DrawingPanel} from "./DrawingPanel";
+
+const PANEL_WIDTH = 340;
 
 export class AddAnnotationPanel {
     private panel: HTMLElement;
@@ -11,6 +16,14 @@ export class AddAnnotationPanel {
     // covered by it.
     private readonly anchor: HTMLElement;
     private heading!: HTMLElement;
+    private graphCheckbox!: HTMLInputElement;
+    private readonly drawingPanel: DrawingPanel;
+    // The in-progress graphical drawing for the annotation currently being
+    // composed — kept here (rather than inside DrawingPanel) since it must
+    // survive the drawing panel being closed and reopened, and needs to be
+    // read back out when the form is submitted.
+    private pendingDrawing: string | null = null;
+    private pendingDrawingImage: string | null = null;
 
     private readonly annotationCodes: { [code in AnnotationCode]: string };
     private readonly onAdd: (annotation: Annotation) => void;
@@ -34,15 +47,22 @@ export class AddAnnotationPanel {
 
         this.panel = document.createElement('div');
         this.panel.id = 'add-annotation-panel';
+        this.panel.classList.add('floating-panel');
         this.panel.hidden = true;
 
         this.heading = document.createElement('h2');
-        this.heading.id = 'add-annotation-heading';
         this.panel.appendChild(this.heading);
 
         this.panel.appendChild(this.buildForm());
 
         document.body.appendChild(this.panel);
+
+        // Cascades off this panel rather than the annotations list, so it
+        // follows the add/edit form around instead of the section behind it.
+        this.drawingPanel = new DrawingPanel(this.panel, (dataUrl, image) => {
+            this.pendingDrawing = dataUrl;
+            this.pendingDrawingImage = dataUrl ? image : null;
+        });
 
         // Re-anchor on viewport resize so the floating form doesn't drift
         // away from the panel it belongs to.
@@ -55,23 +75,17 @@ export class AddAnnotationPanel {
     // room, otherwise to the left) rather than on top of it, so the
     // annotation list underneath stays visible instead of being covered.
     private position() {
-        const anchorRect = this.anchor.getBoundingClientRect();
-        const gap = 10;
-        const panelWidth = Math.min(340, window.innerWidth - 2 * gap);
+        positionFloatingPanel(this.panel, this.anchor, PANEL_WIDTH);
+    }
 
-        let left = anchorRect.right + gap;
-        if (left + panelWidth > window.innerWidth) {
-            left = anchorRect.left - panelWidth - gap;
-        }
-        left = Math.min(Math.max(left, gap), window.innerWidth - panelWidth - gap);
-
-        const minVisibleHeight = 200;
-        const top = Math.min(Math.max(anchorRect.top, gap), window.innerHeight - minVisibleHeight - gap);
-
-        this.panel.style.left = `${left}px`;
-        this.panel.style.top = `${top}px`;
-        this.panel.style.width = `${panelWidth}px`;
-        this.panel.style.maxHeight = `${window.innerHeight - top - gap}px`;
+    // Opens (or moves) the drawing tool onto whichever page image the
+    // pending drawing already belongs to, or the page currently shown in
+    // the main score viewer if there isn't one yet.
+    private openDrawingPanel() {
+        const scoreTime = this.timeManager.scoreTime;
+        const currentImage = bar_to_page[scoreTime.act - 1][scoreTime.bar].image;
+        const image = this.pendingDrawingImage ?? currentImage;
+        this.drawingPanel.open(image, this.pendingDrawing ?? undefined);
     }
 
     private buildForm(): HTMLElement {
@@ -126,6 +140,17 @@ export class AddAnnotationPanel {
             checkbox.name = 'annotation-category';
             checkbox.value = key;
             checkbox.classList.add('add-annotation-category-checkbox');
+
+            if (key === 'graph') {
+                this.graphCheckbox = checkbox;
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        this.openDrawingPanel();
+                    } else {
+                        this.drawingPanel.close();
+                    }
+                });
+            }
 
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(this.annotationCodes[key]));
@@ -220,6 +245,14 @@ export class AddAnnotationPanel {
             measure_range: [bar, bar],
         };
 
+        // Only attach the drawing if Graphique is still checked — the user
+        // may have drawn something and then unchecked the category, in
+        // which case the drawing shouldn't be saved onto this annotation.
+        if (codes.includes('graph') && this.pendingDrawing && this.pendingDrawingImage) {
+            annotation.drawing = this.pendingDrawing;
+            annotation.drawingImage = this.pendingDrawingImage;
+        }
+
         if (this.editingAnnotation) {
             this.onEdit(this.editingAnnotation, annotation);
         } else {
@@ -230,6 +263,8 @@ export class AddAnnotationPanel {
 
     open(annotationToEdit?: Annotation) {
         this.editingAnnotation = annotationToEdit ?? null;
+        this.pendingDrawing = annotationToEdit?.drawing ?? null;
+        this.pendingDrawingImage = annotationToEdit?.drawingImage ?? null;
 
         if (annotationToEdit) {
             (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
@@ -262,9 +297,19 @@ export class AddAnnotationPanel {
 
         this.panel.hidden = false;
         this.position();
+
+        // Reflects the (possibly just-populated) Graphique checkbox state —
+        // covers both editing an existing graphical annotation and simply
+        // reopening the form with it left checked from before.
+        if (this.graphCheckbox.checked) {
+            this.openDrawingPanel();
+        } else {
+            this.drawingPanel.close();
+        }
     }
 
     close() {
         this.panel.hidden = true;
+        this.drawingPanel.close();
     }
 }

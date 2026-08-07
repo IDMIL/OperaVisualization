@@ -6,6 +6,12 @@ export interface Annotation {
     code : Array<AnnotationCode>;
     annotation : {[language in LanguageCode] : string};
     annotation_source : string;
+    // Present only on 'graph'-coded annotations with a user drawing: a
+    // transparent-background PNG data URL, pixel-aligned to `drawingImage`
+    // (one of the score page paths in data/barToPage.ts) so it can be
+    // scaled and overlaid onto that exact page wherever it's displayed.
+    drawing? : string;
+    drawingImage? : string;
 }
 
 export interface AnnotationGroup {

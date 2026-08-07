@@ -122,6 +122,7 @@ export class ScoreTransportOverlay {
 
         const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
         if (img) img.style.transform = '';
+        document.querySelectorAll<HTMLElement>('.score-drawing-overlay').forEach(el => el.style.transform = '');
         this.zoom = 1;
         this.panX = 0;
         this.panY = 0;
@@ -129,9 +130,15 @@ export class ScoreTransportOverlay {
         this.scoreManager.rebuildOveralysAtCurrentTime();
     }
 
+    // Drawing overlays are separate elements sized/positioned to exactly
+    // match the score image (see ScoreDrawingOverlay), so panning/zooming
+    // the image applies the same transform to them too, keeping user
+    // drawings aligned with the page underneath while zoomed.
     private applyTransform() {
         const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
-        if (img) img.style.transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoom})`;
+        const transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoom})`;
+        if (img) img.style.transform = transform;
+        document.querySelectorAll<HTMLElement>('.score-drawing-overlay').forEach(el => el.style.transform = transform);
     }
 
     private handleWheel = (e: WheelEvent) => {
