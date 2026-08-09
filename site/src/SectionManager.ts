@@ -32,6 +32,12 @@ const MIN_HEIGHT = 80;
 export const MOBILE_BREAKPOINT = 700;
 export const IS_MOBILE_LAYOUT = window.innerWidth <= MOBILE_BREAKPOINT;
 
+// Fired on a panel's section element by PanelVisibilityManager whenever the
+// user shows or hides that panel (via its toggle or its × handle), with the
+// new visibility as the event's `detail`. SectionManager forwards it to the
+// subclass hook onVisibilityChanged.
+export const PANEL_VISIBILITY_EVENT = "panel-visibility-changed";
+
 // Shared spacing constant between panels/chrome — used by main.ts's default
 // layout math and by TimelineManager, which re-derives #layout-sections'
 // mobile top padding when the timeline collapses/expands (its height then
@@ -110,8 +116,25 @@ export abstract class SectionManager extends TimeManagerListener {
         // movable panels — see .pinned-section — so a dragged/resized or
         // content-grown movable panel can never cover it.
         this.element.classList.add(this.resizable ? "draggable-section" : "pinned-section");
+        this.element.addEventListener(PANEL_VISIBILITY_EVENT, (event) => {
+            this.onVisibilityChanged((event as CustomEvent<boolean>).detail);
+        });
         this.applyRect(defaultRect);
     }
+
+    // Whether this panel is currently shown — PanelVisibilityManager toggles
+    // panels purely by setting `display` on the section element. Subclasses
+    // use it to skip work that would be pointless while hidden (e.g. the
+    // video player, which doesn't seek an off-screen player).
+    protected isVisible(): boolean {
+        return this.element !== null && this.element.style.display !== "none";
+    }
+
+    // Called when the user shows or hides this panel — never for the initial
+    // default visibility set at construction, only for later changes. Default
+    // no-op; overridden by subclasses that need to react (see
+    // VideoPlayerManager).
+    protected onVisibilityChanged(_visible: boolean): void {}
 
     // Overridden by subclasses (e.g. the score viewer) whose content has a
     // fixed aspect ratio that resizing should preserve. Returning a number

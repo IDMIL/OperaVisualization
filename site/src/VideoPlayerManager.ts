@@ -125,12 +125,28 @@ export class VideoPlayerManager extends SectionManager {
         }
     }
 
+    // Seeking a closed panel's player is pointless (and, since seekTo has to
+    // briefly play an unstarted video to decode a frame, audible) — so while
+    // hidden the player just stays where it was, and onVisibilityChanged
+    // catches it up to the score whenever the panel is reopened.
     async timeUpdated(scoreTime: ScoreTime, updateSource: UpdateSource) {
-        if (updateSource !== "video-playhead") {
-            const seconds = recordingTimestamps[this.selectedVideoId]?.[scoreTime.act]?.[scoreTime.bar];
-            if (seconds !== undefined) {
-                this.seekTo(seconds);
-            }
+        if (updateSource !== "video-playhead" && this.isVisible()) {
+            this.seekToScoreTime(scoreTime);
+        }
+    }
+
+    protected onVisibilityChanged(visible: boolean) {
+        if (visible) {
+            this.seekToScoreTime(this.timeManager.scoreTime);
+        } else {
+            this.player?.pauseVideo?.();
+        }
+    }
+
+    private seekToScoreTime(scoreTime: ScoreTime) {
+        const seconds = recordingTimestamps[this.selectedVideoId]?.[scoreTime.act]?.[scoreTime.bar];
+        if (seconds !== undefined) {
+            this.seekTo(seconds);
         }
     }
     private player: any = null;

@@ -32,6 +32,17 @@
     --btn-hover-border: rgba(255, 255, 255, 0.3);
 
     --timeline-height: 16px;
+    /* Timeline cells are their own little surface sitting on --color-navy, so
+       they get their own tokens rather than reusing the panel ones — both
+       themes need the cell to read as raised above that strip. */
+    --timeline-cell-bg: #232b3d;
+    --timeline-cell-border: rgba(255, 255, 255, 0.14);
+    --timeline-cell-text: #c9d1d9;
+    --timeline-label-text: #e6edf3;
+    --timeline-row-label: rgba(255, 255, 255, 0.55);
+    /* Tinted toward the row background, not toward white — in dark mode a
+       white-ward mix would go pale and swallow the light cell text. */
+    --timeline-current-page-bg: color-mix(in srgb, var(--color-accent) 40%, #10182b);
 }
 
 [data-theme="light"] {
@@ -49,6 +60,13 @@
     --color-item-hover: #0057ac;
     --btn-hover-bg: rgba(0, 87, 172, 0.06);
     --btn-hover-border: #0057ac;
+
+    --timeline-cell-bg: rgba(255, 255, 255, 0.9);
+    --timeline-cell-border: rgba(0, 0, 0, 0.12);
+    --timeline-cell-text: #1a1a2e;
+    --timeline-label-text: #1a1a2e;
+    --timeline-row-label: rgba(0, 0, 0, 0.45);
+    --timeline-current-page-bg: color-mix(in srgb, var(--color-accent) 35%, white);
 }
 
 * {
@@ -544,7 +562,7 @@ button {
 
 .timeline-container h3 {
     width: 72px;
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--timeline-row-label);
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
@@ -553,10 +571,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-}
-
-[data-theme="light"] .timeline-container h3 {
-    color: rgba(0, 0, 0, 0.45);
 }
 
 .timeline {
@@ -569,20 +583,16 @@ button {
     align-items: center;
     justify-content: center;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--timeline-cell-bg);
+    border: 1px solid var(--timeline-cell-border);
     cursor: pointer;
     padding: 0 3px;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.03em;
-    color: #1a1a2e;
-    transition: background-color var(--transition), color var(--transition);
-}
-
-[data-theme="light"] .timeline-button {
-    /* background-color: rgba(255, 255, 255, 0.9); */
-    border-color: rgba(0, 0, 0, 0.12);
+    color: var(--timeline-cell-text);
+    transition: background-color var(--transition), color var(--transition),
+        border-color var(--transition);
 }
 
 #timeline-act-1 {
@@ -597,13 +607,10 @@ button {
    per-cell (see .timeline-structure-bar below) — that's what lets neighboring
    cells sit flush with no divider between them. */
 #scene-structure-bars {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--timeline-cell-border);
     border-radius: 0 0 var(--radius) var(--radius);
     overflow: hidden;
-}
-
-[data-theme="light"] #scene-structure-bars {
-    border-color: rgba(0, 0, 0, 0.12);
+    transition: border-color var(--transition);
 }
 
 /* With scenes that have many measures, each bar's percentage width can be
@@ -623,10 +630,9 @@ button {
     position: relative;
 }
 
-/* Sits on top of .timeline-structure-bar, whose background stays light in
-   both themes (see .timeline-button) — color is hardcoded to match that
-   row's text instead of following --color-heading, which flips light/dark
-   per theme and would go unreadable here in dark mode. */
+/* Sits on top of .timeline-structure-bar, so it tracks the timeline's own
+   cell palette (--timeline-label-text) rather than --color-heading — the
+   label has to stay readable against the cells, not against the page. */
 .timeline-measure-label {
     position: absolute;
     top: 0;
@@ -636,7 +642,7 @@ button {
     padding-left: 4px;
     font-size: 10px;
     font-weight: 600;
-    color: #1a1a2e;
+    color: var(--timeline-label-text);
     white-space: nowrap;
     pointer-events: none;
 }
@@ -667,9 +673,9 @@ button {
 /* Other measures on the score page currently shown, minus the current
    measure itself (that's .current-scene, above) — a lighter tint of the
    same accent so it reads as "related to" rather than "is" the current
-   measure. Text stays the row's normal dark color (see .timeline-button). */
+   measure. Text stays the row's normal color (see .timeline-button). */
 .current-page-bar {
-    background-color: color-mix(in srgb, var(--color-accent) 35%, white);
+    background-color: var(--timeline-current-page-bg);
     border-color: transparent;
 }
 

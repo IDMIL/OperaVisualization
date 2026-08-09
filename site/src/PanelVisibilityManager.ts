@@ -1,4 +1,4 @@
-import {SectionManager, SectionRect} from "./SectionManager";
+import {PANEL_VISIBILITY_EVENT, SectionManager, SectionRect} from "./SectionManager";
 import {text} from "./data/text";
 import {globals} from "./globals";
 
@@ -20,6 +20,15 @@ const TOGGLEABLE_PANELS: ToggleablePanel[] = [
     {id: "libretto-section", label: () => text.LIBRETTO[globals.language], visibleByDefault: false},
     {id: "score-viewer-section", label: () => text.SCORE_VIEWER[globals.language], visibleByDefault: true},
 ];
+
+// Shows or hides a panel, announcing the change to whichever SectionManager
+// owns that element (see PANEL_VISIBILITY_EVENT). Only for user-driven
+// changes — the initial default visibility below is set directly, since a
+// panel's starting state isn't a change to react to.
+function setPanelVisible(target: HTMLElement, visible: boolean): void {
+    target.style.display = visible ? "" : "none";
+    target.dispatchEvent(new CustomEvent<boolean>(PANEL_VISIBILITY_EVENT, {detail: visible}));
+}
 
 // Fixed bar pinned to the bottom of the page (like the title bar is pinned to
 // the top) with a checkbox per movable/resizable panel, letting the user
@@ -59,7 +68,7 @@ export class PanelVisibilityManager extends SectionManager {
             checkbox.checked = panel.visibleByDefault;
             target.style.display = panel.visibleByDefault ? "" : "none";
             checkbox.addEventListener("change", () => {
-                target.style.display = checkbox.checked ? "" : "none";
+                setPanelVisible(target, checkbox.checked);
                 if (checkbox.checked) {
                     const rect = target.getBoundingClientRect();
                     highlight.style.top = `${rect.top}px`;
@@ -74,7 +83,7 @@ export class PanelVisibilityManager extends SectionManager {
 
             target.addEventListener("panel-close-request", () => {
                 checkbox.checked = false;
-                target.style.display = "none";
+                setPanelVisible(target, false);
                 highlight.style.display = "none";
             });
 
