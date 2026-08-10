@@ -48,34 +48,82 @@ function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), Math.max(min, max));
 }
 
+// Movable panels have no z-index of their own, so they stack in DOM order —
+// which means re-showing a panel could leave it buried under whichever panels
+// happen to come after it in buildWindow's markup, with no hint that it came
+// back at all. bringSectionToFront restacks them so the given one paints on
+// top (see PanelVisibilityManager, which calls this when a panel is shown).
+//
+// Rather than handing out ever-increasing z-indexes, this renumbers all the
+// panels from PANEL_Z_BASE on every call, preserving their existing relative
+// order. That keeps the values bounded by the number of panels — they must
+// stay below .pinned-section's z-index (50) so the title bar, timeline, and
+// panel-visibility bar are never covered, and below .floating-panel (60).
+const PANEL_Z_BASE = 1;
+
+function panelZIndex(el: HTMLElement): number {
+    const z = Number.parseInt(el.style.zIndex, 10);
+    return Number.isNaN(z) ? 0 : z;
+}
+
+export function bringSectionToFront(el: HTMLElement): void {
+    const others = Array.from(document.querySelectorAll<HTMLElement>(".draggable-section"))
+        .filter((panel) => panel !== el)
+        // Sort is stable, so panels not yet restacked (no inline z-index, hence
+        // 0) keep their DOM order relative to each other — the same order
+        // they're already painted in.
+        .sort((a, b) => panelZIndex(a) - panelZIndex(b));
+    others.forEach((panel, i) => {
+        panel.style.zIndex = `${PANEL_Z_BASE + i}`;
+    });
+    el.style.zIndex = `${PANEL_Z_BASE + others.length}`;
+}
+
 interface VerticalBounds {
     top: number;
     bottom: number;
 }
 
 // Movable panels may be dragged/resized anywhere except behind the pinned
-// top/bottom chrome (title bar, panel-visibility bar) — those bars' current
-// rendered edges become the effective top/bottom of the viewport for
-// resizing purposes. Read fresh each drag move since the title bar's height
-// can itself change (see autoHeight).
+// chrome stacked against the top (title bar, then the timeline directly
+// below it) and the bottom (panel-visibility bar) — the innermost edge of
+// each stack becomes the effective top/bottom of the viewport for dragging
+// and resizing purposes. Read fresh each drag move since these heights
+// change at runtime: the title bar's content can wrap (see autoHeight), the
+// timeline collapses (see TimelineManager), and either can be hidden.
 // Firefox's getBoundingClientRect() is more prone than Chromium's to returning
 // fractional values for position:fixed elements (e.g. 899.98 instead of 900),
 // so an exact edge comparison can miss a bar that's visually flush against the
 // viewport edge. This tolerance absorbs that subpixel rounding.
 const EDGE_EPSILON = 1;
 
+// Chrome only counts against a bound when it's flush with the stack already
+// accumulated from that edge, so a bar floating in the middle of the page
+// (were one ever added) wouldn't swallow everything above/below it. Walking
+// inward from each edge — rather than testing each bar against the viewport
+// edge alone — is what lets the timeline count: it's flush against the title
+// bar's bottom, not against the top of the viewport.
 function getVerticalDragBounds(): VerticalBounds {
+    const rects = Array.from(document.querySelectorAll<HTMLElement>(".pinned-section"))
+        .map((el) => el.getBoundingClientRect())
+        // Hidden chrome (a panel toggled off — see PanelVisibilityManager)
+        // measures as a zero-height rect and reserves no space.
+        .filter((rect) => rect.height > 0);
+
     let top = 0;
-    let bottom = window.innerHeight;
-    for (const el of document.querySelectorAll<HTMLElement>(".pinned-section")) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= EDGE_EPSILON) {
+    for (const rect of [...rects].sort((a, b) => a.top - b.top)) {
+        if (rect.top <= top + EDGE_EPSILON) {
             top = Math.max(top, rect.bottom);
         }
-        if (rect.bottom >= window.innerHeight - EDGE_EPSILON) {
+    }
+
+    let bottom = window.innerHeight;
+    for (const rect of [...rects].sort((a, b) => b.bottom - a.bottom)) {
+        if (rect.bottom >= bottom - EDGE_EPSILON) {
             bottom = Math.min(bottom, rect.top);
         }
     }
+
     return {top, bottom};
 }
 

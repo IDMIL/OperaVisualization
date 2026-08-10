@@ -1,4 +1,4 @@
-import {PANEL_VISIBILITY_EVENT, SectionManager, SectionRect} from "./SectionManager";
+import {bringSectionToFront, PANEL_VISIBILITY_EVENT, SectionManager, SectionRect} from "./SectionManager";
 import {text} from "./data/text";
 import {globals} from "./globals";
 
@@ -24,9 +24,17 @@ const TOGGLEABLE_PANELS: ToggleablePanel[] = [
 // Shows or hides a panel, announcing the change to whichever SectionManager
 // owns that element (see PANEL_VISIBILITY_EVENT). Only for user-driven
 // changes — the initial default visibility below is set directly, since a
-// panel's starting state isn't a change to react to.
+// panel's starting state isn't a change to react to (and the defaults are
+// laid out not to overlap in the first place, so they need no restacking).
+//
+// A panel being shown is restacked to the front, so it always turns up whole
+// and on top rather than partly or wholly buried under panels that happen to
+// sit where it was left.
 function setPanelVisible(target: HTMLElement, visible: boolean): void {
     target.style.display = visible ? "" : "none";
+    if (visible) {
+        bringSectionToFront(target);
+    }
     target.dispatchEvent(new CustomEvent<boolean>(PANEL_VISIBILITY_EVENT, {detail: visible}));
 }
 

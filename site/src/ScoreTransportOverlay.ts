@@ -81,6 +81,10 @@ export class ScoreTransportOverlay {
         // else via the cssText stash below on exit.
         scoreSection.style.position = '';
         scoreSection.style.aspectRatio = '';
+        // Same story for the panel-stacking z-index (see bringSectionToFront):
+        // it's inline and far below #score-darken's, so leaving it on would
+        // sink the fullscreen score behind its own dimming overlay.
+        scoreSection.style.zIndex = '';
 
         scoreSection.classList.add('score-fullscreen');
         this.fullscreenBtn.innerHTML = COMPRESS_SVG;

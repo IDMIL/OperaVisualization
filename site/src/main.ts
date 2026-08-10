@@ -88,9 +88,13 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
     const contentTop = headerHeight + TIMELINES_HEIGHT + GAP;
     const contentHeight = vh - contentTop - GAP;
 
-    // Sized off contentHeight (not the score panel's own taller height below)
-    // since that's the image's portion of the box — see SCORE_HEADER_HEIGHT.
-    const scoreWidth = Math.round(contentHeight * SCORE_ASPECT_RATIO);
+    // The score panel gets the same contentHeight as every other panel, so
+    // its image only gets what's left after the header row — see
+    // SCORE_HEADER_HEIGHT. Sizing the width off the full contentHeight
+    // instead would make the box SCORE_HEADER_HEIGHT too tall to fit, pushing
+    // its bottom edge under the pinned panel-visibility bar.
+    const scoreImageHeight = contentHeight - SCORE_HEADER_HEIGHT;
+    const scoreWidth = Math.round(scoreImageHeight * SCORE_ASPECT_RATIO);
     const scoreLeft = vw - scoreWidth;
     const annotationsWidth = scoreLeft - GAP;
 
@@ -111,7 +115,7 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
         },
         "libretto-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
         "score-viewer-section": {
-            top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight + SCORE_HEADER_HEIGHT
+            top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight
         },
         "panel-visibility-bar": {
             top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
