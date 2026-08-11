@@ -52,7 +52,8 @@ function clamp(value: number, min: number, max: number): number {
 // which means re-showing a panel could leave it buried under whichever panels
 // happen to come after it in buildWindow's markup, with no hint that it came
 // back at all. bringSectionToFront restacks them so the given one paints on
-// top (see PanelVisibilityManager, which calls this when a panel is shown).
+// top — called when a panel is shown (see PanelVisibilityManager) and
+// whenever one is clicked, moved, or resized (see attachResizeHandles).
 //
 // Rather than handing out ever-increasing z-indexes, this renumbers all the
 // panels from PANEL_Z_BASE on every call, preserving their existing relative
@@ -440,6 +441,21 @@ export abstract class SectionManager extends TimeManagerListener {
             div.addEventListener("mousedown", (e) => this.beginDrag(e, handle.edges));
             el.appendChild(div);
         }
+
+        // Touching a panel at all — clicking its content, moving it, dragging
+        // an edge — raises it above the other panels. Registered on the
+        // capture phase, so it still runs for the interactions that stop
+        // propagation before any bubbling listener sees them: the resize and
+        // close handles above, and whatever the panel's own content does with
+        // its buttons and inputs.
+        el.addEventListener("mousedown", () => {
+            // Fullscreen lifts the score panel out of the normal panel stack:
+            // its z-index then comes from the .score-fullscreen CSS rule, and
+            // an inline one would beat that rule and drop the panel behind its
+            // own dimming overlay (see ScoreTransportOverlay.enterFullscreen).
+            if (el.classList.contains("score-fullscreen")) return;
+            bringSectionToFront(el);
+        }, true);
 
         // No dedicated move handle — the whole panel background is the drag
         // surface. Only starts a move when the mousedown didn't land on
