@@ -1,4 +1,6 @@
 import {positionFloatingPanel} from "./floatingPanel";
+import {capitalizeFirstLetter, text} from "./data/text";
+import {globals} from "./globals";
 
 const PANEL_WIDTH = 400;
 // Internal canvas resolution is capped well below the score pages' full
@@ -60,7 +62,7 @@ export class DrawingPanel {
         this.panel.hidden = true;
 
         const heading = document.createElement('h2');
-        heading.textContent = 'Draw on Score';
+        heading.textContent = text.DRAW_ON_SCORE[globals.language];
         this.panel.appendChild(heading);
 
         this.panel.appendChild(this.buildToolbar());
@@ -105,21 +107,21 @@ export class DrawingPanel {
 
         this.penButton = document.createElement('button');
         this.penButton.type = 'button';
-        this.penButton.textContent = 'Pen';
+        this.penButton.textContent = text.PEN[globals.language];
         this.penButton.classList.add('drawing-tool-button');
         this.penButton.addEventListener('click', () => this.setTool('pen'));
         toolbar.appendChild(this.penButton);
 
         this.eraserButton = document.createElement('button');
         this.eraserButton.type = 'button';
-        this.eraserButton.textContent = 'Eraser';
+        this.eraserButton.textContent = text.ERASER[globals.language];
         this.eraserButton.classList.add('drawing-tool-button');
         this.eraserButton.addEventListener('click', () => this.setTool('eraser'));
         toolbar.appendChild(this.eraserButton);
 
         const sizeLabel = document.createElement('label');
         sizeLabel.id = 'drawing-size-label';
-        sizeLabel.textContent = 'Size';
+        sizeLabel.textContent = text.SIZE[globals.language];
         this.sizeInput = document.createElement('input');
         this.sizeInput.type = 'range';
         this.sizeInput.min = '2';
@@ -138,14 +140,14 @@ export class DrawingPanel {
 
         const clearButton = document.createElement('button');
         clearButton.type = 'button';
-        clearButton.textContent = 'Clear';
+        clearButton.textContent = text.CLEAR[globals.language];
         clearButton.id = 'drawing-clear-button';
         clearButton.addEventListener('click', () => this.clear());
         buttonsRow.appendChild(clearButton);
 
         const closeButton = document.createElement('button');
         closeButton.type = 'button';
-        closeButton.textContent = 'Close';
+        closeButton.textContent = capitalizeFirstLetter(text.CLOSE[globals.language]);
         closeButton.id = 'drawing-close-button';
         closeButton.addEventListener('click', () => this.close());
         buttonsRow.appendChild(closeButton);

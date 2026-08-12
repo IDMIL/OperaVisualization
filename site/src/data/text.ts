@@ -192,6 +192,44 @@ export const text: { [key: string]: MultiLanguageString } = {
     USER:               { en: "User",                      fr: "Utilisateur·trice",                pt: "Usuário",              de: "Benutzer" },
     NEXT:               { en: "Next",                      fr: "Suivant",                          pt: "Próximo",              de: "Weiter" },
     DONE:               { en: "Done",                      fr: "Terminer",                         pt: "Concluir",             de: "Fertig" },
+    MOVE:               { en: "Move",                      fr: "Déplacer",                         pt: "Mover",                de: "Verschieben" },
+    FULLSCREEN:         { en: "Fullscreen",                fr: "Plein écran",                      pt: "Tela cheia",           de: "Vollbild" },
+    // Abbreviated bar/measure prefix, as used inline next to a number in the
+    // architecture list (e.g. "Introduction m. 5") — kept separate from BAR,
+    // which is a standalone label.
+    BAR_ABBREV:         { en: "m.",                        fr: "m.",                               pt: "c.",                   de: "T." },
+
+    // Add/edit annotation form
+    ADD:                { en: "Add",                       fr: "Ajouter",                          pt: "Adicionar",            de: "Hinzufügen" },
+    SAVE:               { en: "Save",                      fr: "Enregistrer",                      pt: "Salvar",               de: "Speichern" },
+    ADD_ANNOTATION:     { en: "Add Annotation",            fr: "Ajouter une annotation",           pt: "Adicionar anotação",   de: "Annotation hinzufügen" },
+    EDIT_ANNOTATION:    { en: "Edit Annotation",           fr: "Modifier l'annotation",            pt: "Editar anotação",      de: "Annotation bearbeiten" },
+    ANNOTATION:         { en: "Annotation",                fr: "Annotation",                       pt: "Anotação",             de: "Annotation" },
+    CATEGORIES:         { en: "Categories",                fr: "Catégories",                       pt: "Categorias",           de: "Kategorien" },
+    ANNOTATION_PLACEHOLDER: { en: "Enter annotation text…",
+                            fr: "Saisissez le texte de l'annotation…",
+                            pt: "Digite o texto da anotação…",
+                            de: "Annotationstext eingeben…" },
+    DOWNLOAD_ANNOTATIONS: { en: "Download user annotations as JSON",
+                            fr: "Télécharger les annotations de l'utilisateur·trice au format JSON",
+                            pt: "Baixar as anotações do usuário em formato JSON",
+                            de: "Benutzerannotationen als JSON herunterladen" },
+    UPLOAD_ANNOTATIONS: { en: "Upload annotations from JSON",
+                            fr: "Importer des annotations depuis un fichier JSON",
+                            pt: "Carregar anotações a partir de um arquivo JSON",
+                            de: "Annotationen aus JSON hochladen" },
+
+    // Drawing panel
+    DRAW_ON_SCORE:      { en: "Draw on Score",             fr: "Dessiner sur la partition",        pt: "Desenhar na partitura", de: "Auf der Partitur zeichnen" },
+    PEN:                { en: "Pen",                       fr: "Crayon",                           pt: "Caneta",               de: "Stift" },
+    ERASER:             { en: "Eraser",                    fr: "Gomme",                            pt: "Borracha",             de: "Radierer" },
+    SIZE:               { en: "Size",                      fr: "Taille",                           pt: "Tamanho",              de: "Größe" },
+    CLEAR:              { en: "Clear",                     fr: "Effacer",                          pt: "Limpar",               de: "Löschen" },
+
+    // Video player recording names. The first recording is listed under the
+    // composer and work title, which stay as they are in every language.
+    VIDEO_FILM_1970:    { en: "Wozzeck (1970 film)",       fr: "Wozzeck (film de 1970)",           pt: "Wozzeck (filme de 1970)", de: "Wozzeck (Film von 1970)" },
+    VIDEO_IN_ENGLISH:   { en: "Sung in English",           fr: "Chanté en anglais",                pt: "Cantado em inglês",    de: "Auf Englisch gesungen" },
 };
 
 export const capitalizeFirstLetter = <T extends string>(s: T) =>

@@ -1,5 +1,7 @@
 import {TimeManager} from "./TimeManager";
 import {ScoreManager} from "./ScoreManager";
+import {capitalizeFirstLetter, text} from "./data/text";
+import {globals} from "./globals";
 
 const EXPAND_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>`;
 const COMPRESS_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>`;
@@ -31,17 +33,17 @@ export class ScoreTransportOverlay {
         overlay.id = 'score-transport-overlay';
 
         const prevBtn = document.createElement('button');
-        prevBtn.setAttribute('aria-label', 'Previous page');
+        prevBtn.setAttribute('aria-label', capitalizeFirstLetter(text.PREV_PAGE[globals.language]));
         prevBtn.innerHTML = '&#8592;';
         prevBtn.onclick = () => timeManager.advancePage(-1, 'transport-click');
 
         this.fullscreenBtn = document.createElement('button');
-        this.fullscreenBtn.setAttribute('aria-label', 'Fullscreen');
+        this.fullscreenBtn.setAttribute('aria-label', text.FULLSCREEN[globals.language]);
         this.fullscreenBtn.innerHTML = EXPAND_SVG;
         this.fullscreenBtn.onclick = () => this.toggleFullscreen();
 
         const nextBtn = document.createElement('button');
-        nextBtn.setAttribute('aria-label', 'Next page');
+        nextBtn.setAttribute('aria-label', capitalizeFirstLetter(text.NEXT_PAGE[globals.language]));
         nextBtn.innerHTML = '&#8594;';
         nextBtn.onclick = () => timeManager.advancePage(1, 'transport-click');
 

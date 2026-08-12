@@ -159,14 +159,14 @@ export class AnnotationManager extends SectionManager {
 
         this.downloadButton = document.createElement('button');
         this.downloadButton.id = 'annotation-download-button';
-        this.downloadButton.title = 'Download user annotations as JSON';
+        this.downloadButton.title = text.DOWNLOAD_ANNOTATIONS[globals.language];
         this.downloadButton.textContent = '↓';
         this.downloadButton.addEventListener('click', () => this.downloadUserAnnotations());
         searchRow.appendChild(this.downloadButton);
 
         this.uploadButton = document.createElement('button');
         this.uploadButton.id = 'annotation-upload-button';
-        this.uploadButton.title = 'Upload annotations from JSON';
+        this.uploadButton.title = text.UPLOAD_ANNOTATIONS[globals.language];
         this.uploadButton.textContent = '↑';
         searchRow.appendChild(this.uploadButton);
 

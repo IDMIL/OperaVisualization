@@ -13,8 +13,8 @@ export class VideoPlayerManager extends SectionManager {
 
     private videos: Array<{ id: string, name: string }> = [
         { id: "jVmWimEX1gw", name: "Alban Berg – Wozzeck" },
-        { id: "rHFFPyU41_0", name: "Wozzeck (1970 film)" },
-        { id: "ALrEeDWSBXQ", name: "Sung in English"}
+        { id: "rHFFPyU41_0", name: text.VIDEO_FILM_1970[globals.language] },
+        { id: "ALrEeDWSBXQ", name: text.VIDEO_IN_ENGLISH[globals.language] }
     ];
 
     constructor(tm : TimeManager, rect: SectionRect) {

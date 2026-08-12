@@ -1,4 +1,6 @@
 import {TimeManagerListener} from "./TimeManager";
+import {capitalizeFirstLetter, text} from "./data/text";
+import {globals} from "./globals";
 
 export interface SectionRect {
     top: number;
@@ -510,7 +512,7 @@ export abstract class SectionManager extends TimeManagerListener {
 
         const moveHandle = document.createElement("div");
         moveHandle.classList.add("section-move-handle");
-        moveHandle.title = "Move";
+        moveHandle.title = text.MOVE[globals.language];
         moveHandle.addEventListener("pointerdown", (e) => this.beginMobileMove(e));
         el.appendChild(moveHandle);
 
@@ -525,7 +527,7 @@ export abstract class SectionManager extends TimeManagerListener {
     private attachCloseHandle(el: HTMLElement): void {
         const closeHandle = document.createElement("div");
         closeHandle.classList.add("section-close-handle");
-        closeHandle.title = "Close";
+        closeHandle.title = capitalizeFirstLetter(text.CLOSE[globals.language]);
         closeHandle.textContent = "×";
         closeHandle.addEventListener("mousedown", (e) => e.stopPropagation());
         closeHandle.addEventListener("pointerdown", (e) => e.stopPropagation());

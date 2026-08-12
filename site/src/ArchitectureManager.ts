@@ -64,10 +64,11 @@ export class ArchitectureManager extends SectionManager {
             for (const annotation of sceneArchitecture.annotations) {
                 const archListItem = document.createElement('div');
                 archListItem.classList.add('architecture-list-item');
+                const barAbbrev = text.BAR_ABBREV[globals.language];
                 if (annotation.range[0] === annotation.range[1]) {
-                    archListItem.innerText = annotation.annotation[globals.language] + ' m. ' + annotation.range[0];
+                    archListItem.innerText = annotation.annotation[globals.language] + ' ' + barAbbrev + ' ' + annotation.range[0];
                 } else {
-                    archListItem.innerText = annotation.annotation[globals.language] + ' (m. ' + annotation.range[0] + '‒' + annotation.range[1] + ')';
+                    archListItem.innerText = annotation.annotation[globals.language] + ' (' + barAbbrev + ' ' + annotation.range[0] + '‒' + annotation.range[1] + ')';
                 }
                 archListItem.onclick = () => {
                     this.timeManager.goToTime(this.currentAct, annotation.range[0],

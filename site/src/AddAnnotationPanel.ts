@@ -2,6 +2,7 @@ import {AnnotationCode} from "./data/annotations";
 import type {Annotation} from "./AnnotationManager";
 import {TimeManager} from "./TimeManager";
 import {globals} from "./globals";
+import {capitalizeFirstLetter, text} from "./data/text";
 import {bar_to_page} from "./data/barToPage";
 import {positionFloatingPanel} from "./floatingPanel";
 import {DrawingPanel} from "./DrawingPanel";
@@ -96,13 +97,13 @@ export class AddAnnotationPanel {
         const locationRow = document.createElement('div');
         locationRow.id = 'add-annotation-location-row';
 
-        locationRow.appendChild(this.buildLabelledControl('Act', this.buildSelect('add-annotation-act', [
+        locationRow.appendChild(this.buildLabelledControl(capitalizeFirstLetter(text.ACT[globals.language]), this.buildSelect('add-annotation-act', [
             {value: '1', label: 'I'},
             {value: '2', label: 'II'},
             {value: '3', label: 'III'},
         ])));
 
-        locationRow.appendChild(this.buildLabelledControl('Scene', this.buildSelect('add-annotation-scene', [
+        locationRow.appendChild(this.buildLabelledControl(capitalizeFirstLetter(text.SCENE[globals.language]), this.buildSelect('add-annotation-scene', [
             {value: '1', label: '1'},
             {value: '2', label: '2'},
             {value: '3', label: '3'},
@@ -115,7 +116,7 @@ export class AddAnnotationPanel {
         barInput.id = 'add-annotation-bar';
         barInput.min = '1';
         barInput.placeholder = '—';
-        locationRow.appendChild(this.buildLabelledControl('Bar', barInput));
+        locationRow.appendChild(this.buildLabelledControl(capitalizeFirstLetter(text.BAR[globals.language]), barInput));
 
         form.appendChild(locationRow);
 
@@ -125,7 +126,7 @@ export class AddAnnotationPanel {
 
         const categoriesLabel = document.createElement('span');
         categoriesLabel.classList.add('add-annotation-field-label');
-        categoriesLabel.textContent = 'Categories';
+        categoriesLabel.textContent = text.CATEGORIES[globals.language];
         categoriesGroup.appendChild(categoriesLabel);
 
         const checkboxRow = document.createElement('div');
@@ -167,13 +168,13 @@ export class AddAnnotationPanel {
         const textLabel = document.createElement('label');
         textLabel.classList.add('add-annotation-field-label');
         textLabel.htmlFor = 'add-annotation-text';
-        textLabel.textContent = 'Annotation';
+        textLabel.textContent = text.ANNOTATION[globals.language];
         textGroup.appendChild(textLabel);
 
         const textarea = document.createElement('textarea');
         textarea.id = 'add-annotation-text';
         textarea.rows = 6;
-        textarea.placeholder = 'Enter annotation text…';
+        textarea.placeholder = text.ANNOTATION_PLACEHOLDER[globals.language];
         textGroup.appendChild(textarea);
 
         form.appendChild(textGroup);
@@ -183,13 +184,13 @@ export class AddAnnotationPanel {
         buttonsRow.id = 'add-annotation-buttons-row';
 
         const closeButton = document.createElement('button');
-        closeButton.textContent = 'Close';
+        closeButton.textContent = capitalizeFirstLetter(text.CLOSE[globals.language]);
         closeButton.id = 'add-annotation-close-button';
         closeButton.addEventListener('click', () => this.close());
         buttonsRow.appendChild(closeButton);
 
         const addButton = document.createElement('button');
-        addButton.textContent = 'Add';
+        addButton.textContent = text.ADD[globals.language];
         addButton.id = 'add-annotation-add-button';
         addButton.addEventListener('click', () => this.submitAnnotation());
         buttonsRow.appendChild(addButton);
@@ -229,7 +230,7 @@ export class AddAnnotationPanel {
     private submitAnnotation() {
         const act = parseInt((this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value);
         const bar = parseInt((this.panel.querySelector('#add-annotation-bar') as HTMLInputElement).value);
-        const text = (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value;
+        const annotationText = (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value;
         const checkboxes = Array.from(
             this.panel.querySelectorAll<HTMLInputElement>('.add-annotation-category-checkbox:checked')
         );
@@ -238,7 +239,7 @@ export class AddAnnotationPanel {
         const annotation: Annotation = {
             act,
             code: codes,
-            annotation: {'fr': text, 'en': text, 'de': text, "pt": text},
+            annotation: {'fr': annotationText, 'en': annotationText, 'de': annotationText, "pt": annotationText},
             annotation_source: 'User',
             is_general: false,
             page_range: [0, 0],
@@ -278,8 +279,8 @@ export class AddAnnotationPanel {
             }
             (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value =
                 annotationToEdit.annotation[globals.language];
-            this.submitButton.textContent = 'Save';
-            this.heading.textContent = 'Edit Annotation';
+            this.submitButton.textContent = text.SAVE[globals.language];
+            this.heading.textContent = text.EDIT_ANNOTATION[globals.language];
         } else {
             (this.panel.querySelector('#add-annotation-act') as HTMLSelectElement).value =
                 String(this.timeManager.getCurrentAct());
@@ -291,8 +292,8 @@ export class AddAnnotationPanel {
                 checkbox.checked = false;
             }
             (this.panel.querySelector('#add-annotation-text') as HTMLTextAreaElement).value = '';
-            this.submitButton.textContent = 'Add';
-            this.heading.textContent = 'Add Annotation';
+            this.submitButton.textContent = text.ADD[globals.language];
+            this.heading.textContent = text.ADD_ANNOTATION[globals.language];
         }
 
         this.panel.hidden = false;
