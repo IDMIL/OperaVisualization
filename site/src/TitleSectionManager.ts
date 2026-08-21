@@ -50,9 +50,16 @@ export class TitleSectionManager extends SectionManager {
             titleSection.innerHTML = `<h1>` + text.TITLE[globals.language] + `</h1>
       <div class="title-links-and-buttons"><h3 id="info-link">` + text.INFO[globals.language] + `</h3><h3 id="theme-toggle">${themeToggleLabel()}</h3><select id="language-select" class="language-select">${options}</select></div>`;
 
+            // Both go on <body>, not in the title bar that opens them: the
+            // title bar is a .pinned-section with a z-index, hence a stacking
+            // context, and anything nested inside can only ever paint at that
+            // one layer — leaving the modal and its dimming behind the other
+            // pinned chrome (the timeline, the panel-visibility bar) and
+            // unable to blur any of it, whatever z-index it's given. On
+            // <body> their z-indexes are compared against everything else's.
             const darken = document.createElement("div");
             darken.id = 'darken';
-            titleSection.appendChild(darken);
+            document.body.appendChild(darken);
 
             const creditsAnchor = document.createElement("div");
             creditsAnchor.setAttribute("id", "credits-anchor");
@@ -60,7 +67,7 @@ export class TitleSectionManager extends SectionManager {
 <div id="credits-box-text"><p>` + text.BYLINE[globals.language] + `</p></div>
 <div id="credits-box-buttons"><button id="close-credits-box">` + text.CLOSE[globals.language] + `</button></div>
 </div></div>`;
-            titleSection.append(creditsAnchor);
+            document.body.append(creditsAnchor);
             showCredits(false);
             document.getElementById("close-credits-box")?.addEventListener("click", () => showCredits(false), false);
             document.getElementById("info-link")?.addEventListener("click", () => showCredits(true), false);

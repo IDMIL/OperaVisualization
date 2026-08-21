@@ -1000,8 +1000,9 @@ button {
 #annotations-section {
     display: flex;
     flex-direction: column;
-    /* visible, not hidden: the info-box hover popup (see .info-box-popup)
-       intentionally pops out past this section's right edge. */
+    /* visible, not hidden: content here (the annotation type chips' hover
+       lift, the source checkboxes' info-box icons) sits right up against
+       this section's edges and shouldn't be clipped. */
     overflow: visible;
 }
 
@@ -1056,13 +1057,18 @@ button {
     cursor: default;
 }
 
+/* Lives on <body>, not inside its icon, and is positioned in JS (see
+   InfoBox.ts): the panel holding the icon sets its own z-index (see
+   bringSectionToFront), making it a stacking context that would otherwise
+   trap this popup below the pinned chrome no matter how high its z-index.
+   Sits above .pinned-section (50) and .floating-panel (60/61), but below
+   the fullscreen score view. left/top are set on hover; the transform
+   centres it vertically on the icon, matching the arrow drawn below. */
 .info-box-popup {
     display: none;
-    position: absolute;
+    position: fixed;
     z-index: 200;
     width: 220px;
-    left: calc(100% + 10px);
-    top: 50%;
     transform: translateY(-50%);
     background: var(--color-panel);
     border: 1px solid var(--color-accent);
@@ -1088,7 +1094,7 @@ button {
     border-bottom: 1px solid var(--color-accent);
 }
 
-.info-box-icon:hover .info-box-popup {
+.info-box-popup-visible {
     display: block;
 }
 
@@ -1744,6 +1750,10 @@ mark.search-highlight {
 
 /* ── Credits modal ───────────────────────────────────── */
 
+/* Both of these are attached to <body> rather than to the title bar that
+   opens them (see TitleSectionManager), so these z-indexes really do put
+   them above everything — panels, the pinned chrome, and the fullscreen
+   score view alike. */
 #darken {
     position: fixed;
     inset: 0;
