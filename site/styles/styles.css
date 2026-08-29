@@ -720,6 +720,48 @@ button {
     color: var(--color-muted);
 }
 
+/* ── PV score viewer ─────────────────────────────────── */
+/* Mirrors the plain (non-fullscreen, non-transport-overlay) rules above —
+   see PVScoreManager, which is ScoreManager reading from PV_bar_to_page. */
+
+#pv-score-viewer-section {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#pv-score-header {
+    flex: 0 0 28px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+}
+
+#pv-image-holder {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: auto;
+    position: relative;
+}
+
+#pv-score-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+}
+
+#pv-current-bar-overlay {
+    background: #f472b6;
+    opacity: 0.28;
+    top: 0;
+    left: 0;
+    pointer-events: auto;
+}
+
 /* ── Current-page annotation overlay ────────────────── */
 
 /* Hidden everywhere except when the score is in fullscreen and there are
@@ -1951,6 +1993,10 @@ mark.search-highlight {
     }
 
     #score-viewer-image {
+        width: 100%;
+    }
+
+    #pv-score-viewer-image {
         width: 100%;
     }
 }

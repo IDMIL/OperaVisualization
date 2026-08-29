@@ -1,6 +1,7 @@
 import { LanguageCode } from "./data/text";
 import {TimeManager} from "./TimeManager";
 import {ScoreManager, SCORE_HEADER_HEIGHT} from "./ScoreManager";
+import {PVScoreManager} from "./PVScoreManager";
 import {TransportManager} from "./TransportManager";
 import {TimelineManager} from "./TimelineManager";
 import {AnnotationManager} from "./AnnotationManager";
@@ -54,6 +55,9 @@ function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
         rects[sectionId] = {top: 0, left: 0, width: vw, height: MOBILE_DEFAULT_HEIGHTS[sectionId]};
     }
     rects["score-viewer-section"] = {
+        top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
+    };
+    rects["pv-score-viewer-section"] = {
         top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["panel-visibility-bar"] = {
@@ -114,6 +118,10 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
             top: videoTop, left: 0, width: leftColumnWidth, height: vh - videoTop - GAP
         },
         "libretto-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
+        // Hidden by default like the rest of the left column above — overlaps
+        // those panels the same way libretto-section already does; the user
+        // repositions it once shown.
+        "pv-score-viewer-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
         "score-viewer-section": {
             top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight
         },
@@ -136,6 +144,7 @@ async function buildWindow(lang : LanguageCode ) {
     <div class="section" id="video-player-section"></div>
     <div class="section" id="libretto-section"></div>
     <div class="section" id="score-viewer-section"></div>
+    <div class="section" id="pv-score-viewer-section"></div>
     <div class="section" id="panel-visibility-bar"></div>
   </div>
     `;
@@ -186,6 +195,7 @@ async function buildWindow(lang : LanguageCode ) {
     let timeManager = new TimeManager();
 
     let scoreManager = new ScoreManager(timeManager, rects["score-viewer-section"]);
+    let pvScoreManager = new PVScoreManager(timeManager, rects["pv-score-viewer-section"]);
     let transportManager = new TransportManager(timeManager, rects["transport-section"]);
     let timelineManager = new TimelineManager(timeManager, timelineRect);
     let annotationManager = new AnnotationManager(timeManager, rects["annotations-section"]);
@@ -198,6 +208,7 @@ async function buildWindow(lang : LanguageCode ) {
     new PanelVisibilityManager(rects["panel-visibility-bar"]);
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);
+    timeManager.listeners.push(pvScoreManager);
     timeManager.listeners.push(transportManager);
     timeManager.listeners.push(timelineManager);
     timeManager.listeners.push(annotationManager);

@@ -19,6 +19,7 @@ const TOGGLEABLE_PANELS: ToggleablePanel[] = [
     {id: "video-player-section", label: () => text.VIDEO_PLAYER[globals.language], visibleByDefault: false},
     {id: "libretto-section", label: () => text.LIBRETTO[globals.language], visibleByDefault: false},
     {id: "score-viewer-section", label: () => text.SCORE_VIEWER[globals.language], visibleByDefault: true},
+    {id: "pv-score-viewer-section", label: () => text.PV_SCORE_VIEWER[globals.language], visibleByDefault: false},
 ];
 
 // Shows or hides a panel, announcing the change to whichever SectionManager

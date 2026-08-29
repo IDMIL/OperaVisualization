@@ -1,0 +1,280 @@
+﻿.\.venv\Scripts\python.exe : INFO processing page_001.png
+At line:2 char:19
++ ... e-Command { .\.venv\Scripts\python.exe detect_measures.py --output-js ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO processing page_001.png:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING no staves detected on this page
+INFO processing page_002.png
+WARNING no staves detected on this page
+INFO processing page_003.png
+INFO processing page_004.png
+WARNING no staves detected on this page
+INFO processing page_005.png
+WARNING no staves detected on this page
+INFO processing page_006.png
+WARNING no staves detected on this page
+INFO processing page_007.png
+WARNING no staves detected on this page
+INFO processing page_008.png
+WARNING no staves detected on this page
+INFO processing page_009.png
+WARNING no staves detected on this page
+INFO processing page_010.png
+INFO processing page_011.png
+INFO processing page_012.png
+INFO processing page_013.png
+INFO processing page_014.png
+INFO processing page_015.png
+INFO processing page_016.png
+INFO processing page_017.png
+INFO processing page_018.png
+INFO processing page_019.png
+INFO processing page_020.png
+INFO processing page_021.png
+WARNING page_021.png system 1: measure-number boxes 130->7 expect -123 barline gap(s) but detected 2 (possible missed/spurious barline around x=1941-3258)
+INFO processing page_022.png
+INFO processing page_023.png
+INFO processing page_024.png
+INFO processing page_025.png
+INFO processing page_026.png
+INFO processing page_027.png
+INFO processing page_028.png
+INFO processing page_029.png
+INFO processing page_030.png
+WARNING page_030.png system 1: measure-number boxes 195->200 expect 5 barline gap(s) but detected 11 (possible missed/spurious barline around x=2140-2713)
+INFO processing page_031.png
+INFO processing page_032.png
+INFO processing page_033.png
+INFO processing page_034.png
+INFO processing page_035.png
+INFO processing page_036.png
+INFO processing page_037.png
+INFO processing page_038.png
+INFO processing page_039.png
+INFO processing page_040.png
+INFO processing page_041.png
+INFO processing page_042.png
+WARNING page_042.png system 2: measure-number boxes 329->330 expect 1 barline gap(s) but detected 4 (possible missed/spurious barline around x=1063-1798)
+INFO processing page_043.png
+INFO processing page_044.png
+INFO processing page_045.png
+INFO processing page_046.png
+INFO processing page_047.png
+INFO processing page_048.png
+WARNING page_048.png system 1: measure-number boxes 41->405 expect 364 barline gap(s) but detected 4 (possible missed/spurious barline around x=1322-2191)
+INFO processing page_049.png
+INFO processing page_050.png
+INFO processing page_051.png
+INFO processing page_052.png
+INFO processing page_053.png
+INFO processing page_054.png
+INFO processing page_055.png
+INFO processing page_056.png
+INFO processing page_057.png
+INFO processing page_058.png
+INFO processing page_059.png
+INFO processing page_060.png
+INFO processing page_061.png
+INFO processing page_062.png
+INFO processing page_063.png
+INFO processing page_064.png
+INFO processing page_065.png
+WARNING page_065.png system 2: measure-number boxes 55->560 expect 505 barline gap(s) but detected 26 (possible missed/spurious barline around x=1016-3084)
+INFO processing page_066.png
+INFO processing page_067.png
+INFO processing page_068.png
+INFO processing page_069.png
+INFO processing page_070.png
+INFO processing page_071.png
+INFO processing page_072.png
+INFO processing page_073.png
+INFO processing page_074.png
+INFO processing page_075.png
+INFO processing page_076.png
+INFO processing page_077.png
+INFO processing page_078.png
+INFO processing page_079.png
+INFO processing page_080.png
+INFO processing page_081.png
+INFO processing page_082.png
+INFO processing page_083.png
+INFO processing page_084.png
+WARNING page_084.png system 0: measure-number boxes 15->10 expect -5 barline gap(s) but detected 1 (possible missed/spurious barline around x=2161-2243)
+INFO processing page_085.png
+INFO processing page_086.png
+INFO processing page_087.png
+INFO processing page_088.png
+INFO processing page_089.png
+WARNING page_089.png system 1: measure-number boxes 15->80 expect 65 barline gap(s) but detected 5 (possible missed/spurious barline around x=576-1175)
+INFO processing page_090.png
+INFO processing page_091.png
+INFO processing page_092.png
+INFO processing page_093.png
+INFO processing page_094.png
+WARNING page_094.png system 1: measure-number boxes 130->2 expect -128 barline gap(s) but detected 0 (possible missed/spurious barline around x=2902-2902)
+WARNING page_094.png system 1: measure-number boxes 2->125 expect 123 barline gap(s) but detected 0 (possible missed/spurious barline around x=2902-2902)
+INFO processing page_095.png
+INFO processing page_096.png
+INFO processing page_097.png
+WARNING page_097.png system 0: measure-number boxes 170->16 expect -154 barline gap(s) but detected 1 (possible missed/spurious barline around x=413-535)
+WARNING page_097.png system 0: measure-number boxes 16->165 expect 149 barline gap(s) but detected 8 (possible missed/spurious barline around x=535-2127)
+INFO processing page_098.png
+INFO processing page_099.png
+INFO processing page_100.png
+INFO processing page_101.png
+INFO processing page_102.png
+INFO processing page_103.png
+INFO processing page_104.png
+INFO processing page_105.png
+INFO processing page_106.png
+INFO processing page_107.png
+INFO processing page_108.png
+WARNING page_108.png system 3: measure-number boxes 4->265 expect 261 barline gap(s) but detected 6 (possible missed/spurious barline around x=1367-2318)
+INFO processing page_109.png
+INFO processing page_110.png
+INFO processing page_111.png
+INFO processing page_112.png
+INFO processing page_113.png
+INFO processing page_114.png
+INFO processing page_115.png
+INFO processing page_116.png
+INFO processing page_117.png
+INFO processing page_118.png
+INFO processing page_119.png
+INFO processing page_120.png
+INFO processing page_121.png
+INFO processing page_122.png
+INFO processing page_123.png
+INFO processing page_124.png
+INFO processing page_125.png
+WARNING page_125.png system 3: measure-number boxes 366->369 expect 3 barline gap(s) but detected 0 (possible missed/spurious barline around x=582-582)
+WARNING page_125.png system 3: measure-number boxes 369->37 expect -332 barline gap(s) but detected 7 (possible missed/spurious barline around x=582-1565)
+INFO processing page_126.png
+INFO processing page_127.png
+INFO processing page_128.png
+INFO processing page_129.png
+INFO processing page_130.png
+INFO processing page_131.png
+INFO processing page_132.png
+INFO processing page_133.png
+INFO processing page_134.png
+INFO processing page_135.png
+WARNING page_135.png system 5: measure-number boxes 706->410 expect -296 barline gap(s) but detected 18 (possible missed/spurious barline around x=498-2402)
+INFO processing page_136.png
+INFO processing page_137.png
+INFO processing page_138.png
+INFO processing page_139.png
+WARNING page_139.png system 1: measure-number boxes 45->455 expect 410 barline gap(s) but detected 1 (possible missed/spurious barline around x=1910-2626)
+INFO processing page_140.png
+INFO processing page_141.png
+INFO processing page_142.png
+INFO processing page_143.png
+INFO processing page_144.png
+INFO processing page_145.png
+INFO processing page_146.png
+INFO processing page_147.png
+INFO processing page_148.png
+INFO processing page_149.png
+INFO processing page_150.png
+WARNING page_150.png system 0: measure-number boxes 560->565 expect 5 barline gap(s) but detected 35 (possible missed/spurious barline around x=744-3226)
+INFO processing page_151.png
+INFO processing page_152.png
+WARNING page_152.png system 0: measure-number boxes 580->585 expect 5 barline gap(s) but detected 24 (possible missed/spurious barline around x=435-2920)
+INFO processing page_153.png
+INFO processing page_154.png
+WARNING page_154.png system 3: measure-number boxes 593->594 expect 1 barline gap(s) but detected 7 (possible missed/spurious barline around x=496-1976)
+INFO processing page_155.png
+INFO processing page_156.png
+INFO processing page_157.png
+WARNING page_157.png system 1: measure-number boxes 603->504 expect -99 barline gap(s) but detected 4 (possible missed/spurious barline around x=732-1408)
+INFO processing page_158.png
+INFO processing page_159.png
+INFO processing page_160.png
+WARNING page_160.png system 1: measure-number boxes 633->630 expect -3 barline gap(s) but detected 8 (possible missed/spurious barline around x=1913-2676)
+WARNING page_160.png system 2: measure-number boxes 634->635 expect 1 barline gap(s) but detected 17 (possible missed/spurious barline around x=470-2048)
+INFO processing page_161.png
+INFO processing page_162.png
+WARNING page_162.png system 3: measure-number boxes 755->66 expect -689 barline gap(s) but detected 12 (possible missed/spurious barline around x=1098-2961)
+INFO processing page_163.png
+WARNING page_163.png system 1: measure-number boxes 569->56 expect -513 barline gap(s) but detected 0 (possible missed/spurious barline around x=1091-1091)
+WARNING page_163.png system 2: measure-number boxes 570->565 expect -5 barline gap(s) but detected 1 (possible missed/spurious barline around x=908-1797)
+INFO processing page_164.png
+INFO processing page_165.png
+INFO processing page_166.png
+WARNING page_166.png system 3: measure-number boxes 705->7 expect -698 barline gap(s) but detected 9 (possible missed/spurious barline around x=610-1626)
+INFO processing page_167.png
+INFO processing page_168.png
+INFO processing page_169.png
+INFO processing page_170.png
+INFO processing page_171.png
+INFO processing page_172.png
+INFO processing page_173.png
+INFO processing page_174.png
+INFO processing page_175.png
+INFO processing page_176.png
+INFO processing page_177.png
+INFO processing page_178.png
+INFO processing page_179.png
+INFO processing page_180.png
+INFO processing page_181.png
+INFO processing page_182.png
+INFO processing page_183.png
+INFO processing page_184.png
+INFO processing page_185.png
+INFO processing page_186.png
+INFO processing page_187.png
+INFO processing page_188.png
+INFO processing page_189.png
+INFO processing page_190.png
+INFO processing page_191.png
+INFO processing page_192.png
+INFO processing page_193.png
+INFO processing page_194.png
+INFO processing page_195.png
+INFO processing page_196.png
+INFO processing page_197.png
+INFO processing page_198.png
+INFO processing page_199.png
+WARNING page_199.png system 0: measure-number boxes 122->125 expect 3 barline gap(s) but detected 13 (possible missed/spurious barline around x=770-2809)
+INFO processing page_200.png
+INFO processing page_201.png
+INFO processing page_202.png
+INFO processing page_203.png
+INFO processing page_204.png
+INFO processing page_205.png
+WARNING page_205.png system 3: measure-number boxes 185->7 expect -178 barline gap(s) but detected 0 (possible missed/spurious barline around x=484-484)
+INFO processing page_206.png
+INFO processing page_207.png
+INFO processing page_208.png
+INFO processing page_209.png
+INFO processing page_210.png
+INFO processing page_211.png
+INFO processing page_212.png
+WARNING page_212.png system 1: measure-number boxes 230->235 expect 5 barline gap(s) but detected 8 (possible missed/spurious barline around x=535-2571)
+INFO processing page_213.png
+INFO processing page_214.png
+INFO processing page_215.png
+INFO processing page_216.png
+INFO processing page_217.png
+INFO processing page_218.png
+INFO processing page_219.png
+INFO processing page_220.png
+INFO processing page_221.png
+INFO processing page_222.png
+INFO processing page_223.png
+INFO processing page_224.png
+INFO processing page_225.png
+WARNING page_225.png system 2: measure-number boxes 325->330 expect 5 barline gap(s) but detected 6 (possible missed/spurious barline around x=1265-2038)
+INFO processing page_226.png
+INFO processing page_227.png
+INFO processing page_228.png
+INFO processing page_229.png
+INFO processing page_230.png
+INFO processing page_231.png
+INFO processing page_232.png
+INFO processing page_233.png
+WARNING no staves detected on this page
+processed 233 page(s); wrote measures_full.json
+39 cross-reference warning(s) -- see log output with -v, or the 'warnings' field per page in measures_full.json

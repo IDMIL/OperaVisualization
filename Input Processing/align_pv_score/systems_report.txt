@@ -1,0 +1,466 @@
+﻿page_001.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_002.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_003.png: 2 system(s), bars/system=[0, 1], total=1
+    OCR measure numbers: 7
+page_004.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_005.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_006.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_007.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_008.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_009.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)
+page_010.png: 4 system(s), bars/system=[10, 29, 4, 20], total=63
+    OCR measure numbers: 5
+page_011.png: 4 system(s), bars/system=[20, 10, 5, 34], total=69
+    OCR measure numbers: 10, 15, 20
+page_012.png: 3 system(s), bars/system=[23, 16, 38], total=77
+    OCR measure numbers: 30, 35
+page_013.png: 5 system(s), bars/system=[2, 39, 19, 6, 25], total=91
+    OCR measure numbers: 40
+page_014.png: 5 system(s), bars/system=[0, 38, 18, 4, 12], total=72
+    OCR measure numbers: ?(''), ?(''), ?(''), 50, ?('')
+page_015.png: 5 system(s), bars/system=[6, 2, 0, 6, 7], total=21
+    OCR measure numbers: 55, 60, 7
+page_016.png: 5 system(s), bars/system=[15, 2, 4, 2, 14], total=37
+    OCR measure numbers: 55, 710
+page_017.png: 5 system(s), bars/system=[29, 28, 2, 1, 14], total=74
+    OCR measure numbers: 715, 80
+page_018.png: 3 system(s), bars/system=[18, 18, 9], total=45
+    OCR measure numbers: 85, ?('')
+page_019.png: 5 system(s), bars/system=[8, 17, 20, 13, 26], total=84
+    OCR measure numbers: 10, 5, 110
+page_020.png: 3 system(s), bars/system=[18, 16, 12], total=46
+    OCR measure numbers: 15, 120, 125
+page_021.png: 8 system(s), bars/system=[26, 4, 6, 0, 3, 0, 0, 2], total=41
+    OCR measure numbers: 7, 130, ?('')
+page_022.png: 8 system(s), bars/system=[5, 2, 5, 4, 0, 1, 0, 5], total=22
+    OCR measure numbers: 135
+page_023.png: 8 system(s), bars/system=[4, 0, 3, 19, 4, 0, 26, 0], total=56
+    OCR measure numbers: 14
+page_024.png: 8 system(s), bars/system=[3, 23, 7, 0, 22, 2, 0, 13], total=70
+    OCR measure numbers: 145, ?('')
+page_025.png: 8 system(s), bars/system=[9, 19, 0, 7, 7, 0, 0, 10], total=52
+    OCR measure numbers: 150
+page_026.png: 4 system(s), bars/system=[2, 33, 14, 13], total=62
+    OCR measure numbers: 155, ?(''), ?('')
+page_027.png: 4 system(s), bars/system=[13, 7, 16, 5], total=41
+    OCR measure numbers: 165
+page_028.png: 4 system(s), bars/system=[20, 36, 9, 10], total=75
+    OCR measure numbers: 175, 80
+page_029.png: 4 system(s), bars/system=[12, 13, 25, 22], total=72
+    OCR measure numbers: 185, 90
+page_030.png: 2 system(s), bars/system=[31, 45], total=76
+    OCR measure numbers: 195, 200, ?(''), 201
+page_031.png: 3 system(s), bars/system=[13, 5, 11], total=29
+    OCR measure numbers: 205, ?('')
+page_032.png: 4 system(s), bars/system=[10, 0, 24, 9], total=43
+    OCR measure numbers: 210, 215, 220, ?('')
+page_033.png: 4 system(s), bars/system=[21, 19, 21, 3], total=64
+    OCR measure numbers: 226, 235
+page_034.png: 3 system(s), bars/system=[7, 28, 21], total=56
+    OCR measure numbers: 240, 245
+page_035.png: 5 system(s), bars/system=[13, 15, 19, 4, 10], total=61
+    OCR measure numbers: 25, ?('')
+page_036.png: 4 system(s), bars/system=[12, 17, 3, 27], total=59
+    OCR measure numbers: 20, 265, ?('')
+page_037.png: 3 system(s), bars/system=[12, 12, 26], total=50
+    OCR measure numbers: 270
+page_038.png: 6 system(s), bars/system=[4, 18, 1, 14, 16, 5], total=58
+    OCR measure numbers: 27, 28
+page_039.png: 3 system(s), bars/system=[5, 19, 11], total=35
+    OCR measure numbers: 285, 290
+page_040.png: 4 system(s), bars/system=[4, 6, 14, 24], total=48
+    OCR measure numbers: 295, 300, 305
+page_041.png: 4 system(s), bars/system=[17, 9, 15, 12], total=53
+    OCR measure numbers: 310, 315, 320
+page_042.png: 5 system(s), bars/system=[0, 1, 12, 7, 0], total=20
+    OCR measure numbers: 327, 325, 330, 328, 329, ?(''), ?('')
+page_043.png: 5 system(s), bars/system=[7, 14, 0, 0, 4], total=25
+    OCR measure numbers: 335, 7, 340
+page_044.png: 6 system(s), bars/system=[0, 6, 7, 5, 0, 9], total=27
+    OCR measure numbers: 345, 355, 36
+page_045.png: 7 system(s), bars/system=[6, 0, 1, 9, 2, 10, 17], total=45
+    OCR measure numbers: 363, 365, ?('')
+page_046.png: 4 system(s), bars/system=[17, 18, 3, 12], total=50
+    OCR measure numbers: 31
+page_047.png: 4 system(s), bars/system=[25, 18, 8, 40], total=91
+    OCR measure numbers: 385, ?(''), 39, 395
+page_048.png: 3 system(s), bars/system=[25, 15, 6], total=46
+    OCR measure numbers: 405, 41, 5, ?('')
+page_049.png: 6 system(s), bars/system=[17, 20, 11, 11, 6, 10], total=75
+    OCR measure numbers: 42, 422, 419
+page_050.png: 7 system(s), bars/system=[7, 5, 16, 11, 20, 7, 13], total=79
+    OCR measure numbers: 3
+page_051.png: 5 system(s), bars/system=[27, 2, 24, 37, 22], total=112
+    OCR measure numbers: 44, ?('')
+page_052.png: 6 system(s), bars/system=[12, 7, 12, 4, 1, 21], total=57
+    OCR measure numbers: 45, ?('')
+page_053.png: 6 system(s), bars/system=[20, 0, 5, 0, 6, 15], total=46
+    OCR measure numbers: 45, 46
+page_054.png: 6 system(s), bars/system=[6, 18, 3, 7, 25, 8], total=67
+    OCR measure numbers: 465
+page_055.png: 3 system(s), bars/system=[22, 43, 19], total=84
+    OCR measure numbers: 475
+page_056.png: 6 system(s), bars/system=[10, 3, 11, 17, 4, 4], total=49
+    OCR measure numbers: 48, 48
+page_057.png: 7 system(s), bars/system=[0, 8, 0, 0, 6, 6, 14], total=34
+    OCR measure numbers: 49, 49
+page_058.png: 6 system(s), bars/system=[2, 2, 5, 17, 2, 14], total=42
+    OCR measure numbers: 0
+page_059.png: 4 system(s), bars/system=[7, 1, 6, 9], total=23
+    OCR measure numbers: (none detected)
+page_060.png: 4 system(s), bars/system=[21, 7, 16, 23], total=67
+    OCR measure numbers: 510, ?('')
+page_061.png: 6 system(s), bars/system=[4, 23, 1, 19, 26, 22], total=95
+    OCR measure numbers: (none detected)
+page_062.png: 5 system(s), bars/system=[10, 13, 12, 28, 34], total=97
+    OCR measure numbers: (none detected)
+page_063.png: 7 system(s), bars/system=[14, 9, 16, 31, 9, 23, 17], total=119
+    OCR measure numbers: 530
+page_064.png: 4 system(s), bars/system=[20, 12, 18, 24], total=74
+    OCR measure numbers: 14, ?(''), 8
+page_065.png: 3 system(s), bars/system=[6, 23, 34], total=63
+    OCR measure numbers: 55, 55, 560
+page_066.png: 3 system(s), bars/system=[33, 7, 20], total=60
+    OCR measure numbers: 965
+page_067.png: 3 system(s), bars/system=[4, 18, 16], total=38
+    OCR measure numbers: 570, ?(''), 580
+page_068.png: 3 system(s), bars/system=[17, 14, 15], total=46
+    OCR measure numbers: 585, 59
+page_069.png: 5 system(s), bars/system=[18, 6, 16, 5, 30], total=75
+    OCR measure numbers: 59, 60
+page_070.png: 4 system(s), bars/system=[29, 0, 13, 29], total=71
+    OCR measure numbers: 5, 1
+page_071.png: 6 system(s), bars/system=[5, 39, 7, 38, 14, 30], total=133
+    OCR measure numbers: ?('')
+page_072.png: 4 system(s), bars/system=[14, 4, 7, 10], total=35
+    OCR measure numbers: 525, 43, 735
+page_073.png: 4 system(s), bars/system=[19, 28, 8, 5], total=60
+    OCR measure numbers: 4, ?(''), 45, 355
+page_074.png: 4 system(s), bars/system=[2, 3, 9, 12], total=26
+    OCR measure numbers: 560, ?('')
+page_075.png: 7 system(s), bars/system=[9, 9, 10, 2, 0, 4, 18], total=52
+    OCR measure numbers: 565
+page_076.png: 8 system(s), bars/system=[6, 8, 6, 4, 2, 1, 26, 1], total=54
+    OCR measure numbers: 970
+page_077.png: 5 system(s), bars/system=[2, 11, 0, 2, 13], total=28
+    OCR measure numbers: 58
+page_078.png: 5 system(s), bars/system=[11, 3, 6, 7, 12], total=39
+    OCR measure numbers: 585, 59
+page_079.png: 3 system(s), bars/system=[8, 4, 15], total=27
+    OCR measure numbers: 395
+page_080.png: 3 system(s), bars/system=[2, 14, 0], total=16
+    OCR measure numbers: 70
+page_081.png: 3 system(s), bars/system=[12, 4, 17], total=33
+    OCR measure numbers: 705, ?(''), ?(''), 710
+page_082.png: 3 system(s), bars/system=[25, 20, 32], total=77
+    OCR measure numbers: 715
+page_083.png: 3 system(s), bars/system=[12, 7, 9], total=28
+    OCR measure numbers: 5
+page_084.png: 2 system(s), bars/system=[13, 15], total=28
+    OCR measure numbers: 10, 15, 20
+page_085.png: 4 system(s), bars/system=[6, 9, 0, 13], total=28
+    OCR measure numbers: 25, 30, 35
+page_086.png: 1 system(s), bars/system=[6], total=6
+    OCR measure numbers: 40, 45
+page_087.png: 3 system(s), bars/system=[0, 7, 5], total=12
+    OCR measure numbers: 50, ?('')
+page_088.png: 3 system(s), bars/system=[5, 11, 9], total=25
+    OCR measure numbers: 60, 65, 70
+page_089.png: 4 system(s), bars/system=[8, 11, 14, 3], total=36
+    OCR measure numbers: 15, 80
+page_090.png: 4 system(s), bars/system=[0, 28, 15, 34], total=77
+    OCR measure numbers: 85, ?('')
+page_091.png: 5 system(s), bars/system=[2, 24, 25, 6, 31], total=88
+    OCR measure numbers: 5, 100
+page_092.png: 6 system(s), bars/system=[19, 3, 22, 2, 2, 13], total=61
+    OCR measure numbers: 15
+page_093.png: 3 system(s), bars/system=[6, 1, 23], total=30
+    OCR measure numbers: 110, ?(''), 115
+page_094.png: 3 system(s), bars/system=[4, 17, 23], total=44
+    OCR measure numbers: 2, 125, 130
+page_095.png: 2 system(s), bars/system=[26, 34], total=60
+    OCR measure numbers: 135, 40, 145
+page_096.png: 4 system(s), bars/system=[2, 17, 35, 33], total=87
+    OCR measure numbers: 155
+page_097.png: 2 system(s), bars/system=[18, 4], total=22
+    OCR measure numbers: ?(''), 16, 165, 170
+page_098.png: 4 system(s), bars/system=[24, 24, 4, 10], total=62
+    OCR measure numbers: 175, ?('')
+page_099.png: 7 system(s), bars/system=[7, 2, 0, 12, 2, 2, 7], total=32
+    OCR measure numbers: 8
+page_100.png: 7 system(s), bars/system=[4, 0, 4, 8, 23, 6, 23], total=68
+    OCR measure numbers: ?(''), 190
+page_101.png: 6 system(s), bars/system=[3, 22, 18, 1, 13, 32], total=89
+    OCR measure numbers: 195, ?('')
+page_102.png: 4 system(s), bars/system=[7, 24, 11, 27], total=69
+    OCR measure numbers: 200, 205, 210
+page_103.png: 5 system(s), bars/system=[12, 8, 10, 23, 1], total=54
+    OCR measure numbers: 215, 22
+page_104.png: 3 system(s), bars/system=[7, 26, 10], total=43
+    OCR measure numbers: ?(''), 22, 230, ?('')
+page_105.png: 5 system(s), bars/system=[7, 20, 19, 8, 22], total=76
+    OCR measure numbers: 24
+page_106.png: 4 system(s), bars/system=[26, 30, 7, 18], total=81
+    OCR measure numbers: 244, 250
+page_107.png: 2 system(s), bars/system=[14, 31], total=45
+    OCR measure numbers: 255
+page_108.png: 4 system(s), bars/system=[0, 7, 10, 7], total=24
+    OCR measure numbers: 4, 260, 265
+page_109.png: 4 system(s), bars/system=[8, 15, 22, 29], total=74
+    OCR measure numbers: 270
+page_110.png: 4 system(s), bars/system=[9, 35, 20, 13], total=77
+    OCR measure numbers: 275, 28
+page_111.png: 5 system(s), bars/system=[0, 7, 0, 2, 14], total=23
+    OCR measure numbers: ?('')
+page_112.png: 3 system(s), bars/system=[6, 5, 15], total=26
+    OCR measure numbers: ?('')
+page_113.png: 6 system(s), bars/system=[15, 5, 28, 8, 7, 0], total=63
+    OCR measure numbers: 30
+page_114.png: 3 system(s), bars/system=[2, 0, 1], total=3
+    OCR measure numbers: 305
+page_115.png: 3 system(s), bars/system=[17, 9, 31], total=57
+    OCR measure numbers: 310
+page_116.png: 3 system(s), bars/system=[0, 7, 14], total=21
+    OCR measure numbers: 315
+page_117.png: 5 system(s), bars/system=[5, 17, 6, 12, 21], total=61
+    OCR measure numbers: 320, 325
+page_118.png: 7 system(s), bars/system=[9, 4, 73, 58, 6, 8, 58], total=216
+    OCR measure numbers: 4, ?(''), ?(''), 330
+page_119.png: 5 system(s), bars/system=[4, 12, 3, 8, 0], total=27
+    OCR measure numbers: 33, ?('')
+page_120.png: 3 system(s), bars/system=[21, 7, 18], total=46
+    OCR measure numbers: (none detected)
+page_121.png: 5 system(s), bars/system=[11, 4, 3, 35, 23], total=76
+    OCR measure numbers: 34, ?('')
+page_122.png: 4 system(s), bars/system=[0, 1, 1, 0], total=2
+    OCR measure numbers: 345
+page_123.png: 3 system(s), bars/system=[10, 9, 22], total=41
+    OCR measure numbers: (none detected)
+page_124.png: 4 system(s), bars/system=[2, 4, 20, 9], total=35
+    OCR measure numbers: 355, 360
+page_125.png: 5 system(s), bars/system=[0, 14, 14, 18, 13], total=59
+    OCR measure numbers: 365, ?(''), 367, 366, 37, 369
+page_126.png: 6 system(s), bars/system=[0, 12, 2, 21, 7, 17], total=59
+    OCR measure numbers: 375, ?('')
+page_127.png: 6 system(s), bars/system=[15, 19, 0, 0, 0, 6], total=40
+    OCR measure numbers: ?('')
+page_128.png: 10 system(s), bars/system=[0, 0, 8, 0, 0, 1, 1, 0, 0, 4], total=14
+    OCR measure numbers: ?(''), 385, ?('')
+page_129.png: 11 system(s), bars/system=[0, 3, 3, 2, 0, 6, 2, 0, 1, 1, 4], total=22
+    OCR measure numbers: (none detected)
+page_130.png: 7 system(s), bars/system=[6, 0, 4, 10, 4, 6, 3], total=33
+    OCR measure numbers: 390
+page_131.png: 9 system(s), bars/system=[3, 4, 3, 0, 0, 1, 8, 4, 0], total=23
+    OCR measure numbers: (none detected)
+page_132.png: 5 system(s), bars/system=[0, 16, 9, 0, 14], total=39
+    OCR measure numbers: 395, ?('')
+page_133.png: 8 system(s), bars/system=[0, 9, 0, 3, 0, 1, 3, 1], total=17
+    OCR measure numbers: 40, ?('')
+page_134.png: 9 system(s), bars/system=[0, 8, 0, 6, 1, 4, 0, 1, 7], total=27
+    OCR measure numbers: ?('')
+page_135.png: 6 system(s), bars/system=[0, 0, 0, 26, 7, 33], total=66
+    OCR measure numbers: 405, 410, 706, 4
+page_136.png: 5 system(s), bars/system=[29, 24, 19, 0, 0], total=72
+    OCR measure numbers: 415, 2
+page_137.png: 6 system(s), bars/system=[13, 13, 15, 11, 0, 4], total=56
+    OCR measure numbers: 4, 430, 435, ?('')
+page_138.png: 4 system(s), bars/system=[22, 11, 0, 5], total=38
+    OCR measure numbers: 445, ?('')
+page_139.png: 5 system(s), bars/system=[20, 2, 25, 2, 6], total=55
+    OCR measure numbers: 45, 455
+page_140.png: 4 system(s), bars/system=[2, 12, 19, 14], total=47
+    OCR measure numbers: 46, ?('')
+page_141.png: 10 system(s), bars/system=[0, 1, 5, 1, 0, 0, 0, 0, 0, 2], total=9
+    OCR measure numbers: 465
+page_142.png: 10 system(s), bars/system=[10, 6, 32, 30, 7, 2, 23, 0, 9, 0], total=119
+    OCR measure numbers: ?('')
+page_143.png: 7 system(s), bars/system=[0, 1, 1, 6, 12, 7, 6], total=33
+    OCR measure numbers: 475
+page_144.png: 5 system(s), bars/system=[2, 0, 25, 17, 17], total=61
+    OCR measure numbers: 480, 485
+page_145.png: 4 system(s), bars/system=[21, 12, 8, 12], total=53
+    OCR measure numbers: 490, ?(''), 500
+page_146.png: 3 system(s), bars/system=[21, 25, 21], total=67
+    OCR measure numbers: 515
+page_147.png: 3 system(s), bars/system=[17, 11, 16], total=44
+    OCR measure numbers: 520, 525
+page_148.png: 6 system(s), bars/system=[8, 0, 6, 5, 5, 8], total=32
+    OCR measure numbers: 530, 535, 540, ?(''), 45, 550
+page_149.png: 5 system(s), bars/system=[26, 2, 24, 12, 1], total=65
+    OCR measure numbers: 955
+page_150.png: 2 system(s), bars/system=[37, 25], total=62
+    OCR measure numbers: 560, 565
+page_151.png: 2 system(s), bars/system=[35, 7], total=42
+    OCR measure numbers: 575
+page_152.png: 1 system(s), bars/system=[33], total=33
+    OCR measure numbers: 585, 580, ?(''), ?('')
+page_153.png: 1 system(s), bars/system=[12], total=12
+    OCR measure numbers: 590, 590, 589
+page_154.png: 5 system(s), bars/system=[7, 3, 1, 8, 11], total=30
+    OCR measure numbers: 591, 592, ?(''), 593, 594, ?(''), 412, 423
+page_155.png: 4 system(s), bars/system=[13, 6, 21, 33], total=73
+    OCR measure numbers: 595, 597
+page_156.png: 2 system(s), bars/system=[0, 2], total=2
+    OCR measure numbers: 50, ?(''), 601
+page_157.png: 3 system(s), bars/system=[10, 18, 18], total=46
+    OCR measure numbers: 505, 603, 504
+page_158.png: 3 system(s), bars/system=[6, 11, 3], total=20
+    OCR measure numbers: 510, 615
+page_159.png: 6 system(s), bars/system=[0, 12, 0, 1, 2, 7], total=22
+    OCR measure numbers: 520, ?(''), 625
+page_160.png: 3 system(s), bars/system=[27, 23, 28], total=78
+    OCR measure numbers: 630, 633, 634, 635, ?('')
+page_161.png: 2 system(s), bars/system=[16, 39], total=55
+    OCR measure numbers: 4
+page_162.png: 4 system(s), bars/system=[13, 9, 10, 15], total=47
+    OCR measure numbers: 545, 55, 66, 755
+page_163.png: 3 system(s), bars/system=[7, 3, 10], total=20
+    OCR measure numbers: 560, 569, 56, 565, 570
+page_164.png: 3 system(s), bars/system=[26, 40, 24], total=90
+    OCR measure numbers: 615, ?(''), 4, ?(''), 0
+page_165.png: 4 system(s), bars/system=[21, 17, 25, 20], total=83
+    OCR measure numbers: 690, 595
+page_166.png: 4 system(s), bars/system=[22, 41, 17, 19], total=99
+    OCR measure numbers: 700, 7, 705
+page_167.png: 3 system(s), bars/system=[24, 26, 30], total=80
+    OCR measure numbers: 710, 715, 120
+page_168.png: 4 system(s), bars/system=[13, 21, 17, 13], total=64
+    OCR measure numbers: 7125
+page_169.png: 3 system(s), bars/system=[13, 17, 26], total=56
+    OCR measure numbers: 730
+page_170.png: 1 system(s), bars/system=[32], total=32
+    OCR measure numbers: 735, 140, ?('')
+page_171.png: 4 system(s), bars/system=[6, 19, 5, 2], total=32
+    OCR measure numbers: 145
+page_172.png: 9 system(s), bars/system=[1, 0, 6, 1, 1, 0, 0, 1, 1], total=11
+    OCR measure numbers: ?(''), 15
+page_173.png: 7 system(s), bars/system=[0, 9, 12, 0, 6, 5, 26], total=58
+    OCR measure numbers: 4, 155, 4
+page_174.png: 3 system(s), bars/system=[17, 8, 25], total=50
+    OCR measure numbers: 760, ?(''), ?(''), 165, ?('')
+page_175.png: 6 system(s), bars/system=[2, 26, 5, 24, 2, 26], total=85
+    OCR measure numbers: 1
+page_176.png: 2 system(s), bars/system=[8, 15], total=23
+    OCR measure numbers: 15
+page_177.png: 3 system(s), bars/system=[3, 10, 21], total=34
+    OCR measure numbers: 780, ?('')
+page_178.png: 7 system(s), bars/system=[15, 5, 23, 5, 16, 0, 12], total=76
+    OCR measure numbers: 184, ?(''), ?(''), ?(''), ?('')
+page_179.png: 3 system(s), bars/system=[10, 26, 10], total=46
+    OCR measure numbers: 190, 7195, 1
+page_180.png: 4 system(s), bars/system=[18, 2, 16, 31], total=67
+    OCR measure numbers: 300, 5
+page_181.png: 5 system(s), bars/system=[32, 4, 2, 0, 8], total=46
+    OCR measure numbers: 810
+page_182.png: 4 system(s), bars/system=[3, 2, 10, 14], total=29
+    OCR measure numbers: 5, 1
+page_183.png: 4 system(s), bars/system=[7, 12, 16, 0], total=35
+    OCR measure numbers: 15, ?('')
+page_184.png: 4 system(s), bars/system=[21, 3, 19, 37], total=80
+    OCR measure numbers: 20, 25, 30
+page_185.png: 3 system(s), bars/system=[7, 22, 15], total=44
+    OCR measure numbers: 30, 35
+page_186.png: 1 system(s), bars/system=[5], total=5
+    OCR measure numbers: 40
+page_187.png: 5 system(s), bars/system=[9, 20, 37, 11, 11], total=88
+    OCR measure numbers: ?('')
+page_188.png: 4 system(s), bars/system=[21, 3, 7, 8], total=39
+    OCR measure numbers: 55, 60
+page_189.png: 2 system(s), bars/system=[1, 4], total=5
+    OCR measure numbers: 65
+page_190.png: 2 system(s), bars/system=[9, 0], total=9
+    OCR measure numbers: 10
+page_191.png: 6 system(s), bars/system=[4, 4, 3, 18, 4, 0], total=33
+    OCR measure numbers: 15
+page_192.png: 3 system(s), bars/system=[18, 0, 0], total=18
+    OCR measure numbers: 80
+page_193.png: 3 system(s), bars/system=[0, 0, 0], total=0
+    OCR measure numbers: ?(''), 85
+page_194.png: 4 system(s), bars/system=[19, 9, 7, 16], total=51
+    OCR measure numbers: ?(''), 90
+page_195.png: 5 system(s), bars/system=[11, 0, 3, 8, 0], total=22
+    OCR measure numbers: 95
+page_196.png: 4 system(s), bars/system=[14, 1, 0, 16], total=31
+    OCR measure numbers: 100
+page_197.png: 10 system(s), bars/system=[0, 0, 7, 37, 0, 36, 2, 4, 1, 0], total=87
+    OCR measure numbers: 105
+page_198.png: 4 system(s), bars/system=[2, 12, 10, 6], total=30
+    OCR measure numbers: 110, 120, 115
+page_199.png: 4 system(s), bars/system=[16, 28, 24, 22], total=90
+    OCR measure numbers: 122, 125, 130, 135, 140
+page_200.png: 3 system(s), bars/system=[11, 2, 9], total=22
+    OCR measure numbers: 145
+page_201.png: 3 system(s), bars/system=[9, 10, 9], total=28
+    OCR measure numbers: 150
+page_202.png: 2 system(s), bars/system=[18, 18], total=36
+    OCR measure numbers: 155, ?(''), 160
+page_203.png: 5 system(s), bars/system=[4, 15, 2, 23, 0], total=44
+    OCR measure numbers: 165, 168, 169
+page_204.png: 5 system(s), bars/system=[25, 16, 2, 3, 2], total=48
+    OCR measure numbers: 170, 175, ?(''), 180
+page_205.png: 4 system(s), bars/system=[4, 0, 39, 16], total=59
+    OCR measure numbers: 7, 185, ?('')
+page_206.png: 5 system(s), bars/system=[18, 16, 4, 5, 14], total=57
+    OCR measure numbers: 190, ?(''), 195
+page_207.png: 3 system(s), bars/system=[12, 5, 14], total=31
+    OCR measure numbers: 200, 205
+page_208.png: 2 system(s), bars/system=[11, 7], total=18
+    OCR measure numbers: (none detected)
+page_209.png: 1 system(s), bars/system=[31], total=31
+    OCR measure numbers: 210, ?(''), 210
+page_210.png: 1 system(s), bars/system=[1], total=1
+    OCR measure numbers: 215, ?('')
+page_211.png: 3 system(s), bars/system=[2, 1, 3], total=6
+    OCR measure numbers: 225, ?('')
+page_212.png: 2 system(s), bars/system=[3, 8], total=11
+    OCR measure numbers: 230, 235
+page_213.png: 1 system(s), bars/system=[3], total=3
+    OCR measure numbers: 240, 64
+page_214.png: 4 system(s), bars/system=[4, 3, 1, 8], total=16
+    OCR measure numbers: 245, 250
+page_215.png: 3 system(s), bars/system=[1, 4, 16], total=21
+    OCR measure numbers: 255
+page_216.png: 5 system(s), bars/system=[5, 10, 11, 3, 10], total=39
+    OCR measure numbers: 260, 265
+page_217.png: 2 system(s), bars/system=[19, 26], total=45
+    OCR measure numbers: 210
+page_218.png: 2 system(s), bars/system=[24, 24], total=48
+    OCR measure numbers: 215
+page_219.png: 2 system(s), bars/system=[27, 17], total=44
+    OCR measure numbers: 280
+page_220.png: 8 system(s), bars/system=[16, 13, 8, 18, 11, 4, 19, 6], total=95
+    OCR measure numbers: 285
+page_221.png: 5 system(s), bars/system=[26, 7, 6, 20, 10], total=69
+    OCR measure numbers: 290
+page_222.png: 3 system(s), bars/system=[45, 38, 27], total=110
+    OCR measure numbers: ?(''), ?(''), 295
+page_223.png: 3 system(s), bars/system=[4, 7, 6], total=17
+    OCR measure numbers: 300, 305
+page_224.png: 3 system(s), bars/system=[6, 17, 11], total=34
+    OCR measure numbers: 315, ?('')
+page_225.png: 5 system(s), bars/system=[0, 4, 15, 0, 7], total=26
+    OCR measure numbers: 325, 330
+page_226.png: 5 system(s), bars/system=[10, 0, 12, 3, 5], total=30
+    OCR measure numbers: 335, 340
+page_227.png: 5 system(s), bars/system=[14, 21, 11, 16, 17], total=79
+    OCR measure numbers: 345
+page_228.png: 3 system(s), bars/system=[20, 32, 31], total=83
+    OCR measure numbers: 355, 360
+page_229.png: 4 system(s), bars/system=[11, 18, 16, 9], total=54
+    OCR measure numbers: 365
+page_230.png: 3 system(s), bars/system=[3, 0, 5], total=8
+    OCR measure numbers: 375, ?('')
+page_231.png: 5 system(s), bars/system=[2, 8, 3, 26, 0], total=39
+    OCR measure numbers: ?('')
+page_232.png: 4 system(s), bars/system=[15, 38, 22, 13], total=88
+    OCR measure numbers: 385
+page_233.png: 0 system(s), bars/system=[], total=0
+    OCR measure numbers: (none detected)

@@ -174,6 +174,7 @@ export const text: { [key: string]: MultiLanguageString } = {
     TRANSPORT:          { en: "Navigation",                fr: "Navigation",                       pt: "Navegação",            de: "Navigation" },
     ARCHITECTURE:       { en: "Architecture",              fr: "Architecture",                     pt: "Arquitetura",          de: "Architektur" },
     SCORE_VIEWER:       { en: "Score",                     fr: "Partition",                        pt: "Partitura",            de: "Partitur" },
+    PV_SCORE_VIEWER:    { en: "PV Score",                  fr: "Partition PV",                     pt: "Partitura PV",         de: "PV-Partitur" },
     LIBRETTO:           { en: "Libretto",                  fr: "Livret",                           pt: "Libreto",              de: "Libretto" },
     PANELS:             { en: "Panels",                    fr: "Panneaux",                         pt: "Painéis",              de: "Bedienfelder" },
     PAGE:               { en: "page",                      fr: "page",                             pt: "página",               de: "Seite" },
