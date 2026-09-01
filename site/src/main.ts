@@ -2,6 +2,7 @@ import { LanguageCode } from "./data/text";
 import {TimeManager} from "./TimeManager";
 import {ScoreManager, SCORE_HEADER_HEIGHT} from "./ScoreManager";
 import {PVScoreManager} from "./PVScoreManager";
+import {GarantScoreManager} from "./GarantScoreManager";
 import {TransportManager} from "./TransportManager";
 import {TimelineManager} from "./TimelineManager";
 import {AnnotationManager} from "./AnnotationManager";
@@ -58,6 +59,9 @@ function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
         top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["pv-score-viewer-section"] = {
+        top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
+    };
+    rects["garant-score-viewer-section"] = {
         top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["panel-visibility-bar"] = {
@@ -122,6 +126,7 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
         // those panels the same way libretto-section already does; the user
         // repositions it once shown.
         "pv-score-viewer-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
+        "garant-score-viewer-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
         "score-viewer-section": {
             top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight
         },
@@ -145,6 +150,7 @@ async function buildWindow(lang : LanguageCode ) {
     <div class="section" id="libretto-section"></div>
     <div class="section" id="score-viewer-section"></div>
     <div class="section" id="pv-score-viewer-section"></div>
+    <div class="section" id="garant-score-viewer-section"></div>
     <div class="section" id="panel-visibility-bar"></div>
   </div>
     `;
@@ -196,6 +202,7 @@ async function buildWindow(lang : LanguageCode ) {
 
     let scoreManager = new ScoreManager(timeManager, rects["score-viewer-section"]);
     let pvScoreManager = new PVScoreManager(timeManager, rects["pv-score-viewer-section"]);
+    let garantScoreManager = new GarantScoreManager(timeManager, rects["garant-score-viewer-section"]);
     let transportManager = new TransportManager(timeManager, rects["transport-section"]);
     let timelineManager = new TimelineManager(timeManager, timelineRect);
     let annotationManager = new AnnotationManager(timeManager, rects["annotations-section"]);
@@ -209,6 +216,7 @@ async function buildWindow(lang : LanguageCode ) {
     new ScoreTransportOverlay(timeManager, scoreManager);
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(pvScoreManager);
+    timeManager.listeners.push(garantScoreManager);
     timeManager.listeners.push(transportManager);
     timeManager.listeners.push(timelineManager);
     timeManager.listeners.push(annotationManager);

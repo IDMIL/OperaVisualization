@@ -175,6 +175,7 @@ export const text: { [key: string]: MultiLanguageString } = {
     ARCHITECTURE:       { en: "Architecture",              fr: "Architecture",                     pt: "Arquitetura",          de: "Architektur" },
     SCORE_VIEWER:       { en: "Score",                     fr: "Partition",                        pt: "Partitura",            de: "Partitur" },
     PV_SCORE_VIEWER:    { en: "PV Score",                  fr: "Partition PV",                     pt: "Partitura PV",         de: "PV-Partitur" },
+    GARANT_SCORE_VIEWER: { en: "Garant Score",             fr: "Partition Garant",                 pt: "Partitura Garant",     de: "Garant-Partitur" },
     LIBRETTO:           { en: "Libretto",                  fr: "Livret",                           pt: "Libreto",              de: "Libretto" },
     PANELS:             { en: "Panels",                    fr: "Panneaux",                         pt: "Painéis",              de: "Bedienfelder" },
     PAGE:               { en: "page",                      fr: "page",                             pt: "página",               de: "Seite" },
