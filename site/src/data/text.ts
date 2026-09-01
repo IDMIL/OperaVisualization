@@ -168,7 +168,7 @@ export const text: { [key: string]: MultiLanguageString } = {
                             de: "Vom Benutzer erstellte Annotationen mithilfe der Schaltflächen neben der Suchleiste."
     },
     ANNOTATIONS:        { en: "Annotations",              fr: "Annotations",                      pt: "Anotações",            de: "Annotationen" },
-    TIMELINES:          { en: "Temporal Structure",        fr: "Structure temporelle",             pt: "Estrutura Temporal",   de: "Zeitliche Struktur" },
+    TIMELINES:          { en: "Structure of the Opera",    fr: "Structure de l'opéra",             pt: "Estrutura da Ópera",   de: "Struktur der Oper" },
     COLLAPSE:           { en: "Collapse",                  fr: "Réduire",                          pt: "Recolher",             de: "Einklappen" },
     VIDEO_PLAYER:       { en: "Video Player",              fr: "Lecteur vidéo",                    pt: "Reprodutor de Vídeo",  de: "Videoplayer" },
     TRANSPORT:          { en: "Navigation",                fr: "Navigation",                       pt: "Navegação",            de: "Navigation" },

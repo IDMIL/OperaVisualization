@@ -72,23 +72,40 @@ export class TimeManager {
         this.notifyListeners(updateSource);
     }
 
+    getFirstPage() : number {
+        return act_starting_pages[0];
+    }
+
+    getLastPage() : number {
+        return 486;
+    }
+
+    getCurrentAbsolutePage() : number {
+        // Act-relative page is 1-based, so subtract 1 before adding the act offset.
+        const currentActIndex = this.scoreTime.act - 1;
+        const currentWithinActPage = bar_to_page[currentActIndex][this.scoreTime.bar].page;
+        return currentWithinActPage - 1 + act_starting_pages[currentActIndex];
+    }
+
     advancePage(numPages : number, updateSource: UpdateSource) {
         console.log("advancePage", numPages);
 
-        const firstPage = act_starting_pages[0];
-        const lastPage = 486;
-
-        // Compute current absolute page (act-relative page is 1-based, so subtract 1 before adding act offset)
-        const currentActIndex = this.scoreTime.act - 1;
-        const currentWithinActPage = bar_to_page[currentActIndex][this.scoreTime.bar].page;
-        const currentAbsolutePage = currentWithinActPage - 1 + act_starting_pages[currentActIndex];
-
-        const targetAbsolutePage = Math.max(firstPage, Math.min(lastPage, currentAbsolutePage + numPages));
-
-        // Search outward from targetAbsolutePage in the direction of travel until we find a
-        // page that has at least one bar starting on it.  This handles pages that fall in
-        // the middle of a bar (no bar starts there) without silently doing nothing.
+        const targetAbsolutePage = Math.max(this.getFirstPage(), Math.min(this.getLastPage(), this.getCurrentAbsolutePage() + numPages));
         const direction = numPages >= 0 ? 1 : -1;
+        this.goToAbsolutePage(targetAbsolutePage, direction, updateSource);
+    }
+
+    goToPage(page : number, updateSource: UpdateSource) {
+        const targetAbsolutePage = Math.max(this.getFirstPage(), Math.min(this.getLastPage(), Math.round(page)));
+        this.goToAbsolutePage(targetAbsolutePage, 1, updateSource);
+    }
+
+    // Search from targetAbsolutePage in the given direction until we find a page that has at
+    // least one bar starting on it. This handles pages that fall in the middle of a bar (no
+    // bar starts there) without silently doing nothing.
+    private goToAbsolutePage(targetAbsolutePage : number, direction : 1 | -1, updateSource: UpdateSource) {
+        const firstPage = this.getFirstPage();
+        const lastPage = this.getLastPage();
 
         for (let page = targetAbsolutePage; page >= firstPage && page <= lastPage; page += direction) {
             // Determine which act this absolute page belongs to (last act whose start ≤ page)

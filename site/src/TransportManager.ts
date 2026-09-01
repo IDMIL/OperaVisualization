@@ -19,6 +19,14 @@ function getSceneNumber(scoreTime : ScoreTime) {
     return 1;
 }
 
+function getSceneStartBar(act : number, scene : number) : number {
+    return scene_bar_ranges[act - 1][scene - 1][0];
+}
+
+function getNumScenesInAct(act : number) : number {
+    return scene_bar_ranges[act - 1].length;
+}
+
 
 export class TransportManager extends SectionManager {
     constructor(tm : TimeManager, rect: SectionRect) {
@@ -29,67 +37,100 @@ export class TransportManager extends SectionManager {
         if (transportSection === null) {
             return;
         }
+
+        const actOptions = Array.from({length: tm.getNumActs()}, (_, i) => i + 1)
+            .map(act => `<option value="${act}">${getRomanNumerals(act)}</option>`)
+            .join('');
+
         transportSection.innerHTML = `
       <h2>` + text.TRANSPORT[globals.language] + `</h2>
       <div id="position-text">
       <p class="level-name">` + text.ACT[globals.language] + `</p>
-        <p id="transport-act-number">1</p>
+        <select id="transport-act-select">${actOptions}</select>
         <p class="level-name">` + text.SCENE[globals.language] + `</p>
-        <p id="transport-scene-number">1</p>
+        <select id="transport-scene-select"></select>
         <p class="level-name">` + text.BAR[globals.language] + `</p>
-        <p id="transport-bar-number">1</p>
-      </div>
-      <div class="transport buttons">
-        <button id="prev-bar-button">` + text.PREV_BAR[globals.language] + `</button>
-        <button id="next-bar-button">` + text.NEXT_BAR[globals.language] + `</button>
-        <button id="prev-page-button">` + text.PREV_PAGE[globals.language] + `</button>
-        <button id="next-page-button">` + text.NEXT_PAGE[globals.language] + `</button>
+        <input type="number" id="transport-bar-input" min="1" step="1">
+        <p class="level-name">` + text.PAGE[globals.language] + `</p>
+        <input type="number" id="transport-page-input" min="${tm.getFirstPage()}" max="${tm.getLastPage()}" step="1">
       </div>`;
 
-        const prevBarButton = document.getElementById("prev-bar-button");
-        if (prevBarButton !== null) {
-            prevBarButton.onclick = () => {
-                    this.timeManager.advanceBar(-1);
-            }
+        // Rebuilds the scene dropdown's options whenever the act changes, since
+        // each act has its own number of scenes (see scene_bar_ranges).
+        const populateSceneSelect = (act: number, selectedScene: number) => {
+            const sceneSelect = document.getElementById("transport-scene-select") as HTMLSelectElement | null;
+            if (sceneSelect === null) return;
+            sceneSelect.innerHTML = Array.from({length: getNumScenesInAct(act)}, (_, i) => i + 1)
+                .map(scene => `<option value="${scene}">${scene}</option>`)
+                .join('');
+            sceneSelect.value = selectedScene.toString();
+        };
+        populateSceneSelect(this.timeManager.getCurrentAct(), getSceneNumber(this.timeManager.scoreTime));
+
+        const actSelect = document.getElementById("transport-act-select") as HTMLSelectElement | null;
+        if (actSelect !== null) {
+            actSelect.value = this.timeManager.getCurrentAct().toString();
+            actSelect.addEventListener("change", () => {
+                const act = Number(actSelect.value);
+                populateSceneSelect(act, 1);
+                this.timeManager.goToTime(act, getSceneStartBar(act, 1), "transport-click");
+            });
         }
 
-        const nextBarButton = document.getElementById("next-bar-button");
-
-        if (nextBarButton !== null) {
-            nextBarButton.onclick = () => {
-                this.timeManager.advanceBar(1);
-            }
+        const sceneSelect = document.getElementById("transport-scene-select") as HTMLSelectElement | null;
+        if (sceneSelect !== null) {
+            sceneSelect.addEventListener("change", () => {
+                const act = this.timeManager.getCurrentAct();
+                const scene = Number(sceneSelect.value);
+                this.timeManager.goToTime(act, getSceneStartBar(act, scene), "transport-click");
+            });
         }
 
-        const prevPageButton = document.getElementById("prev-page-button");
-        if (prevPageButton !== null) {
-            prevPageButton.onclick = () => {
-                this.timeManager.advancePage(-1, 'transport-click');
-            }
+        const barInput = document.getElementById("transport-bar-input") as HTMLInputElement | null;
+        if (barInput !== null) {
+            barInput.addEventListener("change", () => {
+                const act = this.timeManager.getCurrentAct();
+                const bar = Math.max(1, Math.min(this.timeManager.getLengthOfAct(act), Math.round(Number(barInput.value)) || 1));
+                this.timeManager.goToTime(act, bar, "transport-click");
+            });
         }
 
-        const nextPageButton = document.getElementById("next-page-button");
-        if (nextPageButton !== null) {
-            nextPageButton.onclick = () => {
-                this.timeManager.advancePage(1, 'transport-click');
-            }
+        const pageInput = document.getElementById("transport-page-input") as HTMLInputElement | null;
+        if (pageInput !== null) {
+            pageInput.addEventListener("change", () => {
+                const page = Math.max(this.timeManager.getFirstPage(), Math.min(this.timeManager.getLastPage(), Math.round(Number(pageInput.value)) || this.timeManager.getFirstPage()));
+                this.timeManager.goToPage(page, "transport-click");
+            });
         }
 
         this.initResizeHandles();
     }
 
     async timeUpdated(scoreTime : ScoreTime) {
-        const transportActNumber = document.getElementById("transport-act-number");
-        if (transportActNumber !== null) {
-            transportActNumber.innerText = getRomanNumerals(scoreTime.act);
+        const actSelect = document.getElementById("transport-act-select") as HTMLSelectElement | null;
+        const sceneSelect = document.getElementById("transport-scene-select") as HTMLSelectElement | null;
+        const scene = getSceneNumber(scoreTime);
+
+        if (actSelect !== null && sceneSelect !== null) {
+            // The scene dropdown's options depend on the act, so it must be
+            // rebuilt whenever the act changes rather than just re-valued.
+            if (actSelect.value !== scoreTime.act.toString()) {
+                actSelect.value = scoreTime.act.toString();
+                sceneSelect.innerHTML = Array.from({length: getNumScenesInAct(scoreTime.act)}, (_, i) => i + 1)
+                    .map(s => `<option value="${s}">${s}</option>`)
+                    .join('');
+            }
+            sceneSelect.value = scene.toString();
         }
-        const transportSceneNumber = document.getElementById("transport-scene-number");
-        if (transportSceneNumber !== null) {
-            transportSceneNumber.innerText = getSceneNumber(scoreTime).toString();
+
+        const transportBarInput = document.getElementById("transport-bar-input") as HTMLInputElement | null;
+        if (transportBarInput !== null && document.activeElement !== transportBarInput) {
+            transportBarInput.value = scoreTime.bar.toString();
         }
-        const transportBarNumber = document.getElementById("transport-bar-number");
-        if (transportBarNumber !== null) {
-            transportBarNumber.innerText = scoreTime.bar.toString();
+
+        const transportPageInput = document.getElementById("transport-page-input") as HTMLInputElement | null;
+        if (transportPageInput !== null && document.activeElement !== transportPageInput) {
+            transportPageInput.value = this.timeManager.getCurrentAbsolutePage().toString();
         }
     }
 

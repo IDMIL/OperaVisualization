@@ -1,6 +1,7 @@
 import {text, LanguageCode} from "./data/text";
 import {globals} from "./globals";
 import {SectionManager, SectionRect} from "./SectionManager";
+import {LAST_UPDATED} from "./data/lastUpdated";
 
 function showCredits(showOrHide: boolean) {
     const credits = document.getElementById('credits-anchor');
@@ -64,7 +65,7 @@ export class TitleSectionManager extends SectionManager {
             const creditsAnchor = document.createElement("div");
             creditsAnchor.setAttribute("id", "credits-anchor");
             creditsAnchor.innerHTML = `<div id="credits-box"><div id="credits-box-contents">
-<div id="credits-box-text"><p>` + text.BYLINE[globals.language] + `</p></div>
+<div id="credits-box-text"><p>` + text.BYLINE[globals.language] + `</p><p id="credits-last-updated">© ${LAST_UPDATED}</p></div>
 <div id="credits-box-buttons"><button id="close-credits-box">` + text.CLOSE[globals.language] + `</button></div>
 </div></div>`;
             document.body.append(creditsAnchor);

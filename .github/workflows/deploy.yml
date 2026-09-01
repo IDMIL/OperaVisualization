@@ -12,6 +12,9 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v6
 
+      - name: Set last updated date
+        run: echo "export const LAST_UPDATED = \"$(date -u +%Y-%m-%d)\";" > site/src/data/lastUpdated.ts
+
       - name: Pre-process data
         run: |
           cd Input\ Processing
