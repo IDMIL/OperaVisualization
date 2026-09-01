@@ -1,11 +1,21 @@
-import {TimeManager} from "./TimeManager";
-import {ScoreManager} from "./ScoreManager";
 import {capitalizeFirstLetter, text} from "./data/text";
 import {globals} from "./globals";
 
 const EXPAND_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>`;
 const COMPRESS_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>`;
 
+// Minimal interface implemented by ScoreManager, PVScoreManager, and
+// GarantScoreManager — exitFullscreen calls this to re-sync bar overlays
+// now that the image has been resized back down out of fullscreen.
+export interface ScoreOverlayHost {
+    rebuildOveralysAtCurrentTime(): void;
+}
+
+// One instance per score panel (main score, PV score, Garant score — see
+// main.ts) — same prev/fullscreen/next chrome and pan/zoom-in-fullscreen
+// behavior for each, parameterized by which panel's section id to act on
+// and how that panel turns pages (see advancePage; the three panels' page
+// boundaries don't line up with each other, so each supplies its own).
 export class ScoreTransportOverlay {
     private isFullscreen = false;
     private darkenEl: HTMLElement | null = null;
@@ -21,21 +31,25 @@ export class ScoreTransportOverlay {
     private dragStartX = 0;
     private dragStartY = 0;
 
-    scoreManager;
+    scoreManager: ScoreOverlayHost;
 
-    constructor(timeManager: TimeManager, sm: ScoreManager) {
-        this.scoreManager = sm;
+    constructor(
+        private readonly sectionId: string,
+        scoreManager: ScoreOverlayHost,
+        private readonly advancePage: (direction: 1 | -1) => void
+    ) {
+        this.scoreManager = scoreManager;
 
-        const scoreSection = document.getElementById('score-viewer-section');
+        const scoreSection = document.getElementById(this.sectionId);
         if (!scoreSection) return;
 
         const overlay = document.createElement('div');
-        overlay.id = 'score-transport-overlay';
+        overlay.classList.add('score-transport-overlay');
 
         const prevBtn = document.createElement('button');
         prevBtn.setAttribute('aria-label', capitalizeFirstLetter(text.PREV_PAGE[globals.language]));
         prevBtn.innerHTML = '&#8592;';
-        prevBtn.onclick = () => timeManager.advancePage(-1, 'transport-click');
+        prevBtn.onclick = () => this.advancePage(-1);
 
         this.fullscreenBtn = document.createElement('button');
         this.fullscreenBtn.setAttribute('aria-label', text.FULLSCREEN[globals.language]);
@@ -45,7 +59,7 @@ export class ScoreTransportOverlay {
         const nextBtn = document.createElement('button');
         nextBtn.setAttribute('aria-label', capitalizeFirstLetter(text.NEXT_PAGE[globals.language]));
         nextBtn.innerHTML = '&#8594;';
-        nextBtn.onclick = () => timeManager.advancePage(1, 'transport-click');
+        nextBtn.onclick = () => this.advancePage(1);
 
         overlay.appendChild(prevBtn);
         overlay.appendChild(this.fullscreenBtn);
@@ -62,7 +76,7 @@ export class ScoreTransportOverlay {
     }
 
     private enterFullscreen() {
-        const scoreSection = document.getElementById('score-viewer-section');
+        const scoreSection = document.getElementById(this.sectionId);
         if (!scoreSection) return;
 
         const darken = document.createElement('div');
@@ -104,7 +118,7 @@ export class ScoreTransportOverlay {
     }
 
     private exitFullscreen() {
-        const scoreSection = document.getElementById('score-viewer-section');
+        const scoreSection = document.getElementById(this.sectionId);
         if (!scoreSection) return;
 
         this.darkenEl?.remove();
@@ -126,9 +140,8 @@ export class ScoreTransportOverlay {
         document.removeEventListener('mouseup', this.handleMouseUp);
         document.removeEventListener('keydown', this.handleKeyDown);
 
-        const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
-        if (img) img.style.transform = '';
-        document.querySelectorAll<HTMLElement>('.score-drawing-overlay').forEach(el => el.style.transform = '');
+        const holder = this.getHolder();
+        if (holder) holder.style.transform = '';
         this.zoom = 1;
         this.panX = 0;
         this.panY = 0;
@@ -136,15 +149,22 @@ export class ScoreTransportOverlay {
         this.scoreManager.rebuildOveralysAtCurrentTime();
     }
 
-    // Drawing overlays are separate elements sized/positioned to exactly
-    // match the score image (see ScoreDrawingOverlay), so panning/zooming
-    // the image applies the same transform to them too, keeping user
-    // drawings aligned with the page underneath while zoomed.
+    // Bar-highlight overlays (.score-overlay) and, on the main score,
+    // user-drawn annotation overlays (.score-drawing-overlay) are separate
+    // elements sized/positioned to exactly match the score image (see
+    // ScoreManager.positionOverlay / ScoreDrawingOverlay) rather than being
+    // part of it. Transforming their common parent (.score-image-holder)
+    // instead of the <img> itself carries all of them along with the same
+    // pan/zoom, keeping bar highlights and drawings aligned to the page
+    // underneath instead of staying put while the page moves under them.
+    private getHolder(): HTMLElement | null {
+        return document.getElementById(this.sectionId)?.querySelector<HTMLElement>('.score-image-holder') ?? null;
+    }
+
     private applyTransform() {
-        const img = document.getElementById('score-viewer-image') as HTMLImageElement | null;
-        const transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoom})`;
-        if (img) img.style.transform = transform;
-        document.querySelectorAll<HTMLElement>('.score-drawing-overlay').forEach(el => el.style.transform = transform);
+        const holder = this.getHolder();
+        if (!holder) return;
+        holder.style.transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoom})`;
     }
 
     private handleWheel = (e: WheelEvent) => {
@@ -159,7 +179,7 @@ export class ScoreTransportOverlay {
         this.isDragging = true;
         this.dragStartX = e.clientX - this.panX;
         this.dragStartY = e.clientY - this.panY;
-        const scoreSection = document.getElementById('score-viewer-section');
+        const scoreSection = document.getElementById(this.sectionId);
         if (scoreSection) scoreSection.style.cursor = 'grabbing';
     };
 
@@ -173,7 +193,7 @@ export class ScoreTransportOverlay {
     private handleMouseUp = () => {
         if (!this.isDragging) return;
         this.isDragging = false;
-        const scoreSection = document.getElementById('score-viewer-section');
+        const scoreSection = document.getElementById(this.sectionId);
         if (scoreSection) scoreSection.style.cursor = 'grab';
     };
 

@@ -14,7 +14,6 @@ export const SCORE_HEADER_HEIGHT = 28;
 export class ScoreManager extends SectionManager {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
-    private rebuildTimer: ReturnType<typeof setTimeout> | null = null;
 
     constructor(tm : TimeManager, rect: SectionRect) {
         super("score-viewer-section", rect);
@@ -25,10 +24,10 @@ export class ScoreManager extends SectionManager {
         const scoreViewer = this.element;
         if (scoreViewer) {
             scoreViewer.innerHTML = `
-            <div id="score-header">
+            <div id="score-header" class="score-panel-header">
               <div id="score-title"></div>
             </div>
-            <div id="image-holder">
+            <div id="image-holder" class="score-image-holder">
               <img class="score-page-image" id="score-viewer-image"/>
             </div>`
 
@@ -65,12 +64,12 @@ export class ScoreManager extends SectionManager {
                     this.refreshMobileRect();
                 }
 
-                // Debounce: window resizes fire many times per second.
-                if (this.rebuildTimer !== null) clearTimeout(this.rebuildTimer);
-                this.rebuildTimer = setTimeout(() => {
-                    this.rebuildTimer = null;
-                    this.rebuildOveralysAtCurrentTime();
-                }, 50);
+                // Called directly (no debounce) so the overlay tracks the
+                // image live while dragging a resize handle, rather than
+                // lagging a fixed delay behind every frame. ResizeObserver
+                // already coalesces to at most once per animation frame, so
+                // this doesn't add extra work beyond what's necessary.
+                this.rebuildOveralysAtCurrentTime();
             }).observe(img);
         }
     }

@@ -682,8 +682,12 @@ button {
 }
 
 /* ── Score viewer ────────────────────────────────────── */
+/* Shared by all three score panels (.score-panel — the main score,
+   PV score, and Garant score, see ScoreManager/PVScoreManager/
+   GarantScoreManager) — same layout, fullscreen, and transport-overlay
+   behavior for each, just reading from a different page/bar dataset. */
 
-#score-viewer-section {
+.score-panel {
     padding: 0;
     overflow: hidden;
     display: flex;
@@ -693,7 +697,7 @@ button {
 /* In-flow row above the image, tall enough to hold the section's
    top-right close button (see .section-close-handle, top:9px/14px tall)
    without it sitting over the score page — see ScoreManager. */
-#score-header {
+.score-panel-header {
     flex: 0 0 28px;
     box-sizing: border-box;
     display: flex;
@@ -703,93 +707,19 @@ button {
 
 /* Hidden in fullscreen along with the other chrome (resize/move/close
    handles) — see .score-fullscreen rules below. */
-#score-viewer-section.score-fullscreen #score-header {
+.score-panel.score-fullscreen .score-panel-header {
     display: none;
 }
 
-#image-holder {
+.score-image-holder {
     flex: 1 1 auto;
     min-height: 0;
     width: auto;
     position: relative;
 }
 
-#score-title {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-muted);
-}
-
-/* ── PV score viewer ─────────────────────────────────── */
-/* Mirrors the plain (non-fullscreen, non-transport-overlay) rules above —
-   see PVScoreManager, which is ScoreManager reading from PV_bar_to_page. */
-
-#pv-score-viewer-section {
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-#pv-score-header {
-    flex: 0 0 28px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-}
-
-#pv-image-holder {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: auto;
-    position: relative;
-}
-
-#pv-score-title {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-muted);
-}
-
-#pv-current-bar-overlay {
-    background: #f472b6;
-    opacity: 0.28;
-    top: 0;
-    left: 0;
-    pointer-events: auto;
-}
-
-/* ── Garant score viewer ─────────────────────────────── */
-/* Mirrors the plain (non-fullscreen, non-transport-overlay) rules above —
-   see GarantScoreManager, which is ScoreManager reading from Garant_bar_to_page. */
-
-#garant-score-viewer-section {
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-#garant-score-header {
-    flex: 0 0 28px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-}
-
-#garant-image-holder {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: auto;
-    position: relative;
-}
-
+#score-title,
+#pv-score-title,
 #garant-score-title {
     font-size: 11px;
     font-weight: 600;
@@ -798,6 +728,7 @@ button {
     color: var(--color-muted);
 }
 
+#pv-current-bar-overlay,
 #garant-current-bar-overlay {
     background: #f472b6;
     opacity: 0.28;
@@ -895,8 +826,10 @@ button {
 }
 
 /* ── Score transport overlay ─────────────────────────── */
+/* Shared by all three score panels — see ScoreTransportOverlay, which is
+   instantiated once per panel (main score, PV score, Garant score). */
 
-#score-transport-overlay {
+.score-transport-overlay {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -913,12 +846,12 @@ button {
     z-index: 10;
 }
 
-#score-viewer-section:hover #score-transport-overlay {
+.score-panel:hover .score-transport-overlay {
     opacity: 1;
     pointer-events: auto;
 }
 
-#score-transport-overlay button {
+.score-transport-overlay button {
     background: transparent;
     border: none;
     color: white;
@@ -932,11 +865,12 @@ button {
     font-weight: 400;
 }
 
-#score-transport-overlay button:hover {
+.score-transport-overlay button:hover {
     background: rgba(255, 255, 255, 0.18);
 }
 
 /* ── Score fullscreen ────────────────────────────────── */
+/* Also shared across all three score panels. */
 
 #score-darken {
     position: fixed;
@@ -946,7 +880,7 @@ button {
     z-index: 99999;
 }
 
-#score-viewer-section.score-fullscreen {
+.score-panel.score-fullscreen {
     position: fixed;
     inset: 32px;
     width: auto;
@@ -961,7 +895,7 @@ button {
     overflow: hidden;
 }
 
-#score-viewer-section.score-fullscreen #image-holder {
+.score-panel.score-fullscreen .score-image-holder {
     width: 100%;
     height: 100%;
     display: flex;
@@ -969,7 +903,7 @@ button {
     justify-content: center;
 }
 
-#score-viewer-section.score-fullscreen .score-page-image {
+.score-panel.score-fullscreen .score-page-image {
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -980,15 +914,11 @@ button {
    hover events still fire. .other-bar-overlay keeps pointer-events:auto from its
    base rule, enabling the bar→annotation hover path. The current-bar overlay
    keeps its own opacity. Highlighted overlays become visible. */
-#score-viewer-section.score-fullscreen .score-overlay {
+.score-panel.score-fullscreen .score-overlay {
     opacity: 0;
 }
 
-#score-viewer-section.score-fullscreen #current-bar-overlay {
-    opacity: 0;
-}
-
-#score-viewer-section.score-fullscreen .score-overlay.annotation-highlight {
+.score-panel.score-fullscreen .score-overlay.annotation-highlight {
     opacity: 0.25 !important;
 }
 

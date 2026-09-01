@@ -15,7 +15,6 @@ import {SCORE_HEADER_HEIGHT} from "./ScoreManager";
 export class GarantScoreManager extends SectionManager {
     private currentPage: undefined | string;
     private currentAct: undefined | number;
-    private rebuildTimer: ReturnType<typeof setTimeout> | null = null;
 
     constructor(tm : TimeManager, rect: SectionRect) {
         super("garant-score-viewer-section", rect);
@@ -26,10 +25,10 @@ export class GarantScoreManager extends SectionManager {
         const scoreViewer = this.element;
         if (scoreViewer) {
             scoreViewer.innerHTML = `
-            <div id="garant-score-header">
+            <div id="garant-score-header" class="score-panel-header">
               <div id="garant-score-title"></div>
             </div>
-            <div id="garant-image-holder">
+            <div id="garant-image-holder" class="score-image-holder">
               <img class="score-page-image" id="garant-score-viewer-image"/>
             </div>`
 
@@ -48,11 +47,10 @@ export class GarantScoreManager extends SectionManager {
                     this.refreshMobileRect();
                 }
 
-                if (this.rebuildTimer !== null) clearTimeout(this.rebuildTimer);
-                this.rebuildTimer = setTimeout(() => {
-                    this.rebuildTimer = null;
-                    this.rebuildOveralysAtCurrentTime();
-                }, 50);
+                // Called directly (no debounce) so the overlay tracks the
+                // image live while dragging a resize handle — see
+                // ScoreManager's copy of this observer for why.
+                this.rebuildOveralysAtCurrentTime();
             }).observe(img);
         }
     }
@@ -64,6 +62,31 @@ export class GarantScoreManager extends SectionManager {
         const width = this.element?.offsetWidth;
         if (!width) return imageRatio;
         return width / (width / imageRatio + SCORE_HEADER_HEIGHT);
+    }
+
+    // Walks bar-by-bar from the current time in `direction` until the
+    // displayed page image changes, then jumps there — the Garant scan's
+    // own page boundaries don't line up with the main score's (see
+    // TimeManager.advancePage, which the main score's transport overlay
+    // uses instead), so this panel needs its own page-turning logic based
+    // directly on where its own images change. addToTime clamps at the
+    // start/end of the whole piece rather than wrapping, so a walk that
+    // reaches either edge without finding a new image leaves time unchanged
+    // and simply stops.
+    advancePage(direction: 1 | -1) {
+        const scoreTime = this.timeManager.scoreTime;
+        const startImage = Garant_bar_to_page[scoreTime.act - 1][scoreTime.bar].image;
+        const time: ScoreTime = {...scoreTime};
+
+        for (;;) {
+            const before = {act: time.act, bar: time.bar};
+            this.timeManager.addToTime(time, direction);
+            if (time.act === before.act && time.bar === before.bar) return;
+            if (Garant_bar_to_page[time.act - 1][time.bar].image !== startImage) {
+                this.timeManager.goToTime(time.act, time.bar, "transport-click");
+                return;
+            }
+        }
     }
 
     async preloadTime(time: ScoreTime) {

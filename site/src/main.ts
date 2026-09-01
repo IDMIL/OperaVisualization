@@ -30,6 +30,11 @@ const VISIBILITY_BAR_HEIGHT = 40;
 // image once available). Used here so the default score panel is already
 // correctly proportioned before any page image has loaded.
 const SCORE_ASPECT_RATIO = 1966 / 2790;
+// Same idea as SCORE_ASPECT_RATIO, but for the PV and Garant score scans —
+// different source scans, different page proportions (see
+// PVScoreManager.getAspectRatio / GarantScoreManager.getAspectRatio).
+const PV_SCORE_ASPECT_RATIO = 3656 / 4636;
+const GARANT_SCORE_ASPECT_RATIO = 1241 / 1532;
 
 // Mobile layout (see SectionManager.IS_MOBILE_LAYOUT): panels stack in a
 // vertical flexbox instead of being freely positioned, so only a starting
@@ -59,10 +64,10 @@ function computeMobileDefaultRects(): { [sectionId: string]: SectionRect } {
         top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["pv-score-viewer-section"] = {
-        top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
+        top: 0, left: 0, width: vw, height: Math.round(vw / PV_SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["garant-score-viewer-section"] = {
-        top: 0, left: 0, width: vw, height: Math.round(vw / SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
+        top: 0, left: 0, width: vw, height: Math.round(vw / GARANT_SCORE_ASPECT_RATIO) + SCORE_HEADER_HEIGHT
     };
     rects["panel-visibility-bar"] = {
         top: window.innerHeight - VISIBILITY_BAR_HEIGHT, left: 0, width: vw, height: VISIBILITY_BAR_HEIGHT
@@ -124,9 +129,18 @@ function computeDefaultRects(headerHeight: number): { [sectionId: string]: Secti
         "libretto-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
         // Hidden by default like the rest of the left column above — overlaps
         // those panels the same way libretto-section already does; the user
-        // repositions it once shown.
-        "pv-score-viewer-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
-        "garant-score-viewer-section": {top: contentTop, left: 0, width: leftColumnWidth, height: contentHeight},
+        // repositions it once shown. Width is derived from scoreImageHeight
+        // the same way the main score panel's scoreWidth is above, just with
+        // each scan's own aspect ratio, so the panel isn't visibly stretched
+        // the first time it's toggled on.
+        "pv-score-viewer-section": {
+            top: contentTop, left: 0,
+            width: Math.round(scoreImageHeight * PV_SCORE_ASPECT_RATIO), height: contentHeight
+        },
+        "garant-score-viewer-section": {
+            top: contentTop, left: 0,
+            width: Math.round(scoreImageHeight * GARANT_SCORE_ASPECT_RATIO), height: contentHeight
+        },
         "score-viewer-section": {
             top: contentTop, left: scoreLeft, width: scoreWidth, height: contentHeight
         },
@@ -148,9 +162,9 @@ async function buildWindow(lang : LanguageCode ) {
     <div class="section" id="architecture-list"></div>
     <div class="section" id="video-player-section"></div>
     <div class="section" id="libretto-section"></div>
-    <div class="section" id="score-viewer-section"></div>
-    <div class="section" id="pv-score-viewer-section"></div>
-    <div class="section" id="garant-score-viewer-section"></div>
+    <div class="section score-panel" id="score-viewer-section"></div>
+    <div class="section score-panel" id="pv-score-viewer-section"></div>
+    <div class="section score-panel" id="garant-score-viewer-section"></div>
     <div class="section" id="panel-visibility-bar"></div>
   </div>
     `;
@@ -213,7 +227,18 @@ async function buildWindow(lang : LanguageCode ) {
     let videoPlayerManager = new VideoPlayerManager(timeManager, rects["video-player-section"]);
     let librettoManager = new LibrettoManager(timeManager, rects["libretto-section"]);
     new PanelVisibilityManager(rects["panel-visibility-bar"]);
-    new ScoreTransportOverlay(timeManager, scoreManager);
+    new ScoreTransportOverlay(
+        "score-viewer-section", scoreManager,
+        (direction) => timeManager.advancePage(direction, "transport-click")
+    );
+    new ScoreTransportOverlay(
+        "pv-score-viewer-section", pvScoreManager,
+        (direction) => pvScoreManager.advancePage(direction)
+    );
+    new ScoreTransportOverlay(
+        "garant-score-viewer-section", garantScoreManager,
+        (direction) => garantScoreManager.advancePage(direction)
+    );
     timeManager.listeners.push(scoreManager);
     timeManager.listeners.push(pvScoreManager);
     timeManager.listeners.push(garantScoreManager);
