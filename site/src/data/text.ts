@@ -173,7 +173,7 @@ export const text: { [key: string]: MultiLanguageString } = {
     VIDEO_PLAYER:       { en: "Video Player",              fr: "Lecteur vidéo",                    pt: "Reprodutor de Vídeo",  de: "Videoplayer" },
     TRANSPORT:          { en: "Navigation",                fr: "Navigation",                       pt: "Navegação",            de: "Navigation" },
     ARCHITECTURE:       { en: "Architecture",              fr: "Architecture",                     pt: "Arquitetura",          de: "Architektur" },
-    SCORE_VIEWER:       { en: "Score",                     fr: "Partition",                        pt: "Partitura",            de: "Partitur" },
+    SCORE_VIEWER:       { en: "Full Score",                fr: "Partition complète",               pt: "Partitura Completa",   de: "Vollpartitur" },
     PV_SCORE_VIEWER:    { en: "PV Score",                  fr: "Partition PV",                     pt: "Partitura PV",         de: "PV-Partitur" },
     GARANT_SCORE_VIEWER: { en: "Garant Score",             fr: "Partition Garant",                 pt: "Partitura Garant",     de: "Garant-Partitur" },
     LIBRETTO:           { en: "Libretto",                  fr: "Livret",                           pt: "Libreto",              de: "Libretto" },
@@ -225,6 +225,8 @@ export const text: { [key: string]: MultiLanguageString } = {
     DRAW_ON_SCORE:      { en: "Draw on Score",             fr: "Dessiner sur la partition",        pt: "Desenhar na partitura", de: "Auf der Partitur zeichnen" },
     PEN:                { en: "Pen",                       fr: "Crayon",                           pt: "Caneta",               de: "Stift" },
     ERASER:             { en: "Eraser",                    fr: "Gomme",                            pt: "Borracha",             de: "Radierer" },
+    UNDO:               { en: "Undo",                      fr: "Annuler",                          pt: "Desfazer",             de: "Rückgängig" },
+    REDO:               { en: "Redo",                      fr: "Rétablir",                         pt: "Refazer",              de: "Wiederholen" },
     SIZE:               { en: "Size",                      fr: "Taille",                           pt: "Tamanho",              de: "Größe" },
     CLEAR:              { en: "Clear",                     fr: "Effacer",                          pt: "Limpar",               de: "Löschen" },
 

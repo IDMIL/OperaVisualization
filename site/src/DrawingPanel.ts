@@ -41,6 +41,8 @@ export class DrawingPanel {
     private colorInput!: HTMLInputElement;
     private penButton!: HTMLButtonElement;
     private eraserButton!: HTMLButtonElement;
+    private undoButton!: HTMLButtonElement;
+    private redoButton!: HTMLButtonElement;
     private sizeInput!: HTMLInputElement;
 
     private tool: Tool = 'pen';
@@ -51,6 +53,12 @@ export class DrawingPanel {
     // an annotation with an untouched (or just-cleared) canvas should save
     // no drawing at all rather than a fully-transparent one.
     private hasStrokes = false;
+
+    // Undo/redo history, reset on each open() since it's keyed to a
+    // specific canvas size. historyIndex points at the entry currently
+    // shown on the canvas; entries after it are the redo stack.
+    private history: {data: ImageData, hasStrokes: boolean}[] = [];
+    private historyIndex = -1;
 
     constructor(anchor: HTMLElement, onChange: (dataUrl: string | null, image: string) => void) {
         this.anchor = anchor;
@@ -86,6 +94,7 @@ export class DrawingPanel {
         this.ctx = ctx;
 
         this.attachPointerHandlers();
+        this.attachKeyboardShortcuts();
         this.panel.appendChild(this.buildButtonsRow());
 
         document.body.appendChild(this.panel);
@@ -119,6 +128,22 @@ export class DrawingPanel {
         this.eraserButton.addEventListener('click', () => this.setTool('eraser'));
         toolbar.appendChild(this.eraserButton);
 
+        this.undoButton = document.createElement('button');
+        this.undoButton.type = 'button';
+        this.undoButton.textContent = text.UNDO[globals.language];
+        this.undoButton.title = `${text.UNDO[globals.language]} (Ctrl+Z)`;
+        this.undoButton.classList.add('drawing-tool-button');
+        this.undoButton.addEventListener('click', () => this.undo());
+        toolbar.appendChild(this.undoButton);
+
+        this.redoButton = document.createElement('button');
+        this.redoButton.type = 'button';
+        this.redoButton.textContent = text.REDO[globals.language];
+        this.redoButton.title = `${text.REDO[globals.language]} (Ctrl+Shift+Z)`;
+        this.redoButton.classList.add('drawing-tool-button');
+        this.redoButton.addEventListener('click', () => this.redo());
+        toolbar.appendChild(this.redoButton);
+
         const sizeLabel = document.createElement('label');
         sizeLabel.id = 'drawing-size-label';
         sizeLabel.textContent = text.SIZE[globals.language];
@@ -131,6 +156,7 @@ export class DrawingPanel {
         toolbar.appendChild(sizeLabel);
 
         this.updateToolButtons();
+        this.updateHistoryButtons();
         return toolbar;
     }
 
@@ -165,6 +191,68 @@ export class DrawingPanel {
         this.eraserButton.classList.toggle('active', this.tool === 'eraser');
     }
 
+    private updateHistoryButtons() {
+        this.undoButton.disabled = this.historyIndex <= 0;
+        this.redoButton.disabled = this.historyIndex >= this.history.length - 1;
+    }
+
+    // Snapshots the current canvas as a new history entry, discarding any
+    // redo entries past the current point. Called once a stroke finishes
+    // (not on every pointermove) and after clear().
+    private pushHistory() {
+        this.history = this.history.slice(0, this.historyIndex + 1);
+        this.history.push({
+            data: this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height),
+            hasStrokes: this.hasStrokes,
+        });
+        this.historyIndex = this.history.length - 1;
+        this.updateHistoryButtons();
+    }
+
+    private restoreHistory() {
+        const entry = this.history[this.historyIndex];
+        this.ctx.putImageData(entry.data, 0, 0);
+        this.hasStrokes = entry.hasStrokes;
+        this.onChange(this.hasStrokes ? this.canvas.toDataURL('image/png') : null, this.currentImage);
+        this.updateHistoryButtons();
+    }
+
+    private undo() {
+        if (this.historyIndex <= 0) return;
+        this.historyIndex--;
+        this.restoreHistory();
+    }
+
+    private redo() {
+        if (this.historyIndex >= this.history.length - 1) return;
+        this.historyIndex++;
+        this.restoreHistory();
+    }
+
+    private attachKeyboardShortcuts() {
+        window.addEventListener('keydown', (e) => {
+            if (this.panel.hidden) return;
+            if (!(e.ctrlKey || e.metaKey)) return;
+            // Don't hijack undo/redo while the user is typing in a text
+            // field elsewhere on the page (e.g. the annotation form behind
+            // this panel).
+            const target = e.target as HTMLElement | null;
+            if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+
+            const key = e.key.toLowerCase();
+            if (key === 'z' && e.shiftKey) {
+                e.preventDefault();
+                this.redo();
+            } else if (key === 'z') {
+                e.preventDefault();
+                this.undo();
+            } else if (key === 'y') {
+                e.preventDefault();
+                this.redo();
+            }
+        });
+    }
+
     private position() {
         positionFloatingPanel(this.panel, this.anchor, PANEL_WIDTH);
     }
@@ -187,6 +275,7 @@ export class DrawingPanel {
             this.isDrawing = false;
             this.lastPoint = null;
             this.emitChange();
+            this.pushHistory();
         };
         this.canvas.addEventListener('pointerup', end);
         this.canvas.addEventListener('pointercancel', end);
@@ -240,6 +329,7 @@ export class DrawingPanel {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.hasStrokes = false;
         this.onChange(null, this.currentImage);
+        this.pushHistory();
     }
 
     // Loads `image` (a score page path) as the drawing surface's background
@@ -276,6 +366,10 @@ export class DrawingPanel {
             this.ctx.drawImage(drawingImg, 0, 0, canvasWidth, canvasHeight);
             this.hasStrokes = true;
         }
+
+        this.history = [];
+        this.historyIndex = -1;
+        this.pushHistory();
 
         this.panel.hidden = false;
         this.position();

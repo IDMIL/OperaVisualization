@@ -527,7 +527,12 @@ export class AnnotationManager extends SectionManager {
                 group.measure_range[1] >= scoreTime.bar) {
                 div.classList.add("current-annotation");
                 if (!firstGroupSeen && updateSource !== "annotation-click") {
-                    div.scrollIntoView({behavior: 'smooth'});
+                    if (this.scrollerDiv !== undefined) {
+                        const containerRect = this.scrollerDiv.getBoundingClientRect();
+                        const divRect = div.getBoundingClientRect();
+                        const targetScrollTop = this.scrollerDiv.scrollTop + (divRect.top - containerRect.top);
+                        this.scrollerDiv.scrollTo({top: targetScrollTop, behavior: 'smooth'});
+                    }
                     firstGroupSeen = true;
                 }
             } else {

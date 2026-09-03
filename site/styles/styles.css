@@ -1287,6 +1287,15 @@ button {
     color: white;
 }
 
+.drawing-tool-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.drawing-tool-button:disabled:hover {
+    border-color: var(--color-border);
+}
+
 #drawing-size-label {
     display: flex;
     align-items: center;
